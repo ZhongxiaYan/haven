@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HomePage from './HomePage'
+import NewTenantPage from './NewTenantPage'
 
 export default class App extends Component {
     render() {
@@ -9,6 +10,7 @@ export default class App extends Component {
                 <div>
                     <Switch>
                         <Route exact path="/" component={HomePage}/>
+                        <Route exact path="/new-tenant" component={NewTenantPage}/>
                         <Route component={NoMatch} />
                     </Switch>
                 </div>
