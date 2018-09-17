@@ -1,5 +1,6 @@
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
+const path = require('path');
 
 const port = process.env.PORT || 5555;
 
@@ -15,10 +16,7 @@ MongoClient.connect('mongodb://localhost:27017/db', { useNewUrlParser: true }, (
 });
 
 const app = express();
-
-app.get('/', (req, res) => {
-      res.json({success: true});
-});
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
