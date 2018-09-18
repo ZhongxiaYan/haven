@@ -1,5 +1,6 @@
 dist
 *.pem
+.vscode
 # Logs
 logs
 *.log
