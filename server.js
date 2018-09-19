@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 require('dotenv').config();
 
-const db = require('./database');
+require('./database').setup();
 const auth = require('./auth');
 
 const port = process.env.PORT || 5555;
