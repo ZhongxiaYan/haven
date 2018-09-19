@@ -15,15 +15,6 @@ app.use(bodyParser.json());
 
 auth.setup(app);
 
-app.post('/api/sign_up', (req, res) => {
-    let userInfo = req.body;
-    db.insertNewUser(userInfo).then(() => {
-        res.json({success: true});
-    }).catch(() => {
-        res.json({success: false});
-    });
-});
-
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/index.html'));
 });

@@ -11,23 +11,50 @@ MongoClient.connect('mongodb://localhost:27017/db', { useNewUrlParser: true }, (
     users = database.collection('users');
 });
 
-function insertNewUser(userInfo) {
+function findUserByEmail(email) {
     return new Promise((resolve, reject) => {
-        let query = {email: userInfo.email};
-        users.updateOne(query, {$setOnInsert: userInfo}, {upsert: true}, (err, ret) => {
+        let query = { email: email };
+        users.findOne(query, (err, user) => {
             if (err) {
-                throw err;
-            } else if (!ret.result.upserted) {
-                console.log(`Found existing email ${query.email}`);
-                reject();
+                reject(err);
             } else {
-                console.log(`Registered new user with info ${JSON.stringify(userInfo, null, 2)}`)
-                resolve();
+                resolve(user);
             }
         });
     });
+}
 
+function tryInsertUserByEmail(email, passwordHash) {
+    return new Promise((resolve, reject) => {
+        let query = { email: email };
+        let insert = {
+            id: email,
+            email: email,
+            passwordHash: passwordHash
+        };
+        users.updateOne(query, { $setOnInsert: insert }, { upsert: true }, (err, ret) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(ret.result.upserted);
+            }
+        });
+    });
+}
+
+function queryUserAccessToken(accessToken) {
+    return new Promise((resolve, reject) => {
+        let query = { accessToken: accessToken };
+        users.findOne(query, (err, userInfo) => {
+            if (err) {
+                reject(err);
+            } else {
+                console.log(`Found user with info ${JSON.stringify(userInfo, null, 2)}`)
+                resolve(userInfo);
+            }
+        });
+    });
 }
 
 
-module.exports = {insertNewUser};
+module.exports = { findUserByEmail, tryInsertUserByEmail, queryUserAccessToken };

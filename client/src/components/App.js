@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HomePage from './HomePage'
 import TenantPage from './TenantPage'
@@ -10,7 +10,7 @@ export default class App extends Component {
             <Router>
                 <div>
                     <Switch>
-                        <Route exact path="/" component={HomePage}/>
+                        <Route exact path="/" component={HomePage} />
                         <Route exact path="/tenant" component={TenantPage} />
                         <Route exact path="/owner" component={OwnerPage} />
                         <Route component={NoMatch} />
