@@ -93,21 +93,21 @@ class NewProperty extends Component {
     }
 
     render() {
-        let { bedrooms, bathrooms, size, address_first_line, address_second_line, city, state, zip_code, contact_number } = this.state;
+        let { numBedrooms, numBathrooms, area, addressFirstLine, addressSecondLine, city, state, zipCode, contactNumber } = this.state;
         return (
             <form onSubmit={this.handleSubmit}>
                 <label>Number of Bedrooms <br></br>
-                    <input type="number" min="0" step="1" name="bedrooms" value={bedrooms} onChange={this.handleChange} required /> <br></br>
+                    <input type="number" min="0" step="1" name="numBedrooms" value={numBedrooms} onChange={this.handleChange} required /> <br></br>
                 </label>
                 <label>Number of Bathrooms <br></br>
-                    <input type="number" min="0" step="1" name="bathrooms" value={bathrooms} onChange={this.handleChange} required /> <br></br>
+                    <input type="number" min="0" step="1" name="numBathrooms" value={numBathrooms} onChange={this.handleChange} required /> <br></br>
                 </label>
                 <label>Size (sq ft) <br></br>
-                    <input type="number" min="0" step="0.1" name="size" value={size} onChange={this.handleChange} required /> <br></br>
+                    <input type="number" min="0" step="0.1" name="area" value={area} onChange={this.handleChange} required /> <br></br>
                 </label>
                 <label>Street Address <br></br>
-                    <input type="text" name="address_first_line" value={address_first_line} placeholder="Street and number" onChange={this.handleChange} required /> <br></br>
-                    <input type="text" name="address_second_line" value={address_second_line} placeholder="Apartment, suite, unit, etc." onChange={this.handleChange} /> <br></br>
+                    <input type="text" name="addressFirstLine" value={addressFirstLine} placeholder="Street and number" onChange={this.handleChange} required /> <br></br>
+                    <input type="text" name="addressSecondLine" value={addressSecondLine} placeholder="Apartment, suite, unit, etc." onChange={this.handleChange} /> <br></br>
                 </label>
                 <label>City <br></br>
                     <input type="text" name="city" value={city} onChange={this.handleChange} required /> <br></br>
@@ -116,10 +116,10 @@ class NewProperty extends Component {
                     <input type="text" name="state" value={state} onChange={this.handleChange} required /> <br></br>
                 </label>
                 <label>Zip Code <br></br>
-                    <input type="text" name="zip_code" value={zip_code} onChange={this.handleChange} required /> <br></br>
+                    <input type="text" name="zipCode" value={zipCode} onChange={this.handleChange} required /> <br></br>
                 </label>
                 <label>Contact Number <br></br>
-                    <input type="text" name="contact_number" value={contact_number} placeholder="Phone number" onChange={this.handleChange} /> <br></br>
+                    <input type="text" name="contactNumber" value={contactNumber} placeholder="Phone number" onChange={this.handleChange} /> <br></br>
                 </label>
                 <input type="submit" value="Submit" />
             </form>

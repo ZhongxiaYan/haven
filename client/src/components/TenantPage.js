@@ -47,15 +47,9 @@ class ProfileForm extends Component {
     }
 
     render() {
-        let { first_name, last_name, description, number, profession } = this.state;
+        let { description, number, profession } = this.state;
         return (
             <form onSubmit={this.handleSubmit}>
-                <label>First Name <br></br>
-                    <input type="text" name="first_name" value={first_name} placeholder="First name" onChange={this.handleChange} required /> <br></br>
-                </label>
-                <label>Last Name <br></br>
-                    <input type="text" name="last_name" value={last_name} placeholder="Last name" onChange={this.handleChange} required /> <br></br>
-                </label>
                 <label>Description <br></br>
                     <input type="text" name="description" value={description} placeholder="Say a little about yourself..." onChange={this.handleChange} required /> <br></br>
                 </label>
