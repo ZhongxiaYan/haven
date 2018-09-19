@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HomePage from './HomePage';
 import TenantPage from './TenantPage';
+import TenantPropertyPage from './TenantPropertyPage';
 import OwnerPage from './OwnerPage';
 import Context from './Context';
-
 
 export default class App extends Component {
     constructor(props) {
@@ -28,6 +28,9 @@ export default class App extends Component {
     }
 
     render() {
+        if (!this.state.user.email) {
+            return <HomePage />;
+        }
         return (
             <Context.Provider value={{ user: this.state.user }}>
                 <Router>
@@ -35,6 +38,7 @@ export default class App extends Component {
                         <Switch>
                             <Route exact path="/" component={HomePage} />
                             <Route exact path="/tenant" component={TenantPage} />
+                            <Route path="/tenant/:propertyId" component={TenantPropertyPage} />
                             <Route exact path="/owner" component={OwnerPage} />
                             <Route component={NoMatch} />
                         </Switch>

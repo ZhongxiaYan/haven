@@ -3,13 +3,53 @@ import React, { Component } from 'react';
 export default class TenantPage extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            propertyList: []
+        };
+        this.getPropertyList = this.getPropertyList.bind(this);
+        this.navigateToProperty = this.navigateToProperty.bind(this);
+    }
+
+    componentDidMount() {
+        this.getPropertyList();
+    }
+
+    getPropertyList() {
+        fetch('/tenant/property_list', {
+            method: 'GET',
+            credentials: 'include'
+        }).then(res => res.json()).then(resJson => {
+            console.log(resJson);
+            this.setState({ propertyList: resJson });
+        }).catch(err => {
+            console.err(err);
+        });
+    }
+
+    navigateToProperty(propertyId) {
+        this.props.history.push('/tenant/' + propertyId);
     }
 
     render() {
+        let { propertyList } = this.state;
         return (
             <div>
-                <ProfileForm />
+                Properties:
+                {propertyList.map(data => <Property key={data._id} data={data} navigateToProperty={this.navigateToProperty} />)}
+            </div>
+        );
+    }
+}
+
+class Property extends Component {
+    render() {
+        let { data, navigateToProperty } = this.props;
+        let { _id } = data;
+        console.log(data, _id)
+        return (
+            <div>
+                {JSON.stringify(data, null, 2)}
+                <button onClick={() => navigateToProperty(_id)}>View</button>
             </div>
         );
     }

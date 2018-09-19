@@ -37,17 +37,16 @@ export default class OwnerPage extends Component {
         return (
             <div>
                 <div>
-                    {
-                        addingProperty ? 
-                            <NewProperty setAddingProperty={this.setAddingProperty} /> : 
-                            <button type="button" onClick={() => this.setAddingProperty(true)}>Add New Property</button>
+                    {addingProperty ?
+                        <NewProperty setAddingProperty={this.setAddingProperty} /> :
+                        <button type="button" onClick={() => this.setAddingProperty(true)}>Add New Property</button>
                     }
                 </div>
 
                 Applications:
 
                 My Properties:
-                { propertyList.map(data => <Property key={data._id} data={data} />) }
+                {propertyList.map(data => <Property key={data._id} data={data} />)}
             </div>
         )
     }
