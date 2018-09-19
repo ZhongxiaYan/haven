@@ -31,14 +31,15 @@ class SignIn extends Component {
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(this.state)
-        }).then(res => res.json()).then(resJson => {
-            console.log(resJson);
-            if (resJson.success) {
-                this.props.history.replace('/');
-            } else {
-                // TODO
-            }
-        });
+        }).then(res => console.log(res));
+        // .then(res => res.json()).then(resJson => {
+        //     console.log(resJson);
+        //     if (resJson.success) {
+        //         this.props.history.replace('/');
+        //     } else {
+        //         // TODO
+        //     }
+        // });
         event.preventDefault();
     }
 

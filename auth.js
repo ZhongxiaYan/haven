@@ -1,3 +1,5 @@
+const session = require('express-session');
+const uuid = require('uuid/v4');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
@@ -10,7 +12,7 @@ passport.use(new FacebookStrategy({
     clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: process.env.FACEBOOK_CALLBACK_URL
 }, (accessToken, refreshToken, profile, done) => {
-    
+
 }));
 
 const localConfig = {
@@ -32,7 +34,7 @@ passport.use('local-signup', new LocalStrategy(localConfig, (req, email, passwor
             } else {
                 if (res.lastErrorObject.upserted) {
                     console.log('Signup', email, 'success');
-                    done(null, res.value);                    
+                    done(null, res.value);
                 } else {
                     console.log('Email', email, 'already exists');
                 }
@@ -60,14 +62,27 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    db.findUserById(id).then(user => {
+    User.findById(id).exec().then(user => {
         done(null, user);
     });
 });
 
 function setup(app) {
+    app.use(session({ // TODO set cookie secure to be true once we have prod env
+        genid: req => uuid(),
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false
+    }))
+
     app.use(passport.initialize());
     app.use(passport.session());
+
+
+    app.get('/auth/get_user', (req, res) => {
+        let { name, email } = req.user || {};
+        res.json({ name, email });
+    });
 
     let redirectTargets = {
         successRedirect: '/',
@@ -82,7 +97,6 @@ function setup(app) {
         req.logout();
         res.redirect('/');
     });
-
     app.get('/auth/facebook', passport.authenticate('facebook'));
 
     app.get('/auth/facebook/callback', passport.authenticate('facebook', redirectTargets));
