@@ -1,9 +1,11 @@
 const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 const uuid = require('uuid/v4');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const bcrypt = require('bcrypt');
+const routes = require('express').Router();
 
 const User = require('./models/user');
 
@@ -26,7 +28,7 @@ passport.use('local-signup', new LocalStrategy(localConfig, (req, email, passwor
     const saltRounds = 10;
     bcrypt.hash(password, saltRounds).then(hash => {
         let query = { 'local.email': email };
-        let newUser = { local: { email: email, password: hash } };
+        let newUser = { email: email, local: { email: email, password: hash } };
         let options = { new: true, upsert: true, rawResult: true };
         User.findOneAndUpdate(query, { $setOnInsert: newUser }, options, (err, res) => {
             if (err) {
@@ -44,6 +46,7 @@ passport.use('local-signup', new LocalStrategy(localConfig, (req, email, passwor
 }));
 
 passport.use('local-login', new LocalStrategy(localConfig, (req, email, password, done) => {
+    console.log('Received new login by', email);
     User.findOne({ 'local.email': email }).exec().then(user => {
         if (!user) {
             console.log('Could not find email', email, 'upon login');
@@ -67,9 +70,32 @@ passport.deserializeUser((id, done) => {
     });
 });
 
+routes.get('/get_user', (req, res) => {
+    let { name, email } = req.user || {};
+    res.json({ name, email });
+});
+
+let redirectTargets = {
+    successRedirect: '/',
+    failureRedirect: '/'
+};
+
+routes.post('/sign_up', passport.authenticate('local-signup', redirectTargets));
+
+routes.post('/login', passport.authenticate('local-login', redirectTargets));
+
+routes.post('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+});
+routes.get('/facebook', passport.authenticate('facebook'));
+
+routes.get('/facebook/callback', passport.authenticate('facebook', redirectTargets));
+
 function setup(app) {
     app.use(session({ // TODO set cookie secure to be true once we have prod env
         genid: req => uuid(),
+        store: new FileStore(),
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false
@@ -77,29 +103,6 @@ function setup(app) {
 
     app.use(passport.initialize());
     app.use(passport.session());
-
-
-    app.get('/auth/get_user', (req, res) => {
-        let { name, email } = req.user || {};
-        res.json({ name, email });
-    });
-
-    let redirectTargets = {
-        successRedirect: '/',
-        failureRedirect: '/'
-    };
-
-    app.post('/auth/sign_up', passport.authenticate('local-signup', redirectTargets));
-
-    app.post('/auth/login', passport.authenticate('local-login', redirectTargets));
-
-    app.post('/auth/logout', (req, res) => {
-        req.logout();
-        res.redirect('/');
-    });
-    app.get('/auth/facebook', passport.authenticate('facebook'));
-
-    app.get('/auth/facebook/callback', passport.authenticate('facebook', redirectTargets));
 }
 
 function checkLogin(req, res, next) {
@@ -110,4 +113,4 @@ function checkLogin(req, res, next) {
     }
 }
 
-module.exports = { setup, checkLogin };
+module.exports = { setup, checkLogin, routes };

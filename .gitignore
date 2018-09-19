@@ -1,6 +1,7 @@
 dist
 *.pem
 .vscode
+sessions/*.json
 # Logs
 logs
 *.log

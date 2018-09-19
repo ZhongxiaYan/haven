@@ -1,12 +1,28 @@
 import React, { Component } from 'react';
+import Context from './Context';
 
 export default class HomePage extends Component {
     render() {
         return (
-            <div>
-                <SignIn />
-                <div><a href="/auth/facebook">Login with Facebook</a></div>
-            </div>
+            <Context.Consumer>
+                {({ user }) => {
+                    if (user.email) {
+                        return (
+                            <div>
+                                <button onClick={() => this.props.history.push('/tenant')}>I am a Tenant</button>
+                                <button onClick={() => this.props.history.push('/owner')}>I am a Owner</button>
+                            </div>
+                        );
+                    } else {
+                        return (
+                            <div>
+                                <SignIn />
+                                <div><a href="/auth/facebook">Login with Facebook</a></div>
+                            </div>
+                        )
+                    }
+                }}
+            </Context.Consumer>
         );
     }
 }
