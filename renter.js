@@ -2,6 +2,7 @@ const routes = require('express').Router();
 
 const Property = require('./models/property');
 const Request = require('./models/request');
+const Application = require('./models/application');
 
 routes.get('/property_list', (req, res) => {
     console.log('Queried property list');
@@ -34,6 +35,20 @@ routes.get('/request_list', (req, res) => {
     console.log('Queried request list');
     Request.find({ requester: req.user.id }).exec().then(requests => {
         res.json(requests);
+    });
+});
+
+routes.post('/submit_application', (req, res) => {
+    console.log('Submitting application', req.body, 'for user', req.user.email);
+    let application = new Application(Object.assign({}, req.body, { applicant: req.user.id }));
+    application.save((err, updatedApplication) => {
+        if (err) {
+            console.log('Fail');
+            res.json({ success: false });
+        } else {
+            console.log('Success');
+            res.json({ success: true });
+        }
     });
 });
 

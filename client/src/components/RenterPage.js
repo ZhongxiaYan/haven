@@ -89,7 +89,6 @@ class Property extends Component {
     render() {
         let { data, navigateToProperty } = this.props;
         let { _id } = data;
-        console.log(data, _id)
         return (
             <div>
                 {JSON.stringify(data, null, 2)}
