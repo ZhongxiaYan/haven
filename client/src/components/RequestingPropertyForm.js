@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 
-export default class ReuqestingPropertyForm extends Component {
+export default class RequestingPropertyForm extends Component {
     constructor(props) {
         super(props);
         this.state = {};
