@@ -26,7 +26,6 @@ export default class RenterPage extends Component {
             method: 'GET',
             credentials: 'include'
         }).then(res => res.json()).then(resJson => {
-            console.log(resJson);
             this.setState({ requestList: resJson });
         }).catch(err => {
             console.error(err);
@@ -38,7 +37,6 @@ export default class RenterPage extends Component {
             method: 'GET',
             credentials: 'include'
         }).then(res => res.json()).then(resJson => {
-            console.log(resJson);
             this.setState({ propertyList: resJson });
         }).catch(err => {
             console.error(err);

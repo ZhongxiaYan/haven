@@ -29,7 +29,6 @@ export default class ReuqestingPropertyForm extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         }).then(res => res.json()).then(resJson => {
-            console.log(resJson);
             if (resJson.success) {
                 this.props.setRequestingProperty(false, true);
             } else {
@@ -65,6 +64,8 @@ export default class ReuqestingPropertyForm extends Component {
                             onChange={this.handleChangeRequestInfo}
                             options={requestInfoOptions}
                         />
+                    </label>
+                    <label>Request Details 
                         <input type="text" name="requestDetails" value={requestDetails} onChange={this.handleChange} /> <br></br>
                     </label>
                     <input type="submit" value="Submit" />
