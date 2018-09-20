@@ -9,7 +9,7 @@ export default class HomePage extends Component {
                     if (user.email) {
                         return (
                             <div>
-                                <button onClick={() => this.props.history.push('/tenant')}>I am a Tenant</button>
+                                <button onClick={() => this.props.history.push('/renter')}>I am a Renter</button>
                                 <button onClick={() => this.props.history.push('/owner')}>I am a Owner</button>
                             </div>
                         );

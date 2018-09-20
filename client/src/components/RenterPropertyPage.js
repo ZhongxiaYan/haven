@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class TenantPropertyPage extends Component {
+export default class RenterPropertyPage extends Component {
     constructor(props) {
         super(props);
         console.log(props);
@@ -14,7 +14,7 @@ export default class TenantPropertyPage extends Component {
     }
 
     getProperty() {
-        fetch('/tenant/property/' + this.props.match.params.propertyId, {
+        fetch('/renter/property/' + this.props.match.params.propertyId, {
             method: 'GET',
             credentials: 'include'
         }).then(res => res.json()).then(resJson => {

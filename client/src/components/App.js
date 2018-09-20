@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HomePage from './HomePage';
-import TenantPage from './TenantPage';
-import TenantPropertyPage from './TenantPropertyPage';
+import RenterPage from './RenterPage';
+import RenterPropertyPage from './RenterPropertyPage';
 import OwnerPage from './OwnerPage';
 import Context from './Context';
 
@@ -37,8 +37,8 @@ export default class App extends Component {
                     <div>
                         <Switch>
                             <Route exact path="/" component={HomePage} />
-                            <Route exact path="/tenant" component={TenantPage} />
-                            <Route path="/tenant/:propertyId" component={TenantPropertyPage} />
+                            <Route exact path="/renter" component={RenterPage} />
+                            <Route path="/renter/:propertyId" component={RenterPropertyPage} />
                             <Route exact path="/owner" component={OwnerPage} />
                             <Route component={NoMatch} />
                         </Switch>

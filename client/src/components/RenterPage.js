@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class TenantPage extends Component {
+export default class RenterPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,7 +15,7 @@ export default class TenantPage extends Component {
     }
 
     getPropertyList() {
-        fetch('/tenant/property_list', {
+        fetch('/renter/property_list', {
             method: 'GET',
             credentials: 'include'
         }).then(res => res.json()).then(resJson => {
@@ -27,7 +27,7 @@ export default class TenantPage extends Component {
     }
 
     navigateToProperty(propertyId) {
-        this.props.history.push('/tenant/' + propertyId);
+        this.props.history.push('/renter/' + propertyId);
     }
 
     render() {
@@ -71,7 +71,7 @@ class ProfileForm extends Component {
 
     handleSubmit(event) {
         console.log(this.state);
-        fetch('/api/submit_tenant_profile', {
+        fetch('/api/submit_renter_profile', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
