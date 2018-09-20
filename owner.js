@@ -8,16 +8,16 @@ routes.post('/new_property', (req, res) => {
     property.save((err, updatedProperty) => {
         if (err) {
             console.log('Fail');
-            res.json({success: false});
+            res.json({ success: false });
         } else {
             console.log('Success');
-            res.json({success: true});
+            res.json({ success: true });
         }
     });
 });
 
 routes.get('/property_list', (req, res) => {
-    Property.find({owner: req.user.id}).exec().then(properties => {
+    Property.find({ owner: req.user.id }).exec().then(properties => {
         res.json(properties);
     });
 })

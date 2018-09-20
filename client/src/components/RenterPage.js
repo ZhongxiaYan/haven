@@ -20,7 +20,7 @@ export default class RenterPage extends Component {
         this.getRequestList();
         this.getPropertyList();
     }
-    
+
     getRequestList() {
         fetch('/renter/request_list', {
             method: 'GET',
@@ -48,7 +48,7 @@ export default class RenterPage extends Component {
     }
 
     setRequestingProperty(requestingProperty, updated) {
-        this.setState({requestingProperty: requestingProperty});
+        this.setState({ requestingProperty: requestingProperty });
         if (updated) {
             this.getRequestList();
         }
