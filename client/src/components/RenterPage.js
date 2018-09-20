@@ -1,17 +1,36 @@
 import React, { Component } from 'react';
 
+import RequestingPropertyForm from './RequestingPropertyForm';
+
 export default class RenterPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            requestingProperty: false,
+            requestList: [],
             propertyList: []
         };
+        this.getRequestList = this.getRequestList.bind(this);
         this.getPropertyList = this.getPropertyList.bind(this);
         this.navigateToProperty = this.navigateToProperty.bind(this);
+        this.setRequestingProperty = this.setRequestingProperty.bind(this);
     }
 
     componentDidMount() {
+        this.getRequestList();
         this.getPropertyList();
+    }
+    
+    getRequestList() {
+        fetch('/renter/request_list', {
+            method: 'GET',
+            credentials: 'include'
+        }).then(res => res.json()).then(resJson => {
+            console.log(resJson);
+            this.setState({ requestList: resJson });
+        }).catch(err => {
+            console.error(err);
+        });
     }
 
     getPropertyList() {
@@ -22,7 +41,7 @@ export default class RenterPage extends Component {
             console.log(resJson);
             this.setState({ propertyList: resJson });
         }).catch(err => {
-            console.err(err);
+            console.error(err);
         });
     }
 
@@ -30,16 +49,43 @@ export default class RenterPage extends Component {
         this.props.history.push('/renter/' + propertyId);
     }
 
+    setRequestingProperty(requestingProperty, updated) {
+        this.setState({requestingProperty: requestingProperty});
+        if (updated) {
+            this.getRequestList();
+        }
+    }
+
     render() {
-        let { propertyList } = this.state;
+        let { requestingProperty, propertyList, requestList } = this.state;
         return (
             <div>
+                {requestingProperty ?
+                    <RequestingPropertyForm setRequestingProperty={this.setRequestingProperty} /> :
+                    <button type="button" onClick={() => this.setRequestingProperty(true)}>Request Property</button>
+                }
+                Requests:
+                {requestList.map(data => <Request key={data._id} data={data} />)}
                 Properties:
                 {propertyList.map(data => <Property key={data._id} data={data} navigateToProperty={this.navigateToProperty} />)}
             </div>
         );
     }
 }
+
+class Request extends Component {
+    render() {
+        let { data } = this.props;
+        let { _id } = data;
+        console.log(data, _id)
+        return (
+            <div>
+                {JSON.stringify(data, null, 2)}
+            </div>
+        );
+    }
+}
+
 
 class Property extends Component {
     render() {
