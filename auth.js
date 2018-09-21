@@ -14,7 +14,34 @@ passport.use(new FacebookStrategy({
     clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: process.env.FACEBOOK_CALLBACK_URL
 }, (accessToken, refreshToken, profile, done) => {
-
+    let query = { 'facebook.id': profile.id };
+    let newUser = {
+        name: profile.displayName,
+        facebook: {
+            id: profile.id,
+            token: accessToken,
+            name: profile.displayName
+        }
+    };
+    let options = { new: true, upsert: true, rawResult: true };
+    User.findOneAndUpdate(query, { $setOnInsert: newUser }, options, (err, result) => {
+        if (err) {
+            throw err;
+        } else {
+            let user = result.value;
+            if (user) {
+                if (result.lastErrorObject.upserted) { // sign up
+                    console.log('Signup', profile.displayName, 'success');
+                } else { // log in
+                    console.log('Email', profile.displayName, 'already exists, logging in');
+                }
+                done(null, user);
+            } else {
+                console.error('Facebook login for', profile.displayName, 'failed');
+                done(null, false);
+            }
+        }
+    });
 }));
 
 const localConfig = {
@@ -71,26 +98,63 @@ passport.deserializeUser((id, done) => {
 });
 
 routes.get('/get_user', (req, res) => {
-    let { name, email } = req.user || {};
-    res.json({ name, email });
+    let { name, email, dateOfBirth } = req.user || {};
+    res.json({ name, email, dateOfBirth, found: !!req.user });
 });
 
-let redirectTargets = {
+routes.post('/update_basic_info', (req, res) => {
+    let user = req.user;
+    if (!user) {
+        return res.redirect('/');
+    }
+    let {name, email, dateOfBirth} = req.body;
+    Object.assign(user, {name, email, dateOfBirth});
+    user.save((err, updatedUser) => {
+        if (err) {
+            console.log('Fail');
+            res.json({ success: false });
+        } else {
+            console.log('Success');
+            res.json({ success: true });
+        }
+    });
+});
+
+function authenticateLocal(req, res, next, strategy) {
+    passport.authenticate(strategy, (err, user, info) => {
+        if (err) {
+            next(err);
+        } else if (!user) { // Did not find user
+            res.json({ success: false });
+        } else {
+            req.logIn(user, (err) => {
+                if (err) {
+                    next(err);
+                } else {
+                    res.json({ success: true });
+                }
+            });
+        }
+    })(req, res, next);
+}
+
+// Override default way of handling login / sign up success and failure
+routes.post('/sign_up', (req, res, next) => authenticateLocal(req, res, next, 'local-signup'));
+
+routes.post('/login', (req, res, next) => authenticateLocal(req, res, next, 'local-login'));
+
+routes.get('/facebook', passport.authenticate('facebook'));
+
+const redirectTargets = {
     successRedirect: '/',
     failureRedirect: '/'
 };
-
-routes.post('/sign_up', passport.authenticate('local-signup', redirectTargets));
-
-routes.post('/login', passport.authenticate('local-login', redirectTargets));
+routes.get('/facebook/callback', passport.authenticate('facebook', redirectTargets));
 
 routes.post('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
 });
-routes.get('/facebook', passport.authenticate('facebook'));
-
-routes.get('/facebook/callback', passport.authenticate('facebook', redirectTargets));
 
 function setup(app) {
     app.use(session({ // TODO set cookie secure to be true once we have prod env
