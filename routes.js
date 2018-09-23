@@ -10,7 +10,7 @@ routes.use('/owner', auth.checkLogin, owner.routes);
 routes.use('/renter', auth.checkLogin, renter.routes);
 
 routes.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/index.html'));
+    res.sendFile(path.join(__dirname, 'client/dist/index.html'));
 });
 
 module.exports = routes;
