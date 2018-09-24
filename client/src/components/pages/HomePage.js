@@ -33,13 +33,12 @@ export default class HomePage extends Component {
         let { propertyList } = this.state;
         return (
             <Context.Consumer>
-                {({ setModalState }) => (
+                {({ history, setModalState }) => (
                     <div id="home-main" className="color-background">
                         <div id="home-property-list">
-                            {propertyList.map((data, i) => <PropertyCard key={i} data={data} setModalState={setModalState} />)}
+                            {propertyList.map((data, i) => <PropertyCard key={i} data={data} setModalState={setModalState} history={this.props.history} />)}
                         </div>
                         <div id="home-property-map">
-                            {propertyList.map((data, i) => <PropertyCard key={i} data={data} setModalState={setModalState} />)}
                         </div>
                     </div>
                 )}
@@ -50,9 +49,10 @@ export default class HomePage extends Component {
 
 class PropertyCard extends Component {
     render() {
-        let { numBedrooms, numBathrooms, area, city, state, zipCode, openHouseDate, rent } = this.props.data;
+        let { history, data } = this.props;
+        let { _id, numBedrooms, numBathrooms, area, city, state, zipCode, openHouseDate, rent } = data;
         return (
-            <div className="home-card" onClick={() => (console.log('click'))}>
+            <div className="home-card" onClick={() => (history.push(`/renter/${_id}`))}>
                 <img className="home-card-element home-card-image-big" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
                 <div className="home-card-element home-card-container-image">
                     <img className="home-card-image-small" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />

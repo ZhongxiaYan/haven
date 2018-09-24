@@ -1,0 +1,27 @@
+#renter-property-page {
+    padding: 20px 60px;
+}
+
+#renter-property-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+#renter-property-body-main {
+    width: 800px;
+}
+
+#renter-property-body-info {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#renter-property-body-summary {
+    width: 200px;
+}
+
+#renter-property-body-description {
+    width: 200px;
+    border: 1px solid black;
+    border-radius: 4px; 
+}

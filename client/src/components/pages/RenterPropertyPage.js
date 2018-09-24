@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
+
+import './RenterPropertyPage.css';
 
 export default class RenterPropertyPage extends Component {
     constructor(props) {
@@ -18,7 +21,6 @@ export default class RenterPropertyPage extends Component {
             method: 'GET',
             credentials: 'include'
         }).then(res => res.json()).then(resJson => {
-            console.log(resJson);
             this.setState({ info: resJson });
         });
     }
@@ -28,10 +30,46 @@ export default class RenterPropertyPage extends Component {
         if (!info) {
             return null;
         }
+        let { name, addressFirstLine, addressSecondLine, city, state, zipCode, description, numBedrooms, numBathrooms, area, rent, deposit, leaseLength, openHouseDate } = info;
         return (
-            <div>
-                <Property data={info} />
-                <ApplicationForm propertyId={this.propertyId} />
+            <div id="renter-property-page">
+                <h1>{name}</h1>
+                <h3>{addressSecondLine ? `${addressFirstLine}, ${addressSecondLine}` : addressFirstLine}, {city}, {state} {zipCode}</h3>
+                <div id="renter-property-body">
+                    <div id="renter-property-body-main">
+                        <div id="renter-property-body-info">
+                            <div id="renter-property-body-summary">
+                                Bedroom(s): {numBedrooms} <br />
+                                Bathroom(s): {numBathrooms} <br />
+                                Size: {area} Sq Ft <br />
+                                Rent: ${rent} / Month <br />
+                                Security Deposit: ${deposit} <br />
+                                Lease Length: {leaseLength} Month(s)
+                            </div>
+                            <div id="renter-property-body-description">
+                                {description}
+                            </div>
+                        </div>
+                        <div id="renter-property-body-reviews">
+                            <h3>Peer Reviews</h3>
+                        </div>
+                    </div>
+                    <div id="renter-property-body-side">
+                        <div>
+                            <h3>Open House</h3>
+                            <h3>{openHouseDate}</h3>
+                            <Button bsStyle="primary">RSVP</Button>
+                        </div>
+                        <div>
+                            <h3>Too busy? We'll find you a doppleganger ;) </h3>
+                            <Button bsStyle="info">Find agent for $40</Button>
+                        </div>
+                        <div>
+                            <h3>Sold? One-click apply</h3>
+                            <Button bsStyle="success">Apply</Button>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

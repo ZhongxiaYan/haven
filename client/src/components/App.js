@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 
 import PreviewHomePage from './pages/PreviewHomePage';
 import HomePage from './pages/HomePage';
+import RenterPropertyPage from './pages/RenterPropertyPage';
 import OwnerPage from './OwnerPage';
 import LoginModal from './modals/LoginModal';
 import BasicInfoModal from './modals/BasicInfoModal';
@@ -99,7 +100,7 @@ export default class App extends Component {
                             :
                             <Switch>
                                 <Route exact path="/" component={HomePage} />
-                                {/* <Route path="/renter/:propertyId" component={RenterPropertyPage} /> */}
+                                <Route path="/renter/:propertyId" component={RenterPropertyPage} />
                                 {/* <Route exact path="/owner" component={OwnerPage} /> */}
                                 <Route component={NoMatch} />
                             </Switch>
