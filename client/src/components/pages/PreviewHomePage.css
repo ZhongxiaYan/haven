@@ -1,0 +1,22 @@
+div.jumbotron {
+    background-color: white;
+    padding: 0px 30px;
+}
+
+#preview-main {
+    padding: 30px;
+    background-image: url('../../images/colorBackground.png');
+    display: flex;
+    justify-content: space-evenly;
+    background-size: cover;
+}
+
+.preview-card {
+    cursor: pointer;
+    padding: 25px;
+}
+
+.preview-image {
+    display: block;
+    border-radius: 20px;
+}

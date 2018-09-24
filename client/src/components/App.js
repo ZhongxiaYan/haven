@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
-import RenterPage from './RenterPage';
-import RenterPropertyPage from './RenterPropertyPage';
+import PreviewHomePage from './pages/PreviewHomePage';
+import HomePage from './pages/HomePage';
 import OwnerPage from './OwnerPage';
 import LoginModal from './modals/LoginModal';
 import BasicInfoModal from './modals/BasicInfoModal';
 import NavBar from './NavBar';
+import Context from './Context';
 
 import { AuthenticationState, ModalState } from '../enums';
+
+import './App.css'
 
 export default class App extends Component {
     constructor(props) {
@@ -54,6 +57,9 @@ export default class App extends Component {
     }
 
     setModalState(modalState) {
+        if (this.state.authState == AuthenticationState.NEED_INFO) {
+            modalState = ModalState.BASIC_INFO;
+        }
         this.setState({ modalState });
     }
 
@@ -75,20 +81,27 @@ export default class App extends Component {
         let { user, authState, modalState } = this.state;
         let context = { user, authState, modalState, fetchUser: this.fetchUser, setModalState: this.setModalState };
         return (
-            <Router>
-                <div>
-                    <NavBar {...context} />
-                    {this.getModal(context)}
-                    <Switch>
-                        <Route exact path="/" component={RenterPage} />
-                        {this.state.authState !== AuthenticationState.FULL ? <Route render={() => <Redirect to='/' />} /> : null}
-                        <Route exact path="/renter" component={RenterPage} />
-                        <Route path="/renter/:propertyId" component={RenterPropertyPage} />
-                        <Route exact path="/owner" component={OwnerPage} />
-                        <Route component={NoMatch} />
-                    </Switch>
-                </div>
-            </Router>
+            <Context.Provider value={context}>
+                <Router>
+                    <div>
+                        <NavBar {...context} />
+                        {this.getModal(context)}
+                        {this.state.authState !== AuthenticationState.FULL ?
+                            <Switch>
+                                <Route exact path="/" component={PreviewHomePage} />
+                                <Route render={() => <Redirect to='/' />} />
+                            </Switch>
+                            :
+                            <Switch>
+                                <Route exact path="/" component={HomePage} />
+                                {/* <Route path="/renter/:propertyId" component={RenterPropertyPage} /> */}
+                                {/* <Route exact path="/owner" component={OwnerPage} /> */}
+                                <Route component={NoMatch} />
+                            </Switch>
+                        }
+                    </div>
+                </Router>
+            </Context.Provider>
         );
     }
 }

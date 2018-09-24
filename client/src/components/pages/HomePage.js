@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
-import RequestingPropertyForm from './RequestingPropertyForm';
+import RequestingPropertyForm from '../RequestingPropertyForm';
+
+import background from '../../images/colorBackground.png';
 
 export default class RenterPage extends Component {
     constructor(props) {
@@ -57,7 +59,7 @@ export default class RenterPage extends Component {
     render() {
         let { requestingProperty, propertyList, requestList } = this.state;
         return (
-            <div>
+            <div style={{ height: '100%', width: '100%', backgroundImage: `url(${background})` }}>
                 {requestingProperty ?
                     <RequestingPropertyForm setRequestingProperty={this.setRequestingProperty} /> :
                     <button type="button" onClick={() => this.setRequestingProperty(true)}>Request Property</button>

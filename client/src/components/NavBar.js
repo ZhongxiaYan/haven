@@ -55,7 +55,7 @@ export default class NavBar extends Component {
                                     <Glyphicon glyph="calendar" />
                                 </NavItem>
                                 <NavDropdown eventKey="4" id="user-dropdown" title={user.name || ''}>
-                                    <MenuItem eventKey="4.1">Basic Info</MenuItem>
+                                    <MenuItem eventKey="4.1" onSelect={() => setModalState(ModalState.BASIC_INFO)}>Basic Info</MenuItem>
                                     <MenuItem divider />
                                     <MenuItem eventKey="4.2" onSelect={this.logout}>Logout</MenuItem>
                                 </NavDropdown>

@@ -19,6 +19,7 @@
     "babelify": "^10.0.0",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^1.0.0",
+    "file-loader": "^2.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "style-loader": "^0.23.0",

@@ -57,7 +57,7 @@ export default class BasicInfoModal extends Component {
     }
 
     render() {
-        return <BaseModal title={'Basic Information'} body={this.renderBody()} />;
+        return <BaseModal title={'Basic Information'} body={this.renderBody()} {...this.props} />;
     }
 }
 

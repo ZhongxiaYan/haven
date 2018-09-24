@@ -13,3 +13,7 @@
 .glyphicon {
     color: #48C9B0;
 }
+
+.nav > li:hover > a > .glyphicon {
+    color: black;
+}
