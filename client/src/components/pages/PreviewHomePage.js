@@ -40,7 +40,7 @@ export default class PreviewHomePage extends Component {
                             <h1>Haven</h1>
                             <p>This site helps you find your dream apartment in minimal time. Browse our listings, schedule back to back home visits, and request a sub-in if you're too busy. When you find the place you love, sign up to one-click apply {'<3'} </p>
                         </Jumbotron>
-                        <div id="preview-main">
+                        <div id="preview-main" className="color-background">
                             {propertyList.map((data, i) => <PreviewCard key={i} data={data} setModalState={setModalState} />)}
                         </div>
                     </Fragment>

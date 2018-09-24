@@ -1,5 +1,6 @@
 export const AuthenticationState = {
-    NONE: 'none',
+    INDETERMINED: 'indetermined',
+    NOT_LOGGED_IN: 'notLoggedIn',
     NEED_INFO: 'needInfo',
     FULL: 'full'
 };

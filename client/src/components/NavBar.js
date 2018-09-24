@@ -33,7 +33,7 @@ export default class NavBar extends Component {
                 </Navbar.Header>
                 <Nav bsStyle="tabs" pullRight>
                     {{
-                        [AuthenticationState.NONE]: (
+                        [AuthenticationState.NOT_LOGGED_IN]: (
                             <NavItem eventKey="1" onClick={() => setModalState(ModalState.LOGIN)}>
                                 Login
                             </NavItem>

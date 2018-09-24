@@ -5,10 +5,8 @@ div.jumbotron {
 
 #preview-main {
     padding: 30px;
-    background-image: url('../../images/colorBackground.png');
     display: flex;
     justify-content: space-evenly;
-    background-size: cover;
 }
 
 .preview-card {

@@ -18,8 +18,8 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            user: {},
-            authState: AuthenticationState.NONE,
+            user: null,
+            authState: AuthenticationState.INDETERMINED,
             modalState: ModalState.NONE
         };
 
@@ -33,8 +33,10 @@ export default class App extends Component {
     }
 
     getAuthenticationState(user) {
-        if (!user.found) {
-            return AuthenticationState.NONE;
+        if (user === null) {
+            return AuthenticationState.INDETERMINED;
+        } else if (!user.found) {
+            return AuthenticationState.NOT_LOGGED_IN;
         } else if (user.name && user.email && user.dateOfBirth) {
             return AuthenticationState.FULL;
         } else {
@@ -79,6 +81,9 @@ export default class App extends Component {
 
     render() {
         let { user, authState, modalState } = this.state;
+        if (authState === AuthenticationState.INDETERMINED) {
+            return null;
+        }
         let context = { user, authState, modalState, fetchUser: this.fetchUser, setModalState: this.setModalState };
         return (
             <Context.Provider value={context}>
