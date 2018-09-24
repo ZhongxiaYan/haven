@@ -1,16 +1,14 @@
-import React, { Component, Fragment } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
-import { Navbar, Nav, NavItem, Button, Glyphicon } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 import RenterPage from './RenterPage';
 import RenterPropertyPage from './RenterPropertyPage';
 import OwnerPage from './OwnerPage';
 import LoginModal from './modals/LoginModal';
 import BasicInfoModal from './modals/BasicInfoModal';
+import NavBar from './NavBar';
 
 import { AuthenticationState, ModalState } from '../enums';
-
-import "react-bootstrap/lib/NavbarHeader";
 
 export default class App extends Component {
     constructor(props) {
@@ -46,14 +44,12 @@ export default class App extends Component {
             method: 'GET',
             credentials: 'include'
         }).then(res => res.json()).then(user => {
-            if (user.found) {
-                let authState = this.getAuthenticationState(user);
-                let modalState = ModalState.NONE;
-                if (authState === AuthenticationState.NEED_INFO) { // If user hasn't provided necessary information yet, ask with modal
-                    modalState = ModalState.BASIC_INFO;
-                }
-                this.setState({ user, authState, modalState });
+            let authState = this.getAuthenticationState(user);
+            let modalState = ModalState.NONE;
+            if (authState === AuthenticationState.NEED_INFO) { // If user hasn't provided necessary information yet, ask with modal
+                modalState = ModalState.BASIC_INFO;
             }
+            this.setState({ user, authState, modalState });
         });
     }
 
@@ -81,7 +77,7 @@ export default class App extends Component {
         return (
             <Router>
                 <div>
-                    <NavBarComponent {...context} />
+                    <NavBar {...context} />
                     {this.getModal(context)}
                     <Switch>
                         <Route exact path="/" component={RenterPage} />
@@ -102,47 +98,3 @@ const NoMatch = ({ location }) => (
         <h3>No match for ${location.pathname}</h3>
     </div>
 );
-
-import './NavBar.css';
-
-const NavBarComponent = ({ user, authState, setModalState }) => {
-    return (
-        <Navbar>
-            <Navbar.Header>
-                <Navbar.Brand>
-                    <Link to="/">Haven</Link>
-                </Navbar.Brand>
-            </Navbar.Header>
-            <Nav bsStyle="tabs" pullRight>
-                {{
-                    [AuthenticationState.NONE]: (
-                        <NavItem eventKey="1" onClick={() => setModalState(ModalState.LOGIN)}>
-                            Login
-                        </NavItem>
-                    ),
-                    [AuthenticationState.NEED_INFO]: (
-                        <NavItem eventKey="1" onClick={() => setModalState(ModalState.BASIC_INFO)}>
-                            Complete Profile
-                        </NavItem>
-                    ),
-                    [AuthenticationState.FULL]: (
-                        <Fragment>
-                            <NavItem eventKey="1">
-                                <Glyphicon glyph="bell" />
-                            </NavItem>
-                            <NavItem eventKey="2">
-                                <Glyphicon glyph="plus" />
-                            </NavItem>
-                            <NavItem eventKey="3">
-                                <Glyphicon glyph="calendar" />
-                            </NavItem>
-                            <NavItem eventKey="4">
-                                {user.name}
-                            </NavItem>
-                        </Fragment>
-                    )
-                }[authState]}
-            </Nav>
-        </Navbar>
-    );
-}
