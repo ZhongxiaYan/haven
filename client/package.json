@@ -27,7 +27,10 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
-    "react-date-picker": "^6.12.1",
+    "bootstrap-social": "^5.1.1",
+    "create-react-class": "^15.6.3",
+    "react-16-bootstrap-date-picker": "^5.1.2",
+    "react-bootstrap": "^0.32.4",
     "react-router-dom": "^4.3.1",
     "react-select": "^2.0.0"
   }

@@ -1,0 +1,15 @@
+.navbar-default .navbar-brand {
+    color: #1C2833;
+}
+
+.navbar > .container {
+  width: auto;
+}
+
+.navbar-default {
+    background-color: white;
+}
+
+.glyphicon {
+    color: #48C9B0;
+}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DatePicker from 'react-16-bootstrap-date-picker';
 
 export default class NewProperty extends Component {
     constructor(props) {
@@ -6,6 +7,7 @@ export default class NewProperty extends Component {
         this.state = {};
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleChangeOpenHouseDate = this.handleChangeOpenHouseDate.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -14,8 +16,11 @@ export default class NewProperty extends Component {
         this.setState({ [name]: value });
     }
 
+    handleChangeOpenHouseDate(value) {
+        this.setState({ openHouseDate: value });
+    }
+
     handleSubmit(event) {
-        console.log(this.state);
         fetch('/owner/new_property', {
             method: 'POST',
             credentials: 'include',
@@ -33,7 +38,7 @@ export default class NewProperty extends Component {
     }
 
     render() {
-        let { numBedrooms, numBathrooms, area, addressFirstLine, addressSecondLine, city, state, zipCode, contactNumber } = this.state;
+        let { numBedrooms, numBathrooms, area, openHouseDate, addressFirstLine, addressSecondLine, city, state, zipCode, contactNumber } = this.state;
         return (
             <form onSubmit={this.handleSubmit}>
                 <label>Number of Bedrooms <br></br>
@@ -44,6 +49,9 @@ export default class NewProperty extends Component {
                 </label>
                 <label>Size (sq ft) <br></br>
                     <input type="number" min="0" step="0.1" name="area" value={area} onChange={this.handleChange} required /> <br></br>
+                </label>
+                <label>Open House Date <br></br>
+                    <DatePicker value={openHouseDate} onChange={this.handleChangeOpenHouseDate} /> <br></br>
                 </label>
                 <label>Street Address <br></br>
                     <input type="text" name="addressFirstLine" value={addressFirstLine} placeholder="Street and number" onChange={this.handleChange} required /> <br></br>
