@@ -38,6 +38,14 @@ export default class RenterPropertyPage extends Component {
                 <div id="renter-property-body">
                     <div id="renter-property-body-main">
                         <div id="renter-property-body-info">
+                            <img id="renter-property-body-video" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
+                            <div id="renter-property-body-images">
+                                <img className="" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
+                                <img className="" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
+                                <img className="" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
+                                <img className="" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
+                            </div>
+                            <div id="renter-property-body-description">{description}</div>
                             <div id="renter-property-body-summary">
                                 Bedroom(s): {numBedrooms} <br />
                                 Bathroom(s): {numBathrooms} <br />
@@ -45,9 +53,6 @@ export default class RenterPropertyPage extends Component {
                                 Rent: ${rent} / Month <br />
                                 Security Deposit: ${deposit} <br />
                                 Lease Length: {leaseLength} Month(s)
-                            </div>
-                            <div id="renter-property-body-description">
-                                {description}
                             </div>
                         </div>
                         <div id="renter-property-body-reviews">
@@ -72,13 +77,6 @@ export default class RenterPropertyPage extends Component {
                 </div>
             </div>
         );
-    }
-}
-
-class Property extends Component {
-    render() {
-        let data = this.props.data;
-        return <div>{JSON.stringify(data, null, 2)}</div>;
     }
 }
 

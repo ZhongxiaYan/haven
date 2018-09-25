@@ -53,12 +53,12 @@ class PropertyCard extends Component {
         let { _id, numBedrooms, numBathrooms, area, city, state, zipCode, openHouseDate, rent } = data;
         return (
             <div className="home-card" onClick={() => (history.push(`/renter/${_id}`))}>
-                <img className="home-card-element home-card-image-big" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
-                <div className="home-card-element home-card-container-image">
-                    <img className="home-card-image-small" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
-                    <img className="home-card-image-small" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
+                <img className="home-card-image-big" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
+                <div className="home-card-container-image">
+                    <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
+                    <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
                 </div>
-                <Panel className="home-card-element home-card-panel">
+                <Panel className="home-card-panel">
                     <Panel.Body>
                         <p>{city}, {state} {zipCode}</p>
                         <p>{numBedrooms} Br / {numBathrooms} Ba, {area} Sq Ft</p>

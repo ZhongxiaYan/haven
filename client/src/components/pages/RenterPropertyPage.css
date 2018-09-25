@@ -4,24 +4,49 @@
 
 #renter-property-body {
     display: flex;
-    justify-content: space-between;
 }
 
 #renter-property-body-main {
-    width: 800px;
+    width: 75%;
+    margin-right: 100px;
 }
 
 #renter-property-body-info {
+    height: 500px;
+    width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-#renter-property-body-summary {
-    width: 200px;
+#renter-property-body-video {
+    width: 58%;
+    max-height: 325px;
+    border-radius: 15px;
+}
+
+#renter-property-body-images {
+    width: 38%;
+    max-height: 325px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+#renter-property-body-images > img {
+    max-width: 48%;
+    max-height: 48%;
+    border-radius: 8px;
 }
 
 #renter-property-body-description {
-    width: 200px;
+    width: 58%;
+    height: 125px;
     border: 1px solid black;
     border-radius: 4px; 
+}
+
+#renter-property-body-summary {
+    width: 38%;
+    height: 125px;
 }
