@@ -6,6 +6,10 @@
   width: auto;
 }
 
+.navbar {
+    margin-bottom: 0px;
+}
+
 .navbar-default {
     background-color: white;
 }

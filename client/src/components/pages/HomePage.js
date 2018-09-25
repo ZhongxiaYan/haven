@@ -50,7 +50,7 @@ export default class HomePage extends Component {
 class PropertyCard extends Component {
     render() {
         let { history, data } = this.props;
-        let { _id, numBedrooms, numBathrooms, area, city, state, zipCode, openHouse, rent } = data;
+        let { _id, numBedrooms, numBathrooms, area, formattedAddress, openHouse, rent } = data;
         return (
             <div className="home-card" onClick={() => (history.push(`/renter/${_id}`))}>
                 <img className="home-card-image-big" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
@@ -60,10 +60,10 @@ class PropertyCard extends Component {
                 </div>
                 <Panel className="home-card-panel">
                     <Panel.Body>
-                        <p>{city}, {state} {zipCode}</p>
+                        <p>{formattedAddress}</p>
                         <p>{numBedrooms} Br / {numBathrooms} Ba, {area} Sq Ft</p>
                         <p>${rent} / Month</p>
-                        <p>Open House {new Date(openHouse).toLocaleString()}</p>
+                        <p>Open House {new Date(openHouse).toLocaleDateString()}</p>
                     </Panel.Body>
                 </Panel>
             </div>

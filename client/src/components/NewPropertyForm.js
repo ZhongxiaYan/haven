@@ -6,15 +6,23 @@ import 'react-datetime/css/react-datetime.css';
 export default class NewProperty extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            address: {}
+        };
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleChangeAddress = this.handleChangeAddress.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
         let { name, value } = event.target;
         this.setState({ [name]: value });
+    }
+
+    handleChangeAddress(event) {
+        let { name, value } = event.target;
+        this.setState({ address: Object.assign({}, this.state.address, { [name]: value }) });
     }
 
     handleSubmit(event) {
@@ -42,17 +50,17 @@ export default class NewProperty extends Component {
                     <input type="text" name="title" value={title} onChange={this.handleChange} required /> <br></br>
                 </label>
                 <label>Street Address <br></br>
-                    <input type="text" name="addressFirstLine" value={addressFirstLine} placeholder="Street and number" onChange={this.handleChange} required /> <br></br>
-                    <input type="text" name="addressSecondLine" value={addressSecondLine} placeholder="Apartment, suite, unit, etc." onChange={this.handleChange} /> <br></br>
+                    <input type="text" name="addressFirstLine" value={addressFirstLine} placeholder="Street and number" onChange={this.handleChangeAddress} required /> <br></br>
+                    <input type="text" name="addressSecondLine" value={addressSecondLine} placeholder="Apartment, suite, unit, etc." onChange={this.handleChangeAddress} /> <br></br>
                 </label>
                 <label>City <br></br>
-                    <input type="text" name="city" value={city} onChange={this.handleChange} required /> <br></br>
+                    <input type="text" name="city" value={city} onChange={this.handleChangeAddress} required /> <br></br>
                 </label>
                 <label>State <br></br>
-                    <input type="text" name="state" value={state} onChange={this.handleChange} required /> <br></br>
+                    <input type="text" name="state" value={state} onChange={this.handleChangeAddress} required /> <br></br>
                 </label>
                 <label>Zip Code <br></br>
-                    <input type="text" name="zipCode" value={zipCode} onChange={this.handleChange} required /> <br></br>
+                    <input type="text" name="zipCode" value={zipCode} onChange={this.handleChangeAddress} required /> <br></br>
                 </label>
                 <label>Description <br></br>
                     <input type="text" name="description" value={description} onChange={this.handleChange} required /> <br></br>

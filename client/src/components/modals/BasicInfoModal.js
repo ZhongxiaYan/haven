@@ -53,7 +53,7 @@ export default class BasicInfoModal extends Component {
                 <ControlLabel>Date of Birth </ControlLabel> <br />
                 <DateTimePicker timeFormat={false} value={dateOfBirth} onChange={dob => this.setState({ dateOfBirth: dob })} /> <br></br>
                 <Button type="submit" bsStyle="primary">Update</Button>
-            </Form >
+            </Form>
         );
     }
 
