@@ -43,10 +43,15 @@
     width: 58%;
     height: 125px;
     border: 1px solid black;
-    border-radius: 4px; 
+    border-radius: 4px;
+    padding: 1px 5px;
 }
 
 #renter-property-body-summary {
     width: 38%;
     height: 125px;
+}
+
+.react-phone-number-input__icon-image {
+    vertical-align: top;
 }

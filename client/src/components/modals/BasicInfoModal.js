@@ -1,28 +1,27 @@
 import React, { Component } from 'react';
 import { Form, FormControl, Button, ControlLabel } from 'react-bootstrap';
-import DatePicker from 'react-16-bootstrap-date-picker';
+import DateTimePicker from 'react-datetime';
+import PhoneInput from 'react-phone-number-input'
+import moment from 'moment';
 
 import BaseModal from './BaseModal';
 
 import 'bootstrap-social/bootstrap-social.css'
+import 'react-phone-number-input/style.css'
 
 export default class BasicInfoModal extends Component {
     constructor(props) {
         super(props);
         this.state = Object.assign({}, this.props.user);
+        this.state.dateOfBirth = moment(this.state.dateOfBirth);
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleDobChange = this.handleDobChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
         let { name, value } = event.target;
         this.setState({ [name]: value });
-    }
-
-    handleDobChange(value) {
-        this.setState({ dateOfBirth: value });
     }
 
     handleSubmit(event) {
@@ -42,15 +41,17 @@ export default class BasicInfoModal extends Component {
     }
 
     renderBody() {
-        let { name, email, dateOfBirth } = this.state;
+        let { name, email, dateOfBirth, phoneNumber } = this.state;
         return (
             <Form onSubmit={this.handleSubmit}>
                 <ControlLabel>Name </ControlLabel>
                 <FormControl type="text" name="name" value={name} placeholder="Name" onChange={this.handleChange} required /> <br />
                 <ControlLabel>Email </ControlLabel>
                 <FormControl type="text" name="email" value={email} placeholder="Email" onChange={this.handleChange} required /> <br />
+                <ControlLabel>Phone Number </ControlLabel>
+                <PhoneInput value={phoneNumber} onChange={phone => this.setState({ phoneNumber: phone })} country={'US'} countryOptions={['US']} required /> <br />
                 <ControlLabel>Date of Birth </ControlLabel> <br />
-                <DatePicker value={dateOfBirth} onChange={this.handleDobChange} /> <br /> <br />
+                <DateTimePicker timeFormat={false} value={dateOfBirth} onChange={dob => this.setState({ dateOfBirth: dob })} /> <br></br>
                 <Button type="submit" bsStyle="primary">Update</Button>
             </Form >
         );

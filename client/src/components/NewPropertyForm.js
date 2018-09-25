@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import DatePicker from 'react-16-bootstrap-date-picker';
+import DateTimePicker from 'react-datetime';
+
+import 'react-datetime/css/react-datetime.css';
 
 export default class NewProperty extends Component {
     constructor(props) {
@@ -7,17 +9,12 @@ export default class NewProperty extends Component {
         this.state = {};
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleChangeOpenHouseDate = this.handleChangeOpenHouseDate.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
         let { name, value } = event.target;
         this.setState({ [name]: value });
-    }
-
-    handleChangeOpenHouseDate(value) {
-        this.setState({ openHouseDate: value });
     }
 
     handleSubmit(event) {
@@ -27,7 +24,6 @@ export default class NewProperty extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(this.state)
         }).then(res => res.json()).then(resJson => {
-            console.log(resJson);
             if (resJson.success) {
                 this.props.setAddingProperty(false, true);
             } else {
@@ -38,20 +34,12 @@ export default class NewProperty extends Component {
     }
 
     render() {
-        let { numBedrooms, numBathrooms, area, openHouseDate, addressFirstLine, addressSecondLine, city, state, zipCode, contactNumber } = this.state;
+        let { title, addressFirstLine, addressSecondLine, city, state, zipCode, numBedrooms, numBathrooms, area, rent, deposit, leaseLength, description, openHouse } = this.state;
+        console.log(this.state);
         return (
             <form onSubmit={this.handleSubmit}>
-                <label>Number of Bedrooms <br></br>
-                    <input type="number" min="0" step="1" name="numBedrooms" value={numBedrooms} onChange={this.handleChange} required /> <br></br>
-                </label>
-                <label>Number of Bathrooms <br></br>
-                    <input type="number" min="0" step="1" name="numBathrooms" value={numBathrooms} onChange={this.handleChange} required /> <br></br>
-                </label>
-                <label>Size (sq ft) <br></br>
-                    <input type="number" min="0" step="0.1" name="area" value={area} onChange={this.handleChange} required /> <br></br>
-                </label>
-                <label>Open House Date <br></br>
-                    <DatePicker value={openHouseDate} onChange={this.handleChangeOpenHouseDate} /> <br></br>
+                <label>Title <br></br>
+                    <input type="text" name="title" value={title} onChange={this.handleChange} required /> <br></br>
                 </label>
                 <label>Street Address <br></br>
                     <input type="text" name="addressFirstLine" value={addressFirstLine} placeholder="Street and number" onChange={this.handleChange} required /> <br></br>
@@ -66,8 +54,29 @@ export default class NewProperty extends Component {
                 <label>Zip Code <br></br>
                     <input type="text" name="zipCode" value={zipCode} onChange={this.handleChange} required /> <br></br>
                 </label>
-                <label>Contact Number <br></br>
-                    <input type="text" name="contactNumber" value={contactNumber} placeholder="Phone number" onChange={this.handleChange} /> <br></br>
+                <label>Description <br></br>
+                    <input type="text" name="description" value={description} onChange={this.handleChange} required /> <br></br>
+                </label>
+                <label>Number of Bedrooms <br></br>
+                    <input type="number" min="0" step="1" name="numBedrooms" value={numBedrooms} onChange={this.handleChange} required /> <br></br>
+                </label>
+                <label>Number of Bathrooms <br></br>
+                    <input type="number" min="0" step="1" name="numBathrooms" value={numBathrooms} onChange={this.handleChange} required /> <br></br>
+                </label>
+                <label>Size (sq ft) <br></br>
+                    <input type="number" min="0" step="0.1" name="area" value={area} onChange={this.handleChange} required /> <br></br>
+                </label>
+                <label>Rent ($ / month) <br></br>
+                    <input type="number" min="0" step="0.1" name="rent" value={rent} onChange={this.handleChange} required /> <br></br>
+                </label>
+                <label>Deposit ($) <br></br>
+                    <input type="number" min="0" step="0.1" name="deposit" value={deposit} onChange={this.handleChange} required /> <br></br>
+                </label>
+                <label>Lease Length (months) <br></br>
+                    <input type="number" min="0" step="1" name="leaseLength" value={leaseLength} onChange={this.handleChange} required /> <br></br>
+                </label>
+                <label>Open House <br></br>
+                    <DateTimePicker timeConstraints={{ hours: { min: 9, max: 21 } }} value={openHouse} onChange={datetime => this.setState({ openHouse: datetime })} /> <br></br>
                 </label>
                 <input type="submit" value="Submit" />
             </form>

@@ -53,7 +53,7 @@ export default class PreviewHomePage extends Component {
 class PreviewCard extends Component {
     render() {
         let { data, setModalState } = this.props;
-        let { numBedrooms, numBathrooms, area, city, state, zipCode, openHouseDate, rent } = data;
+        let { numBedrooms, numBathrooms, area, city, state, zipCode, openHouseTime, rent } = data;
         return (
             <div className="preview-card" onClick={() => setModalState(ModalState.LOGIN)}>
                 <img className="preview-image" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" /> <br />
@@ -62,7 +62,7 @@ class PreviewCard extends Component {
                         <p>{city}, {state} {zipCode}</p>
                         <p>{numBedrooms} Br / {numBathrooms} Ba, {area} Sq Ft</p>
                         <p>${rent} / Month</p>
-                        <p>Open House {openHouseDate}</p>
+                        <p>Open House {openHouseTime}</p>
                     </Panel.Body>
                 </Panel>
             </div>

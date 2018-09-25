@@ -101,7 +101,7 @@ export default class App extends Component {
                             <Switch>
                                 <Route exact path="/" component={HomePage} />
                                 <Route path="/renter/:propertyId" component={RenterPropertyPage} />
-                                {/* <Route exact path="/owner" component={OwnerPage} /> */}
+                                <Route exact path="/owner" component={OwnerPage} />
                                 <Route component={NoMatch} />
                             </Switch>
                         }

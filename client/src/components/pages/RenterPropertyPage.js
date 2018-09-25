@@ -30,10 +30,10 @@ export default class RenterPropertyPage extends Component {
         if (!info) {
             return null;
         }
-        let { name, addressFirstLine, addressSecondLine, city, state, zipCode, description, numBedrooms, numBathrooms, area, rent, deposit, leaseLength, openHouseDate } = info;
+        let { title, addressFirstLine, addressSecondLine, city, state, zipCode, numBedrooms, numBathrooms, area, rent, deposit, leaseLength, description, openHouse } = info;
         return (
             <div id="renter-property-page">
-                <h1>{name}</h1>
+                <h1>{title}</h1>
                 <h3>{addressSecondLine ? `${addressFirstLine}, ${addressSecondLine}` : addressFirstLine}, {city}, {state} {zipCode}</h3>
                 <div id="renter-property-body">
                     <div id="renter-property-body-main">
@@ -62,7 +62,7 @@ export default class RenterPropertyPage extends Component {
                     <div id="renter-property-body-side">
                         <div>
                             <h3>Open House</h3>
-                            <h3>{openHouseDate}</h3>
+                            <h3>{new Date(openHouse).toLocaleString()}</h3>
                             <Button bsStyle="primary">RSVP</Button>
                         </div>
                         <div>

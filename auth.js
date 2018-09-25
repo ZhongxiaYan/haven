@@ -98,8 +98,8 @@ passport.deserializeUser((id, done) => {
 });
 
 routes.get('/get_user', (req, res) => {
-    let { name, email, dateOfBirth } = req.user || {};
-    res.json({ name, email, dateOfBirth, found: !!req.user });
+    let { name, email, phoneNumber, dateOfBirth } = req.user || {};
+    res.json({ name, email, phoneNumber, dateOfBirth, found: !!req.user });
 });
 
 routes.post('/update_basic_info', (req, res) => {
@@ -107,8 +107,8 @@ routes.post('/update_basic_info', (req, res) => {
     if (!user) {
         return res.redirect('/');
     }
-    let {name, email, dateOfBirth} = req.body;
-    Object.assign(user, {name, email, dateOfBirth});
+    let {name, email, phoneNumber, dateOfBirth} = req.body;
+    Object.assign(user, {name, email, phoneNumber, dateOfBirth});
     user.save((err, updatedUser) => {
         if (err) {
             console.log('Fail');
