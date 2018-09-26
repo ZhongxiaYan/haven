@@ -1,5 +1,5 @@
 # haven
-## Find the perfect apartment, without leaving your room.
+## Find your next room, without leaving your room.
 
 ## Development Setup
 1. Download the ssh key from https://drive.google.com/open?id=13FFUuTq7vbPf05DDwIOKGF9kXrs9OQ_f and save it at `key.pem`
