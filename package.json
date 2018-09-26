@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "bash scripts/run_dev.sh",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev-server": "bash scripts/run_dev_server.sh"
   },
   "author": "",
   "license": "ISC",

@@ -1,2 +1,2 @@
-npm install && cd client && npm install && npm run build && cd ..
+npm install && cd client && npm install && cd ..
 
