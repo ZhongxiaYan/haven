@@ -1,20 +1,20 @@
 div.jumbotron {
-    background-color: white;
-    padding: 0px 30px;
+  background-color: white;
+  padding: 0px 30px;
 }
 
 #preview-main {
-    padding: 30px;
-    display: flex;
-    justify-content: space-evenly;
+  padding: 30px;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .preview-card {
-    cursor: pointer;
-    padding: 25px;
+  cursor: pointer;
+  padding: 25px;
 }
 
 .preview-image {
-    display: block;
-    border-radius: 20px;
+  display: block;
+  border-radius: 20px;
 }

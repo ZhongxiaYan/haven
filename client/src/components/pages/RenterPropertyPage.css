@@ -1,57 +1,57 @@
 #renter-property-page {
-    padding: 20px 60px;
+  padding: 20px 60px;
 }
 
 #renter-property-body {
-    display: flex;
+  display: flex;
 }
 
 #renter-property-body-main {
-    width: 75%;
-    margin-right: 100px;
+  width: 75%;
+  margin-right: 100px;
 }
 
 #renter-property-body-info {
-    height: 500px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+  height: 500px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 #renter-property-body-video {
-    width: 58%;
-    max-height: 325px;
-    border-radius: 15px;
+  width: 58%;
+  max-height: 325px;
+  border-radius: 15px;
 }
 
 #renter-property-body-images {
-    width: 38%;
-    max-height: 325px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+  width: 38%;
+  max-height: 325px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 #renter-property-body-images > img {
-    max-width: 48%;
-    max-height: 48%;
-    border-radius: 8px;
+  max-width: 48%;
+  max-height: 48%;
+  border-radius: 8px;
 }
 
 #renter-property-body-description {
-    width: 58%;
-    height: 125px;
-    border: 1px solid black;
-    border-radius: 4px;
-    padding: 1px 5px;
+  width: 58%;
+  height: 125px;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 1px 5px;
 }
 
 #renter-property-body-summary {
-    width: 38%;
-    height: 125px;
+  width: 38%;
+  height: 125px;
 }
 
 .react-phone-number-input__icon-image {
-    vertical-align: top;
+  vertical-align: top;
 }

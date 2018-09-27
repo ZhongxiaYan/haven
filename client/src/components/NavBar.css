@@ -1,5 +1,5 @@
 .navbar-default .navbar-brand {
-    color: #1C2833;
+  color: #1C2833;
 }
 
 .navbar > .container {
@@ -7,17 +7,17 @@
 }
 
 .navbar {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 .navbar-default {
-    background-color: white;
+  background-color: white;
 }
 
 .glyphicon {
-    color: #48C9B0;
+  color: #48C9B0;
 }
 
 .nav > li:hover > a > .glyphicon {
-    color: black;
+  color: black;
 }
