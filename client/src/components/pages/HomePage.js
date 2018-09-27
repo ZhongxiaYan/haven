@@ -106,7 +106,8 @@ class GoogleMapComponent extends Component {
                 defaultCenter={defaultCenter}
                 hoveredProperty={hoveredProperty}
                 propertyList={propertyList}
-                googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4DTyzogm6CRc2oZMne4yb75SWyelvavE&v=3.exp&libraries=geometry,drawing,places"
+                googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL07U2mv0m4DMiESjIvmEZEn-jXbhgHak&v=3.exp&libraries=geometry,dr
+awing,places"
                 containerElement={<div id="home-maps-container-element" />}
                 loadingElement={<div id="home-maps-loading-element" />}
                 mapElement={<div id="home-maps-map-element" />}

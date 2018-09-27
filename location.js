@@ -10,7 +10,7 @@ function lookUpAddress(address) {
     const googleGeocodeApiBase = 'https://maps.googleapis.com/maps/api/geocode/json';
     let params = {
         address: address.replace(/\s/g, '+'),
-        key: process.env.GOOGLE_API_KEY
+        key: process.env.GOOGLE_SERVER_API_KEY
     };
     let query = `${googleGeocodeApiBase}?${Object.entries(params).map(([key, value]) => `${key}=${value}`).join('&')}`;
     return fetch(query).then(res => res.json());
