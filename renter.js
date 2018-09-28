@@ -5,8 +5,22 @@ const Request = require('./models/request');
 const Application = require('./models/application');
 
 routes.get('/property_list', (req, res) => {
-  console.log('Queried property list');
-  Property.find().exec().then(properties => {
+  console.log('Queried property list with param', req.query);
+  let { neighborhood, numBedrooms, numBathrooms, maxRent } = req.query;
+  let findQuery = {};
+  if (neighborhood) {
+    findQuery['address.neighborhood'] = neighborhood;
+  }
+  if (numBedrooms) {
+    findQuery['numBedrooms'] = numBedrooms
+  }
+  if (numBathrooms) {
+    findQuery['numBathrooms'] = numBathrooms
+  }
+  if (maxRent) {
+    findQuery['rent'] = { $lte: maxRent };
+  }
+  Property.find(findQuery).exec().then(properties => {
     res.json(properties);
   });
 });

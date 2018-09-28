@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Panel } from 'react-bootstrap';
+import { Button, Panel, Glyphicon } from 'react-bootstrap';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 
 import Context from '../Context';
@@ -13,23 +13,7 @@ export default class HomePage extends Component {
       propertyList: [],
       hoveredProperty: null
     };
-    this.getPropertyList = this.getPropertyList.bind(this);
     this.setHoveredProperty = this.setHoveredProperty.bind(this);
-  }
-
-  componentDidMount() {
-    this.getPropertyList();
-  }
-
-  getPropertyList() {
-    fetch('/renter/property_list', {
-      method: 'GET',
-      credentials: 'include'
-    }).then(res => res.json()).then(resJson => {
-      this.setState({ propertyList: resJson });
-    }).catch(err => {
-      console.error(err);
-    });
   }
 
   setHoveredProperty(isHover, propertyId) {
@@ -48,13 +32,66 @@ export default class HomePage extends Component {
       <Context.Consumer>
         {({ setModalState }) => (
           <div id="home-main" className="color-background">
-            <div id="home-property-list">
-              {propertyList.map((data, i) => <PropertyCard key={i} data={data} setModalState={setModalState} history={this.props.history} setHoveredProperty={this.setHoveredProperty} />)}
+            <PropertySearchForm setPropertyList={propertyList => this.setState({propertyList})}/>
+            <div id="home-display">
+              <div id="home-property-list">
+                {propertyList.map((data, i) => <PropertyCard key={i} data={data} setModalState={setModalState} history={this.props.history} setHoveredProperty={this.setHoveredProperty} />)}
+              </div>
+              <GoogleMapComponent propertyList={propertyList} hoveredProperty={hoveredProperty} />
             </div>
-            <GoogleMapComponent propertyList={propertyList} hoveredProperty={hoveredProperty} />
           </div>
         )}
       </Context.Consumer>
+    );
+  }
+}
+
+class PropertySearchForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {}
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.fetchProperties = this.fetchProperties.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetchProperties({});
+  }
+
+  fetchProperties(paramPairs) {
+    fetch('/renter/property_list?' + new URLSearchParams(paramPairs), {
+      method: 'GET',
+      credentials: 'include'
+    }).then(res => res.json()).then(resJson => {
+      this.props.setPropertyList(resJson);
+    }).catch(err => {
+      console.error(err);
+    });
+  }
+
+  handleChange(event) {
+    let { name, value } = event.target;
+    this.setState({ [name]: value });
+    console.log(this.state);
+  }
+
+  handleSubmit(event) {
+    this.fetchProperties(Object.entries(this.state).filter(([key, value]) => value !== ''));
+    event.preventDefault();
+  }
+
+  render() {
+    let { neighborhood, numBedrooms, numBathrooms, maxRent } = this.state;
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <input className="input-text" type="text" name="neighborhood" value={neighborhood} placeholder="What neighborhood are you interested in?" onChange={this.handleChange} />
+        <input className="input-number" type="number" min="0" step="1" name="numBedrooms" value={numBedrooms} placeholder="# of bedrooms" onChange={this.handleChange} />
+        <input className="input-number" type="number" min="0" step="1" name="numBathrooms" value={numBathrooms} placeholder="# of bathroom" onChange={this.handleChange} />
+        <input className="input-number" type="number" min="0" step="1" name="maxRent" value={maxRent} placeholder="Max rent ($ / month)" onChange={this.handleChange} />
+        <Button type="submit"><Glyphicon glyph="search" /></Button>
+      </form>
     );
   }
 }

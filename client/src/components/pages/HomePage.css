@@ -1,7 +1,34 @@
 #home-main {
-  height: 500px;
+  height: 100%;
   width: 100%;
   padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+#home-main > form {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+#home-main > form > input {
+  border-radius: 5px;
+  padding: 5px;
+}
+
+#home-main > form > .input-text {
+  width: 40%;
+}
+
+#home-main > form > .input-number {
+  width: 15%;
+}
+
+#home-display {
+  height: 500px;
+  width: 100%;
   display: flex;
   justify-content: space-around;
 }
