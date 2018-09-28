@@ -8,5 +8,6 @@ export const AuthenticationState = {
 export const ModalState = {
   NONE: 'none',
   LOGIN: 'login',
-  BASIC_INFO: 'basicInfo'
+  BASIC_INFO: 'basicInfo',
+  AGENT_REQUEST: 'agentRequest'
 }

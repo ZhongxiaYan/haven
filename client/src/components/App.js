@@ -8,6 +8,7 @@ import OwnerPage from './OwnerPage';
 import CalendarPage from './pages/CalendarPage';
 import LoginModal from './modals/LoginModal';
 import BasicInfoModal from './modals/BasicInfoModal';
+import AgentRequestModal from './modals/AgentRequestModal';
 import NavBar from './NavBar';
 import Context from './Context';
 
@@ -75,6 +76,7 @@ export default class App extends Component {
       const modalStateMap = {
         [ModalState.LOGIN]: LoginModal,
         [ModalState.BASIC_INFO]: BasicInfoModal,
+        [ModalState.AGENT_REQUEST]: AgentRequestModal
       };
       let Modal = modalStateMap[modalState];
       return <Modal {...context} />;
@@ -86,7 +88,9 @@ export default class App extends Component {
     if (authState === AuthenticationState.INDETERMINED) {
       return null;
     }
-    let context = { user, authState, modalState, fetchUser: this.fetchUser, setModalState: this.setModalState };
+    let { fetchUser, setModalState } = this;
+    let context = { user, authState, modalState, fetchUser, setModalState };
+    console.log(context);
     return (
       <Context.Provider value={context}>
         <Router>

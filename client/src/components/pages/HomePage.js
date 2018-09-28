@@ -29,19 +29,15 @@ export default class HomePage extends Component {
   render() {
     let { propertyList, hoveredProperty } = this.state;
     return (
-      <Context.Consumer>
-        {({ setModalState }) => (
-          <div id="home-main" className="color-background">
-            <PropertySearchForm setPropertyList={propertyList => this.setState({propertyList})}/>
-            <div id="home-display">
-              <div id="home-property-list">
-                {propertyList.map((data, i) => <PropertyCard key={i} data={data} setModalState={setModalState} history={this.props.history} setHoveredProperty={this.setHoveredProperty} />)}
-              </div>
-              <GoogleMapComponent propertyList={propertyList} hoveredProperty={hoveredProperty} />
-            </div>
+      <div id="home-main" className="color-background">
+        <PropertySearchForm setPropertyList={propertyList => this.setState({propertyList})}/>
+        <div id="home-display">
+          <div id="home-property-list">
+            {propertyList.map((data, i) => <PropertyCard key={i} data={data} history={this.props.history} setHoveredProperty={this.setHoveredProperty} />)}
           </div>
-        )}
-      </Context.Consumer>
+          <GoogleMapComponent propertyList={propertyList} hoveredProperty={hoveredProperty} />
+        </div>
+      </div>
     );
   }
 }

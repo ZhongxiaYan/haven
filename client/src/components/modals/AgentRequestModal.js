@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 
-export default class RequestingPropertyForm extends Component {
+import BaseModal from './BaseModal';
+
+export default class AgentRequestModal extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -21,25 +23,21 @@ export default class RequestingPropertyForm extends Component {
   }
 
   handleSubmit(event) {
-    let data = Object.assign({}, this.state);
-    data.requestInfo = this.state.requestInfo.map(({value}) => value);
+    let agentInfo = Object.assign({}, this.state);
+    agentInfo.requestInfo = this.state.requestInfo.map(({ value }) => value);
     fetch('/renter/request_property', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({ agent: true, agentInfo })
     }).then(res => res.json()).then(resJson => {
-      if (resJson.success) {
-        this.props.setRequestingProperty(false, true);
-      } else {
-        // TODO
-      }
+      // TODO
     });
     event.preventDefault();
   }
 
-  render() {
-    let { url, requestInfo, requestDetails } = this.state;
+  renderBody() {
+    let { requestInfo, requestDetails } = this.state;
     const requestInfoOptions = [
       { value: 'bathroomSize', label: 'Bathroom Size' },
       { value: 'neighborhoodFeeling', label: 'Neighborhood Feeling' },
@@ -52,9 +50,6 @@ export default class RequestingPropertyForm extends Component {
       <div>
         Request to visit an apartment
         <form onSubmit={this.handleSubmit}>
-          <label>Url for Listing <br></br>
-            <input type="text" name="url" value={url} onChange={this.handleChange} required /> <br></br>
-          </label>
           <label>Request Information <br></br>
             <Select // TODO allow creatable
               name={'requestInfo'}
@@ -65,12 +60,16 @@ export default class RequestingPropertyForm extends Component {
               options={requestInfoOptions}
             />
           </label>
-          <label>Request Details 
+          <label>Request Details
             <input type="text" name="requestDetails" value={requestDetails} onChange={this.handleChange} /> <br></br>
           </label>
           <input type="submit" value="Submit" />
         </form>
       </div>
     );
+  }
+
+  render() {
+    return <BaseModal title={'Detail Request for Agent'} body={this.renderBody()} {...this.props} />;
   }
 }
