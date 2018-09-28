@@ -5,6 +5,7 @@ import PreviewHomePage from './pages/PreviewHomePage';
 import HomePage from './pages/HomePage';
 import RenterPropertyPage from './pages/RenterPropertyPage';
 import OwnerPage from './OwnerPage';
+import CalendarPage from './pages/CalendarPage';
 import LoginModal from './modals/LoginModal';
 import BasicInfoModal from './modals/BasicInfoModal';
 import NavBar from './NavBar';
@@ -102,6 +103,7 @@ export default class App extends Component {
                 <Route exact path="/" component={HomePage} />
                 <Route path="/renter/:propertyId" component={RenterPropertyPage} />
                 <Route exact path="/owner" component={OwnerPage} />
+                <Route exact path="/calendar" component={CalendarPage} />
                 <Route component={NoMatch} />
               </Switch>
             }

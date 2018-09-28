@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Glyphicon } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 
 import { AuthenticationState, ModalState } from '../enums';
 
@@ -51,9 +52,11 @@ export default class NavBar extends Component {
                 <NavItem eventKey="2">
                   <Glyphicon glyph="plus" />
                 </NavItem>
-                <NavItem eventKey="3">
-                  <Glyphicon glyph="calendar" />
-                </NavItem>
+                <LinkContainer to="/calendar">
+                  <NavItem eventKey="3">
+                    <Glyphicon glyph="calendar" />
+                  </NavItem>
+                </LinkContainer>
                 <NavDropdown eventKey="4" id="user-dropdown" title={user.name || ''}>
                   <MenuItem eventKey="4.1" onSelect={() => setModalState(ModalState.BASIC_INFO)}>Basic Info</MenuItem>
                   <MenuItem divider />

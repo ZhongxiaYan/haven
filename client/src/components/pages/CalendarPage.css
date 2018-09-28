@@ -1,0 +1,12 @@
+#calendar-main {
+  height: 800px;
+  display: flex;
+}
+
+#calendar-agenda {
+  width: 15%;
+}
+
+#calendar-calendar {
+  width: 80%;
+}
