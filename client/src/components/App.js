@@ -74,8 +74,7 @@ export default class App extends Component {
     } else {
       const modalStateMap = {
         [ModalState.LOGIN]: LoginModal,
-        [ModalState.BASIC_INFO]: BasicInfoModal,
-        [ModalState.AGENT_REQUEST]: AgentRequestModal
+        [ModalState.BASIC_INFO]: BasicInfoModal
       };
       let Modal = modalStateMap[modalState];
       return <Modal {...context} />;
