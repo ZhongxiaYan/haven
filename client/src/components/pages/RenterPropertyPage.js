@@ -37,19 +37,18 @@ export default class RenterPropertyPage extends Component {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ agent })
+      body: JSON.stringify({ property: this.props.propertyId, agent })
     }).then(res => res.json()).then(resJson => {
       // TODO
     });
   }
 
   applyProperty() {
-    let data = { property: this.props.propertyId }
     fetch('/renter/apply_property', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({ property: this.props.propertyId })
     }).then(res => res.json()).then(resJson => {
       // TODO
     });
@@ -113,7 +112,7 @@ export default class RenterPropertyPage extends Component {
                       If you'd like, you can specify details for the agent to attend to too!
                   <Button bsStyle="primary" onClick={() => this.requestProperty(true)}>Request</Button>
 
-                      <Button bsStyle="primary" onClick={() => setModalState(ModalState.AGENT_REQUEST)}>Request Custom Details</Button>
+                      <Button bsStyle="primary" onClick={() => setModalState(ModalState.AGENT_REQUEST, { propertyId: this.propertyId })}>Request Custom Details</Button>
 
                     </Popover>
                   }>
@@ -137,54 +136,6 @@ export default class RenterPropertyPage extends Component {
           </div>
         )}
       </Context.Consumer>
-    );
-  }
-}
-
-
-class ApplicationForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
-    let { name, value } = event.target;
-    this.setState({ [name]: value });
-  }
-
-  handleSubmit(event) {
-    let data = Object.assign({}, this.state);
-    data.property = this.props.propertyId;
-    fetch('/renter/submit_application', {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }).then(res => res.json()).then(resJson => {
-      if (resJson.success) {
-        // TODO
-      } else {
-        // TODO
-      }
-    });
-    event.preventDefault();
-  }
-
-  render() {
-    let { info } = this.state;
-    return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>Info <br></br>
-            <input type="text" name="info" value={info} onChange={this.handleChange} required /> <br></br>
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-      </div>
     );
   }
 }

@@ -33,8 +33,22 @@ routes.get('/property/:propertyId', (req, res) => {
 
 routes.post('/request_property', (req, res) => {
   console.log('Adding request', req.body, 'for user', req.user.email);
-  let request = new Request(Object.assign({}, req.body, { requester: req.user.id }));
+  let request = new Request(Object.assign({ requester: req.user.id }, req.body));
   request.save((err, updatedRequest) => {
+    if (err) {
+      console.log('Fail');
+      res.json({ success: false });
+    } else {
+      console.log('Success');
+      res.json({ success: true });
+    }
+  });
+});
+
+routes.post('/apply_property', (req, res) => {
+  console.log('Applying', req.body, 'for user', req.user.email);
+  let application = new Application(Object.assign({ applicant: req.user.id }, req.body));
+  application.save((err, updatedApplication) => {
     if (err) {
       console.log('Fail');
       res.json({ success: false });
@@ -49,21 +63,14 @@ routes.get('/request_list', (req, res) => {
   console.log('Queried request list');
   Request.find({ requester: req.user.id }).exec().then(requests => {
     res.json(requests);
-  });
-});
+  });  
+});  
 
-routes.post('/submit_application', (req, res) => {
-  console.log('Submitting application', req.body, 'for user', req.user.email);
-  let application = new Application(Object.assign({}, req.body, { applicant: req.user.id }));
-  application.save((err, updatedApplication) => {
-    if (err) {
-      console.log('Fail');
-      res.json({ success: false });
-    } else {
-      console.log('Success');
-      res.json({ success: true });
-    }
-  });
-});
+routes.get('/application_list', (req, res) => {
+  console.log('Queried application list');
+  Request.find({ applicant: req.user.id }).exec().then(applications => {
+    res.json(applications);
+  });  
+});  
 
 module.exports = { routes };

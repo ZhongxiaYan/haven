@@ -23,7 +23,8 @@ export default class App extends Component {
     this.state = {
       user: null,
       authState: AuthenticationState.INDETERMINED,
-      modalState: ModalState.NONE
+      modalState: ModalState.NONE,
+      modalData: null
     };
 
     this.fetchUser = this.fetchUser.bind(this);
@@ -61,15 +62,15 @@ export default class App extends Component {
     });
   }
 
-  setModalState(modalState) {
+  setModalState(modalState, modalData) {
     if (this.state.authState == AuthenticationState.NEED_INFO) {
       modalState = ModalState.BASIC_INFO;
     }
-    this.setState({ modalState });
+    this.setState({ modalState, modalData });
   }
 
   getModal(context) {
-    let { modalState } = this.state;
+    let { modalState, modalData } = this.state;
     if (modalState === ModalState.NONE) {
       return null;
     } else {
@@ -79,7 +80,7 @@ export default class App extends Component {
         [ModalState.AGENT_REQUEST]: AgentRequestModal
       };
       let Modal = modalStateMap[modalState];
-      return <Modal {...context} />;
+      return <Modal {...context} modalData={modalData} />;
     }
   }
 

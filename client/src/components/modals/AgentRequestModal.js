@@ -23,13 +23,14 @@ export default class AgentRequestModal extends Component {
   }
 
   handleSubmit(event) {
+    let { propertyId } = this.props.modalData;
     let agentInfo = Object.assign({}, this.state);
     agentInfo.requestInfo = this.state.requestInfo.map(({ value }) => value);
     fetch('/renter/request_property', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ agent: true, agentInfo })
+      body: JSON.stringify({ property: propertyId, agent: true, agentInfo })
     }).then(res => res.json()).then(resJson => {
       // TODO
     });
