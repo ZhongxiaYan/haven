@@ -8,7 +8,6 @@ import OwnerPage from './OwnerPage';
 import CalendarPage from './pages/CalendarPage';
 import LoginModal from './modals/LoginModal';
 import BasicInfoModal from './modals/BasicInfoModal';
-import AgentRequestModal from './modals/AgentRequestModal';
 import NavBar from './NavBar';
 import Context from './Context';
 
@@ -23,8 +22,7 @@ export default class App extends Component {
     this.state = {
       user: null,
       authState: AuthenticationState.INDETERMINED,
-      modalState: ModalState.NONE,
-      modalData: null
+      modalState: ModalState.NONE
     };
 
     this.fetchUser = this.fetchUser.bind(this);
@@ -62,15 +60,15 @@ export default class App extends Component {
     });
   }
 
-  setModalState(modalState, modalData) {
+  setModalState(modalState) {
     if (this.state.authState == AuthenticationState.NEED_INFO) {
       modalState = ModalState.BASIC_INFO;
     }
-    this.setState({ modalState, modalData });
+    this.setState({ modalState });
   }
 
   getModal(context) {
-    let { modalState, modalData } = this.state;
+    let { modalState } = this.state;
     if (modalState === ModalState.NONE) {
       return null;
     } else {
@@ -80,7 +78,7 @@ export default class App extends Component {
         [ModalState.AGENT_REQUEST]: AgentRequestModal
       };
       let Modal = modalStateMap[modalState];
-      return <Modal {...context} modalData={modalData} />;
+      return <Modal {...context} />;
     }
   }
 
@@ -91,7 +89,6 @@ export default class App extends Component {
     }
     let { fetchUser, setModalState } = this;
     let context = { user, authState, modalState, fetchUser, setModalState };
-    console.log(context);
     return (
       <Context.Provider value={context}>
         <Router>
