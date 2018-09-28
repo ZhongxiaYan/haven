@@ -25,10 +25,8 @@ export default class CalendarPage extends Component {
   }
 
   componentDidMount() {
-    console.log('component did mount', this.state)
-    let auth2 = window.gapi.auth2;
-    if (auth2) {
-      this.signInOrSetStatus(auth2);
+    if (window.gapi.auth2) {
+      this.signInOrSetStatus(window.gapi.auth2);
     } else {
       // initialize then sign in
       window.gapi.load('client:auth2', () => {
@@ -56,7 +54,6 @@ export default class CalendarPage extends Component {
   }
 
   onSignInStatusUpdate(isSignedIn) {
-    console.log('update with status', isSignedIn)
     if (isSignedIn) {
       this.listUpcomingEvents();
     } else {
@@ -108,7 +105,6 @@ export default class CalendarPage extends Component {
   }
 
   render() {
-    console.log('render', this.state.events)
     return (
       <div id="calendar-main">
         <div id="calendar-agenda">
