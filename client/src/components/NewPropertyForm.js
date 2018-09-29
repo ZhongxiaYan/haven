@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import DateTimePicker from 'react-datetime';
+import { FormControl } from "react-bootstrap";
 
 import 'react-datetime/css/react-datetime.css';
 
@@ -11,6 +12,7 @@ export default class NewProperty extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeFile = this.handleChangeFile.bind(this);
     this.handleChangeAddress = this.handleChangeAddress.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -25,12 +27,26 @@ export default class NewProperty extends Component {
     this.setState({ address: Object.assign({}, this.state.address, { [name]: value }) });
   }
 
+  handleChangeFile(event) {
+    let {name, files} = event.target;
+    this.setState({ [name]: files });
+  }
+
   handleSubmit(event) {
+    let formData = new FormData();
+    Object.entries(this.state).forEach(([key, value]) => {
+      if (['video', 'photos'].includes(key)) {
+        Object.values(value).forEach(v => {
+          formData.append(key, v)
+        })
+      } else {
+        formData.append(key, value);
+      }
+    });
     fetch('/owner/new_property', {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(this.state)
+      body: formData
     }).then(res => res.json()).then(resJson => {
       if (resJson.success) {
         this.props.setAddingProperty(false, true);
@@ -43,7 +59,6 @@ export default class NewProperty extends Component {
 
   render() {
     let { title, addressFirstLine, addressSecondLine, city, state, zipCode, numBedrooms, numBathrooms, area, rent, deposit, leaseLength, description, openHouse } = this.state;
-    console.log(this.state);
     return (
       <form onSubmit={this.handleSubmit}>
         <label>Title <br></br>
@@ -86,6 +101,19 @@ export default class NewProperty extends Component {
         <label>Open House <br></br>
           <DateTimePicker timeConstraints={{ hours: { min: 9, max: 21 } }} value={openHouse} onChange={datetime => this.setState({ openHouse: datetime })} /> <br></br>
         </label>
+        <FormControl
+          name="photos"
+          type="file"
+          accept=".jpg, .png"
+          multiple
+          onChange={this.handleChangeFile}
+        />
+        <FormControl
+          name="video"
+          type="file"
+          accept=".mp4"
+          onChange={this.handleChangeFile}
+        />
         <input type="submit" value="Submit" />
       </form>
     );

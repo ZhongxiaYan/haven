@@ -3,7 +3,8 @@ const fetch = require('node-fetch');
 
 function formatAddress(property) {
   let {addressFirstLine, addressSecondLine, city, state, zipCode} = property;
-  return `${addressFirstLine} ${addressSecondLine}, ${city}, ${state} ${zipCode}`
+  let streetAddress = addressSecondLine ? `${addressFirstLine} ${addressSecondLine}` : addressFirstLine
+  return `${streetAddress}, ${city}, ${state} ${zipCode}`
 }
 
 function lookUpAddress(address) {

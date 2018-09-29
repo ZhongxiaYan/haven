@@ -28,6 +28,8 @@ const propertySchema = mongoose.Schema({
   leaseLength: Number,
   description: String,
   openHouse: Date,
+  photos: [String],
+  video: String,
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 

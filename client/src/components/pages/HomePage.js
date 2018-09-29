@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Button, Panel, Glyphicon } from 'react-bootstrap';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 
-import Context from '../Context';
-
 import './HomePage.css';
 
 export default class HomePage extends Component {
@@ -70,7 +68,6 @@ class PropertySearchForm extends Component {
   handleChange(event) {
     let { name, value } = event.target;
     this.setState({ [name]: value });
-    console.log(this.state);
   }
 
   handleSubmit(event) {
@@ -95,13 +92,14 @@ class PropertySearchForm extends Component {
 class PropertyCard extends Component {
   render() {
     let { history, data, setHoveredProperty } = this.props;
-    let { _id, numBedrooms, numBathrooms, area, formattedAddress, openHouse, rent } = data;
+    let { _id, numBedrooms, numBathrooms, area, formattedAddress, openHouse, rent, video, photos } = data;
     return (
       <div className="home-card" onClick={() => (history.push(`/renter/${_id}`))} onMouseEnter={() => setHoveredProperty(true, _id)} onMouseLeave={() => setHoveredProperty(false, _id)}>
-        <img className="home-card-image-big" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
+        <video className="home-card-image-big" controls>
+          <source src={`/file/${_id}/video/${video}`} />
+        </video>
         <div className="home-card-container-image">
-          <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
-          <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
+          {photos.map(photo => <img key={photo} src={`/file/${_id}/photos/${photo}`} />)}
         </div>
         <Panel className="home-card-panel">
           <Panel.Body>
