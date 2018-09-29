@@ -61,8 +61,8 @@ export default class RenterPropertyPage extends Component {
     return (
       <div id="renter-property-page">
         <div id="renter-property-body">
-          <h1>{title}</h1>
-          <h3>{formattedAddress}</h3>
+          <h1 style={{fontFamily: 'AppleGothic'}}>{title}</h1>
+          <h3 style={{fontFamily: 'AppleGothic'}}>{formattedAddress}</h3>
           <div id="renter-property-body-main">
             <div id="renter-property-body-graphics">
               {video === null ? <div id="renter-property-body-video"></div> :
@@ -90,7 +90,7 @@ export default class RenterPropertyPage extends Component {
               </div>
             </div>
             <div id="renter-property-body-reviews">
-              <h3>Peer Reviews</h3>
+              <h3 style={{fontFamily: 'AppleGothic'}}>Peer Reviews</h3>
             </div>
           </div>
         </div>
@@ -110,28 +110,28 @@ class SideBar extends Component {
     return (
       <div id="renter-property-side" className="color-background">
         <div>
-          <h3>Open House</h3>
-          <h4>{openHouseDate}</h4>
-          <h4>{openHouseStartTime} - {openHouseEndTime}</h4>
+          <h3 style={{fontFamily: 'AppleGothic'}}>Open House</h3>
+          <h4 style={{fontFamily: 'AppleGothic'}}>{openHouseDate}</h4>
+          <h4 style={{fontFamily: 'AppleGothic'}}>{openHouseStartTime} - {openHouseEndTime}</h4>
           <OverlayTrigger trigger="click" placement="left" rootClose overlay={
-            <Popover id="rsvp-popover" placement="left" title="Confirmation">
+            <Popover id="rsvp-popover" placement="left" title="RSVP Confirmation">
               We look forward to seeing you at {formattedAddress} on {openHouseDate} from {openHouseStartTime} to {openHouseEndTime}.
               <p align="right" className="renter-property-text-button" onClick={() => requestProperty(false)}>Submit</p>
             </Popover>
           }>
-            <button className="renter-property-button">RSVP Confirmation</button>
+            <button className="renter-property-button">RSVP to Open House</button>
           </OverlayTrigger>
         </div>
         <div>
-          <h3>Too busy? We'll find you a doppleganger ;) </h3>
+          <h3 style={{fontFamily: 'AppleGothic'}}>Too busy? We'll find you a doppleganger ;) </h3>
           <OverlayTrigger trigger="click" placement="left" rootClose overlay={<FindAgentPopOver requestProperty={requestProperty} />}>
             <button className="renter-property-button">Find agent for $40</button>
           </OverlayTrigger>
         </div>
         <div>
-          <h3>Sold? One-click apply</h3>
+          <h3 style={{fontFamily: 'AppleGothic'}}>Sold? One-click apply</h3>
           <OverlayTrigger trigger="click" placement="left" rootClose overlay={
-            <Popover id="apply-popover" placement="left" title="CONGRATS :D">
+            <Popover id="apply-popover" placement="left" title="Congrats :D">
               We're so happy that you found your dream apartment! Applying is easy and only $30 per applicant.
               <p align="right" className="renter-property-text-button" onClick={applyProperty}>Confirm ($30)</p>
             </Popover>
@@ -197,7 +197,7 @@ class FindAgentPopOver extends Component {
           onChange={this.handleChangeRequestInfo}
           options={requestInfoOptions}
         />
-        <textarea id="renter-property-agent-description" rows="3" cols="50" name="requestDetails" value={requestDetails} placeholder="Details" onChange={this.handleChange} /> <br></br>
+        <textarea id="renter-property-agent-description" rows="3" cols="50" name="requestDetails" value={requestDetails} placeholder=" Details..." onChange={this.handleChange} /> <br></br>
         <p align="right" className="renter-property-text-button" onClick={this.handleSubmit}>Confirm ($40)</p>
       </Popover>
     );

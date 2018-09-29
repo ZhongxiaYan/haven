@@ -7,14 +7,14 @@ export default class BaseModal extends Component {
   render() {
     let { title, body, footer, setModalState } = this.props;
     return (
-      <Modal show={true} onHide={() => setModalState(ModalState.NONE)}>
-        <Modal.Header>
-          <Modal.Title>{title}</Modal.Title>
+      <Modal style={{ margin: 'auto', marginTop: '5%' }} show={true} onHide={() => setModalState(ModalState.NONE)}>
+        <Modal.Header style={{ width: '344px', margin: 'auto' }}>
+          <Modal.Title style={{ width: '344px', margin: 'auto' }}>{title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ width: '344px', margin: 'auto' }}>
           {body}
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer style={{ width: '344px', margin: 'auto' }}>
           {footer}
         </Modal.Footer>
       </Modal>

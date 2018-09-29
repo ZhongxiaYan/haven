@@ -40,7 +40,6 @@ export default class LoginModal extends Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <FormGroup>
-          <ControlLabel>Log In via </ControlLabel>
           <a className="btn btn-block btn-social btn-facebook" href="/auth/facebook">
             <span className="fa fa-facebook"></span>Facebook
           </a>
@@ -49,17 +48,17 @@ export default class LoginModal extends Component {
           </a>
         </FormGroup>
         <FormGroup>
-          <ControlLabel>Or </ControlLabel>
+          <ControlLabel style={{fontFamily: 'AppleGothic', marginLeft: '47%', marginRight: '45%'}}>Or</ControlLabel>
           <FormControl type="text" name="email" value={email} placeholder="Email" onChange={this.handleChange} required /> <br />
           <FormControl type="password" name="password" value={password} placeholder="Password" onChange={this.handleChange} required /> <br />
-          <Button type="submit" bsStyle="primary" value={'login'}>Login</Button>{' '}
-          <Button type="submit" bsStyle="success" value={'sign_up'}>Sign Up</Button>
+          <Button style={{fontFamily: 'Avenir Next', marginLeft: '30%'}} type="submit" bsStyle="primary" value={'login'}>Login</Button>{' '}
+          <Button style={{fontFamily: 'Avenir Next'}} type="submit" bsStyle="success" value={'sign_up'}>Sign Up</Button>
         </FormGroup>
       </Form>
     );
   }
 
   render() {
-    return <BaseModal title={'Log In'} body={this.renderBody()} {...this.props} />;
+    return <BaseModal style={{fontFamily: 'Avenir Next'}} title={'Log In'} body={this.renderBody()} {...this.props} />;
   }
 }
