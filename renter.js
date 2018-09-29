@@ -52,13 +52,23 @@ routes.get('/request_list', (req, res) => {
     }
   ]).exec().then(requests => {
     res.json(requests);
-  })
+  });
 });
 
 routes.get('/application_list', (req, res) => {
-  console.log('Queried application list');
-  Application.find({ requester: req.user._id }).exec().then(requests => {
-    res.json(requests);
+  console.log('Queried application list', req.user);
+  Application.aggregate([
+    { $match: { applicant: req.user._id } },
+    {
+      $lookup: {
+        from: 'properties',
+        localField: 'property',
+        foreignField: '_id',
+        as: 'property'
+      } // TODO project the fields into something smaller
+    }
+  ]).exec().then(applications => {
+    res.json(applications);
   });
 });
 

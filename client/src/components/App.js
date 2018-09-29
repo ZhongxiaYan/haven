@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 
 import HomePage from './pages/HomePage';
 import RenterPropertyPage from './pages/RenterPropertyPage';
+import StatusPage from './pages/StatusPage';
 import OwnerPage from './OwnerPage';
 import CalendarPage from './pages/CalendarPage';
 import LoginModal from './modals/LoginModal';
@@ -94,11 +95,13 @@ export default class App extends Component {
             <NavBar {...context} />
             {this.getModal(context)}
             <Switch>
-              <Route exact path="/" component={HomePage} />
+              <Route exact path="/" render={() => <Redirect to='/home' />} />
+              <Route exact path="/home" component={HomePage} />
               {this.state.authState === AuthenticationState.NOT_LOGGED_IN ? <Route render={() => <Redirect to='/' />} /> : null}
-
+              
               <Route path="/renter/:propertyId" component={RenterPropertyPage} />
               <Route exact path="/owner" component={OwnerPage} />
+              <Route exact path="/status" component={StatusPage} />
               <Route exact path="/calendar" component={CalendarPage} />
               <Route component={NoMatch} />
             </Switch>

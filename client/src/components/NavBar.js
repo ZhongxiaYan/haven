@@ -46,20 +46,25 @@ export default class NavBar extends Component {
             ),
             [AuthenticationState.FULL]: (
               <Fragment>
-                <LinkContainer to="/status">
+                <LinkContainer to="/home">
                   <NavItem eventKey="1">
+                    <Glyphicon glyph="home" />
+                  </NavItem>
+                </LinkContainer>
+                <LinkContainer to="/status">
+                  <NavItem eventKey="2">
                     <Glyphicon glyph="th-list" />
                   </NavItem>
                 </LinkContainer>
                 <LinkContainer to="/calendar">
-                  <NavItem eventKey="2">
+                  <NavItem eventKey="3">
                     <Glyphicon glyph="calendar" />
                   </NavItem>
                 </LinkContainer>
-                <NavDropdown eventKey="3" id="user-dropdown" title={user.name || ''}>
-                  <MenuItem eventKey="3.1" onSelect={() => setModalState(ModalState.BASIC_INFO)}>Basic Info</MenuItem>
+                <NavDropdown eventKey="4" id="user-dropdown" title={user.name || ''}>
+                  <MenuItem eventKey="4.1" onSelect={() => setModalState(ModalState.BASIC_INFO)}>Basic Info</MenuItem>
                   <MenuItem divider />
-                  <MenuItem eventKey="3.2" onSelect={this.logout}>Logout</MenuItem>
+                  <MenuItem eventKey="4.2" onSelect={this.logout}>Logout</MenuItem>
                 </NavDropdown>
               </Fragment>
             )
