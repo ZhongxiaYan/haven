@@ -24,10 +24,18 @@ div.jumbotron {
 
 #home-main > form > .input-text {
   width: 40%;
+  opacity: 0.88;
+  mix-blend-mode: normal;
+  border: 0.5px solid gray;
+  border-radius: 5px;
 }
 
 #home-main > form > .input-number {
   width: 15%;
+  opacity: 0.88;
+  mix-blend-mode: normal;
+  border: 0.5px solid gray;
+  border-radius: 5px;
 }
 
 #home-display {
