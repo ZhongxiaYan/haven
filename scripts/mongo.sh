@@ -1,1 +1,1 @@
-mongo -u haven -p heavenly 35.233.215.12:27017/db
+mongo -u haven -p heavenly 35.197.87.212:27017/db

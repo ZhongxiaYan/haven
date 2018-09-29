@@ -1,1 +1,1 @@
-ssh -i key.pem hackhouse@35.233.215.12
+ssh -i key.pem hackhouse@35.197.87.212
