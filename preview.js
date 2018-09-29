@@ -14,12 +14,13 @@ routes.get('/property_list', (req, res) => {
   let { neighborhood, numBedrooms, numBathrooms, maxRent } = req.query;
   let findQuery = {};
   if (neighborhood) {
+    console.log('found', neighborhood)
     findQuery['$or'] = [
-      { 'address.neighborhood': neighborhood },
-      { 'address.locality': neighborhood },
-      { 'address.administrativeAreaLevel2': neighborhood },
-      { 'address.administrativeAreaLevel1': neighborhood },
-      { 'address.postalCode': neighborhood }
+      { 'address.neighborhood': { $regex : '^'+neighborhood+'$', '$options' : 'i' } },
+      { 'address.locality': { $regex : '^'+neighborhood+'$', '$options' : 'i' } },
+      { 'address.administrativeAreaLevel2': { $regex : '^'+neighborhood+'$', '$options' : 'i' } },
+      { 'address.administrativeAreaLevel1': { $regex : '^'+neighborhood+'$', '$options' : 'i' } },
+      { 'address.postalCode': { $regex : '^'+neighborhood+'$', '$options' : 'i' } }
     ];
   }
   if (numBedrooms) {
