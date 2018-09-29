@@ -69,7 +69,7 @@ div.jumbotron {
 }
 
 .home-card-video {
-  width: 20%;
+  /* width: 20%; @zhichun - comment out for now */
 }
 
 .home-card-container-image {
