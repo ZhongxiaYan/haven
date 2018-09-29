@@ -70,6 +70,7 @@ div.jumbotron {
 
 .home-card-video {
   /* width: 20%; @zhichun - comment out for now */
+  pointer-events: none;
 }
 
 .home-card-container-image {
