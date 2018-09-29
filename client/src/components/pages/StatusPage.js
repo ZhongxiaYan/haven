@@ -72,16 +72,14 @@ class Request extends Component {
     return (
       <div className="carousel-item">
         <div className="carousel-item-info">
-          <div>
+          <div className="carousel-item-info-left">
             <p onClick={() => goToProperty(_id)}>{formattedAddress.split(',')[0]}</p>
             <img className="carousel-item-profile-img" src={hardCodeAgent.img} />
             <p>{hardCodeAgent.name}</p>
           </div>
-          {photos.length > 0 ?
-            <img className="carousel-item-image" src={`/file/${_id}/photos/${photos[0]}`} />
-            :
-            <img className="carousel-item-image" />
-          }
+          <div className="carousel-item-image">
+            {photos.length > 0 ? <img src={`/file/${_id}/photos/${photos[0]}`} /> : null }
+          </div>
         </div>
         <div className="carousel-item-buttons">
           <button className="carousel-item-contact-button">Contact</button>
@@ -142,7 +140,7 @@ class Carousel extends Component {
       items.push(<div key={'mock' + items.length} className="carousel-item-mock"></div>);
     }
     let disabledStyle = {
-      color: 'gray',
+      opacity: 0.2,
       cursor: 'not-allowed'
     };
     let leftStyle = currIndex === 0 ? disabledStyle: {};

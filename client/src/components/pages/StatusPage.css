@@ -41,7 +41,7 @@
   justify-content: space-around;
 }
 
-.carousel-item-info > div {
+.carousel-item-info-left {
   display: flex;
   width: 55%;
   flex-direction: column;
@@ -49,12 +49,12 @@
   text-align: center;
 }
 
-.carousel-item-info > div > p {
+.carousel-item-info-left > p {
   font-size: 1.3vw;
   margin: 0px;
 }
 
-.carousel-item-info > div > p:hover {
+.carousel-item-info-left > p:hover {
   cursor: pointer;
 }
 
@@ -91,10 +91,15 @@
 }
 
 .carousel-item-image {
-  max-height: 100%;
-  max-width: 45%;
+  width: 45%;
+  height: 100%;
   padding: 5px;
   border-radius: 10px;
+}
+
+.carousel-item-image > img {
+  width: 100%;
+  height: 100%;
 }
 
 span.slide-arrow {
