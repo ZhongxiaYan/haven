@@ -26,7 +26,7 @@ routes.post('/request_property', (req, res) => {
 
 routes.post('/apply_property', (req, res) => {
   console.log('Applying', req.body, 'for user', req.user.email);
-  let application = new Application(Object.assign({ applicant: req.user.id }, req.body));
+  let application = new Application(Object.assign({ applicant: req.user._id }, req.body));
   application.save((err, updatedApplication) => {
     if (err) {
       console.log('Fail');
@@ -39,16 +39,26 @@ routes.post('/apply_property', (req, res) => {
 });
 
 routes.get('/request_list', (req, res) => {
-  console.log('Queried request list');
-  Request.find({ requester: req.user.id }).exec().then(requests => {
+  console.log('Queried request list', req.user);
+  Request.aggregate([
+    { $match: { requester: req.user._id } },
+    {
+      $lookup: {
+        from: 'properties',
+        localField: 'property',
+        foreignField: '_id',
+        as: 'property'
+      } // TODO project the fields into something smaller
+    }
+  ]).exec().then(requests => {
     res.json(requests);
-  });
+  })
 });
 
 routes.get('/application_list', (req, res) => {
   console.log('Queried application list');
-  Request.find({ applicant: req.user.id }).exec().then(applications => {
-    res.json(applications);
+  Application.find({ requester: req.user._id }).exec().then(requests => {
+    res.json(requests);
   });
 });
 

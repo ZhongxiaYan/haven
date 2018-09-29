@@ -35,7 +35,7 @@ export default class RenterPropertyPage extends Component {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ property: this.props.propertyId, agent, agentInfo })
+      body: JSON.stringify({ property: this.propertyId, agent, agentInfo })
     }).then(res => res.json()).then(resJson => {
       // TODO
     });
@@ -46,7 +46,7 @@ export default class RenterPropertyPage extends Component {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ property: this.props.propertyId })
+      body: JSON.stringify({ property: this.propertyId })
     }).then(res => res.json()).then(resJson => {
       // TODO
     });
@@ -65,9 +65,11 @@ export default class RenterPropertyPage extends Component {
         <div id="renter-property-body">
           <div id="renter-property-body-main">
             <div id="renter-property-body-graphics">
-              <video id="renter-property-body-video" controls>
-                <source src={`/file/${_id}/video/${video}`} />}
-              </video>
+              {video === null ? <div id="renter-property-body-video"></div> :
+                <video id="renter-property-body-video" controls>
+                  <source src={`/file/${_id}/video/${video}`} />}
+                </video>
+              }
               <Carousel>
                 {photos.map(photo => (
                   <Carousel.Item key={photo}>
@@ -181,7 +183,6 @@ class FindAgentPopOver extends Component {
 
     let popoverProps = Object.assign({}, this.props);
     delete popoverProps.requestProperty;
-    delete popoverProps.popover;
     return (
       <Popover id="agent-popover" placement="left" title="Find an agent to visit for me!" {...popoverProps}>
         One of our agents will visit the apartment during open house hours, and take videos and photos for you. You can either video chat with the agent while they are at the open house, or schedule a 20 min call with the agent at any other time!

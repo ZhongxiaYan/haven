@@ -117,12 +117,10 @@ class PropertyCard extends Component {
     let { _id, numBedrooms, numBathrooms, area, formattedAddress, openHouse, rent, video, photos } = data;
     return (
       <div className="home-card" onClick={handlePropertyClick} onMouseEnter={() => setHoveredProperty(true, _id)} onMouseLeave={() => setHoveredProperty(false, _id)}>
-        {video ? 
+        {video === null ? <div className="home-card-video"></div> :
           <video className="home-card-video" controls preload="none">
             <source src={`/file/${_id}/video/${video}`} />}
           </video>
-          :
-          <div className="home-card-video"></div>
         }
         <div className="home-card-container-image">
           {photos.slice(0, 2).map(photo => <img key={photo} src={`/file/${_id}/photos/${photo}`} />)}
