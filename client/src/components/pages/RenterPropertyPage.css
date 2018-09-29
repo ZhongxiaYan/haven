@@ -1,21 +1,25 @@
 #renter-property-page {
-  height: 100%;
-  padding: 20px 60px;
+  height: calc(100% - 54px);
+  display: flex;
 }
 
 #renter-property-body {
+  width: 75%;
   height: 100%;
+  padding: 20px 30px;
   display: flex;
-  justify-content: space-between
+  flex-direction: column;
+  overflow: auto;
+}
+
+#renter-property-side {
+  width: 25%;
+  height: 100%;
+  padding: 20px 30px;
 }
 
 #renter-property-body-main {
-  width: 70%;
   height: 100%;
-}
-
-#renter-property-body-side {
-  width: 25%;
 }
 
 #renter-property-body-graphics {

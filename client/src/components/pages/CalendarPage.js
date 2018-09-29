@@ -148,15 +148,29 @@ export default class CalendarPage extends Component {
   }
 
   render() {
-    console.log(this.state);
+    let { events, googleEvents } = this.state;
+    console.log(events);
     return (
-      <div id="calendar-main">
+      <div id="calendar-main" className="color-background">
         <div id="calendar-agenda">
-
+          <div>
+            <h4>Today's Agenda</h4>
+            {events.map(event => {
+              return (
+                <div className="calendar-agenda-entry" key={event.title}>
+                  <div className="calendar-agenda-circle" style={this.eventStyleGetter(event).style}></div>
+                  <div className="calendar-agenda-entry-text">
+                    <p className="calendar-agenda-time">{event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                    <p>{event.title}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-        <div id="calendar-calendar" style={{ height: '700px' }}>
+        <div id="calendar-calendar">
           <BigCalendar
-            events={this.state.googleEvents.concat(this.state.events)}
+            events={googleEvents.concat(events)}
             localizer={localizer}
             min={new Date(0, 0, 0, 8, 0, 0, 0)}
             max={new Date(0, 0, 0, 20, 0, 0, 0)}

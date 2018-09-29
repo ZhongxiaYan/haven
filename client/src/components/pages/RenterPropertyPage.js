@@ -60,9 +60,9 @@ export default class RenterPropertyPage extends Component {
     let { _id, title, formattedAddress, numBedrooms, numBathrooms, area, rent, deposit, leaseLength, description, openHouse, video, photos } = info;
     return (
       <div id="renter-property-page">
-        <h1>{title}</h1>
-        <h3>{formattedAddress}</h3>
         <div id="renter-property-body">
+          <h1>{title}</h1>
+          <h3>{formattedAddress}</h3>
           <div id="renter-property-body-main">
             <div id="renter-property-body-graphics">
               {video === null ? <div id="renter-property-body-video"></div> :
@@ -93,8 +93,8 @@ export default class RenterPropertyPage extends Component {
               <h3>Peer Reviews</h3>
             </div>
           </div>
-          <SideBar openHouse={openHouse} formattedAddress={formattedAddress} requestProperty={this.requestProperty} applyProperty={this.applyProperty} />
         </div>
+        <SideBar openHouse={openHouse} formattedAddress={formattedAddress} requestProperty={this.requestProperty} applyProperty={this.applyProperty} />
       </div>
     );
   }
@@ -108,7 +108,7 @@ class SideBar extends Component {
     let openHouseStartTime = new Date(start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     let openHouseEndTime = new Date(end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     return (
-      <div id="renter-property-body-side">
+      <div id="renter-property-side" className="color-background">
         <div>
           <h3>Open House</h3>
           <h4>{openHouseDate}</h4>

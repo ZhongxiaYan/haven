@@ -1,12 +1,74 @@
 #calendar-main {
-  height: 800px;
+  height: calc(100% - 54px);
   display: flex;
 }
 
 #calendar-agenda {
-  width: 15%;
+  width: 25%;
+  display: flex;
+  padding: 30px 0px 30px 30px;
+}
+
+#calendar-agenda > div {
+  width: 100%;
+  padding: 20px 20px; 
+  border-radius: 10px;
+  background-color: white;
+  overflow: auto;
 }
 
 #calendar-calendar {
-  width: 80%;
+  width: 75%;
+  height: 100%;
+  padding: 15px;
+}
+
+.calendar-agenda-entry {
+  display: flex;
+  justify-content: space-between;
+  height: 90px;
+}
+
+.calendar-agenda-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+}
+
+.calendar-agenda-entry-text {
+  width: calc(100% - 50px);
+  height: 100%;
+  padding: 5px;
+}
+
+.calendar-agenda-time {
+  color: #888A8C;
+  margin-bottom: 5px;
+}
+
+.rbc-btn-group > button {
+  border-color: white;
+}
+
+.rbc-btn-group > button.rbc-active, .rbc-btn-group > button:hover, .rbc-btn-group > button.rbc-active:hover {
+  color: white;
+  background-color: #44BE8D;
+  border-color: #44BE8D;
+}
+
+.rbc-btn-group > button:first-child {
+  border-radius: 20px 0px 0px 20px;
+}
+
+.rbc-btn-group > button:last-child {
+  border-radius: 0 20px 20px 0;
+}
+
+.rbc-toolbar-label {
+  font-weight: bold;
+}
+
+.rbc-month-header {
+  color: white;
+  background-color: #44BE8D;
 }
