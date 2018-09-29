@@ -1,7 +1,11 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 var path = require('path');
 
 module.exports = {
   mode: 'production',
+  entry: './src/index.js',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
@@ -10,7 +14,7 @@ module.exports = {
     rules: [
       {
         test: /\.m?js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -25,16 +29,33 @@ module.exports = {
         test: /\.css$/,
         use: [
           {
-            loader: "style-loader"
+            loader: 'style-loader'
           },
           {
-            loader: "css-loader"
+            loader: 'css-loader'
           }
         ]
       },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {}
+          }
+        ]
+      }
     ]
   },
+  plugins: [
+    new CopyWebpackPlugin([
+      { from: 'public' }
+    ])  
+  ],
   stats: {
     colors: true
+  },
+  optimization: {
+    minimizer: [new UglifyJsPlugin()]
   }
 };

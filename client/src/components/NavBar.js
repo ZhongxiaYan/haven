@@ -19,7 +19,7 @@ export default class NavBar extends Component {
       method: 'POST',
       credentials: 'include'
     }).then(res => {
-      this.props.fetchUser();
+      window.location.replace('/');
     });
   }
 

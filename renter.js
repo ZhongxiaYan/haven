@@ -4,27 +4,6 @@ const Property = require('./models/property');
 const Request = require('./models/request');
 const Application = require('./models/application');
 
-routes.get('/property_list', (req, res) => {
-  console.log('Queried property list with param', req.query);
-  let { neighborhood, numBedrooms, numBathrooms, maxRent } = req.query;
-  let findQuery = {};
-  if (neighborhood) {
-    findQuery['address.neighborhood'] = neighborhood;
-  }
-  if (numBedrooms) {
-    findQuery['numBedrooms'] = numBedrooms
-  }
-  if (numBathrooms) {
-    findQuery['numBathrooms'] = numBathrooms
-  }
-  if (maxRent) {
-    findQuery['rent'] = { $lte: maxRent };
-  }
-  Property.find(findQuery).exec().then(properties => {
-    res.json(properties);
-  });
-});
-
 routes.get('/property/:propertyId', (req, res) => {
   Property.findById(req.params.propertyId).exec().then(property => {
     res.json(property);
@@ -63,14 +42,14 @@ routes.get('/request_list', (req, res) => {
   console.log('Queried request list');
   Request.find({ requester: req.user.id }).exec().then(requests => {
     res.json(requests);
-  });  
-});  
+  });
+});
 
 routes.get('/application_list', (req, res) => {
   console.log('Queried application list');
   Request.find({ applicant: req.user.id }).exec().then(applications => {
     res.json(applications);
-  });  
-});  
+  });
+});
 
 module.exports = { routes };

@@ -1,57 +1,97 @@
 #renter-property-page {
+  height: 100%;
   padding: 20px 60px;
 }
 
 #renter-property-body {
+  height: 100%;
   display: flex;
+  justify-content: space-between
 }
 
 #renter-property-body-main {
-  width: 75%;
-  margin-right: 100px;
+  width: 70%;
+  height: 100%;
 }
 
-#renter-property-body-info {
-  height: 500px;
+#renter-property-body-side {
+  width: 25%;
+}
+
+#renter-property-body-graphics {
   width: 100%;
+  height: 60%;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  padding: 20px 0px;
 }
 
 #renter-property-body-video {
   width: 58%;
-  max-height: 325px;
-  border-radius: 15px;
 }
 
-#renter-property-body-images {
+#renter-property-body-graphics > .carousel {
   width: 38%;
-  max-height: 325px;
+  overflow: hidden;
+}
+
+#renter-property-body-info {
+  width: 100%;
+  height: 10em;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-}
-
-#renter-property-body-images > img {
-  max-width: 48%;
-  max-height: 48%;
-  border-radius: 8px;
+  padding: 20px 0px;
 }
 
 #renter-property-body-description {
   width: 58%;
-  height: 125px;
+  height: 100%;
   border: 1px solid black;
   border-radius: 4px;
   padding: 1px 5px;
+  overflow: auto;
 }
 
 #renter-property-body-summary {
   width: 38%;
-  height: 125px;
+  height: 100%;
 }
 
-.react-phone-number-input__icon-image {
-  vertical-align: top;
+#agent-popover {
+  max-width: 600px;
+}
+
+h3.popover-title {
+  font-weight: bold;
+}
+
+h3.popover-title > p {
+  margin: 0px;
+}
+
+.renter-property-text-button {
+  padding: 15px 0px 0px 0px;  
+  font-weight: bold;
+  color: #48C9B0;
+}
+
+.renter-property-text-button:hover {
+  cursor: pointer;
+}
+
+.renter-property-button {
+  width: 200px;
+  padding: 4px 0px;
+  border-radius: 12px;
+  color: white;
+  background-color: #B5B9C0;
+}
+
+#renter-property-agent-description {
+  width: 100%;
+  margin: 10px 0px 0px 0px;
+  border-radius: 5px;
+  overflow: auto;
 }

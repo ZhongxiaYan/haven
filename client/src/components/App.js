@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
-import PreviewHomePage from './pages/PreviewHomePage';
 import HomePage from './pages/HomePage';
 import RenterPropertyPage from './pages/RenterPropertyPage';
 import OwnerPage from './OwnerPage';
@@ -91,24 +90,19 @@ export default class App extends Component {
     return (
       <Context.Provider value={context}>
         <Router>
-          <div>
+          <Fragment>
             <NavBar {...context} />
             {this.getModal(context)}
-            {this.state.authState !== AuthenticationState.FULL ?
-              <Switch>
-                <Route exact path="/" component={PreviewHomePage} />
-                <Route render={() => <Redirect to='/' />} />
-              </Switch>
-              :
-              <Switch>
-                <Route exact path="/" component={HomePage} />
-                <Route path="/renter/:propertyId" component={RenterPropertyPage} />
-                <Route exact path="/owner" component={OwnerPage} />
-                <Route exact path="/calendar" component={CalendarPage} />
-                <Route component={NoMatch} />
-              </Switch>
-            }
-          </div>
+            <Switch>
+              <Route exact path="/" component={HomePage} />
+              {this.state.authState === AuthenticationState.NOT_LOGGED_IN ? <Route render={() => <Redirect to='/' />} /> : null}
+
+              <Route path="/renter/:propertyId" component={RenterPropertyPage} />
+              <Route exact path="/owner" component={OwnerPage} />
+              <Route exact path="/calendar" component={CalendarPage} />
+              <Route component={NoMatch} />
+            </Switch>
+          </Fragment>
         </Router>
       </Context.Provider>
     );

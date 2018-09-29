@@ -27,7 +27,7 @@ export default class LoginModal extends Component {
       body: JSON.stringify(this.state)
     }).then(res => res.json()).then(resJson => {
       if (resJson.success) {
-        this.props.fetchUser();
+        window.location.replace('/');
       } else {
         // TODO
       }
