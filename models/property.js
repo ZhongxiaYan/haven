@@ -27,7 +27,10 @@ const propertySchema = mongoose.Schema({
   deposit: Number,
   leaseLength: Number,
   description: String,
-  openHouse: Date,
+  openHouse: {
+    start: Date,
+    end: Date
+  },
   photos: [String],
   video: String,
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }

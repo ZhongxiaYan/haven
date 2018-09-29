@@ -8,12 +8,14 @@ export default class NewProperty extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      address: {}
+      address: {},
+      openHouse: {}
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeFile = this.handleChangeFile.bind(this);
     this.handleChangeAddress = this.handleChangeAddress.bind(this);
+    this.handleChangeOpenHouse = this.handleChangeOpenHouse.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -25,6 +27,10 @@ export default class NewProperty extends Component {
   handleChangeAddress(event) {
     let { name, value } = event.target;
     this.setState({ address: Object.assign({}, this.state.address, { [name]: value }) });
+  }
+
+  handleChangeOpenHouse(name, value) {
+    this.setState({ openHouse: Object.assign({}, this.state.openHouse, { [name]: value }) });
   }
 
   handleChangeFile(event) {
@@ -59,6 +65,7 @@ export default class NewProperty extends Component {
 
   render() {
     let { title, addressFirstLine, addressSecondLine, city, state, zipCode, numBedrooms, numBathrooms, area, rent, deposit, leaseLength, description, openHouse } = this.state;
+    let {openHouseStart, openHouseEnd} = openHouse;
     return (
       <form onSubmit={this.handleSubmit}>
         <label>Title <br></br>
@@ -98,8 +105,11 @@ export default class NewProperty extends Component {
         <label>Lease Length (months) <br></br>
           <input type="number" min="0" step="1" name="leaseLength" value={leaseLength} onChange={this.handleChange} required /> <br></br>
         </label>
-        <label>Open House <br></br>
-          <DateTimePicker timeConstraints={{ hours: { min: 9, max: 21 } }} value={openHouse} onChange={datetime => this.setState({ openHouse: datetime })} /> <br></br>
+        <label>Open House Start <br></br>
+          <DateTimePicker timeConstraints={{ hours: { min: 9, max: 20 } }} value={openHouseStart} onChange={datetime => this.handleChangeOpenHouse('start', datetime)} /> <br></br>
+        </label>
+        <label>Open House End<br></br>
+          <DateTimePicker timeConstraints={{ hours: { min: 10, max: 21 } }} value={openHouseEnd} onChange={datetime => this.handleChangeOpenHouse('end', datetime)} /> <br></br>
         </label>
         <FormControl
           name="photos"

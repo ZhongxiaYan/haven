@@ -22,7 +22,6 @@ export default class OwnerPage extends Component {
       method: 'GET',
       credentials: 'include'
     }).then(res => res.json()).then(resJson => {
-      console.log(resJson);
       this.setState({ propertyList: resJson });
     });
   }
