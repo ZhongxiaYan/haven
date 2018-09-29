@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import InfiniteCarousel from 'react-leaf-carousel';
 import './StatusPage.css';
 
 export default class StatusPage extends Component {
@@ -121,6 +120,7 @@ class Carousel extends Component {
   previousSlide() {
     const { currIndex } = this.state;
     let newIndex = currIndex > 0 ? currIndex - 1 : currIndex;
+    console.log(currIndex, newIndex)
     this.setState({
       currIndex: newIndex
     });
@@ -128,8 +128,8 @@ class Carousel extends Component {
 
   nextSlide() {
     const { currIndex } = this.state;
-    let newIndex = currIndex < this.prop.items.length - 1 ? currIndex + 1 : currIndex;
-
+    let newIndex = (currIndex + this.numDisplay) < this.props.items.length ? currIndex + 1 : currIndex;
+    console.log(currIndex, newIndex)
     this.setState({
       currIndex: newIndex
     });
@@ -137,19 +137,26 @@ class Carousel extends Component {
 
   render() {
     let { currIndex } = this.state;
-    let items = this.props.items.slice(currIndex, this.numDisplay).map(item => item);
+    let items = this.props.items.slice(currIndex, currIndex + this.numDisplay).map(item => item);
     while (items.length < this.numDisplay) {
-      items.push(<div className="carousel-item-mock"></div>);
+      items.push(<div key={'mock' + items.length} className="carousel-item-mock"></div>);
     }
+    let disabledStyle = {
+      color: 'gray',
+      cursor: 'not-allowed'
+    };
+    let leftStyle = currIndex === 0 ? disabledStyle: {};
+    let rightStyle = (currIndex + this.numDisplay) >= this.props.items.length ? disabledStyle : {};
+
     return (
       <div className="carousel">
-        <span class="slide-arrow glyphicon glyphicon-chevron-left" onClick={this.previousSlide}></span>
+        <span className="slide-arrow glyphicon glyphicon-chevron-left" style={leftStyle} onClick={this.previousSlide}></span>
 
         <div className="carousel-item-container">
           {items}
         </div>
 
-        <span class="slide-arrow glyphicon glyphicon-chevron-right" onClick={this.previousSlide}></span>
+        <span className="slide-arrow glyphicon glyphicon-chevron-right" style={rightStyle} onClick={this.nextSlide}></span>
       </div>
     );
   }

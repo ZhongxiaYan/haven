@@ -51,6 +51,7 @@
 
 .carousel-item-info > div > p {
   font-size: 1.3vw;
+  margin: 0px;
 }
 
 .carousel-item-info > div > p:hover {
@@ -58,9 +59,9 @@
 }
 
 .carousel-item-profile-img {
-  width: 5vw;
-  height: 5vw;
-  border-radius: 2.5vw;
+  width: 4.5vw;
+  height: 4.5vw;
+  border-radius: 2.25vw;
   display: block;
   margin: 0px auto;
 }
@@ -106,5 +107,5 @@ span.slide-arrow {
 
 span.slide-arrow:hover {
   cursor: pointer;
-  color: gray;
+  color: gray
 }
