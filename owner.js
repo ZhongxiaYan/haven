@@ -6,11 +6,15 @@ const Property = require('./models/property');
 
 
 routes.post('/new_property', file.upload.fields([{ name: 'photos' }, { name: 'video' }]), (req, res) => {
-  let { photos, video } = req.files;
+  let photos = req.files.photos || [];
+  let video = req.files.video || [];
   file.addMimeTypeToFilename(photos);
   file.addMimeTypeToFilename(video);
 
   let propertyJson = req.body;
+  Object.entries(propertyJson).forEach(([key, value]) => {
+    propertyJson[key] = JSON.parse(value);
+  });
   console.log('Adding property', propertyJson, 'for user', req.user.email);
   let formattedAddr = location.formatAddress(propertyJson.address);
   location.lookUpAddress(formattedAddr).then(resJson => {
@@ -24,7 +28,7 @@ routes.post('/new_property', file.upload.fields([{ name: 'photos' }, { name: 'vi
     let googleAttributes = location.parseAddressResult(results[0]);
     let fileAttributes = {
       photos: photos.map(({ filename }) => filename),
-      video: video[0].filename
+      video: (video.length > 0) ? video[0].filename : null
     };
     let propertyValues = Object.assign({
       owner: req.user.id

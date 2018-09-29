@@ -46,7 +46,7 @@ export default class NewProperty extends Component {
           formData.append(key, v)
         })
       } else {
-        formData.append(key, value);
+        formData.append(key, JSON.stringify(value));
       }
     });
     fetch('/owner/new_property', {
