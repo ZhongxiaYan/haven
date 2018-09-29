@@ -154,7 +154,7 @@ export default class CalendarPage extends Component {
       <div id="calendar-main" className="color-background">
         <div id="calendar-agenda">
           <div>
-            <h4>Today's Agenda</h4>
+            <h4 style={{fontFamily: 'AppleGothic'}}>Today's Agenda</h4>
             {events.map(event => {
               return (
                 <div className="calendar-agenda-entry" key={event.title}>

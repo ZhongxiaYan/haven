@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
 
 import NewPropertyForm from './NewPropertyForm';
 
@@ -40,14 +41,18 @@ export default class OwnerPage extends Component {
         <div>
           {addingProperty ?
             <NewPropertyForm setAddingProperty={this.setAddingProperty} /> :
-            <button type="button" onClick={() => this.setAddingProperty(true)}>Add New Property</button>
+            <Button style={{ marginLeft: '1%', marginTop: '1%' }} type="submit" onClick={() => this.setAddingProperty(true)}>Add New Property</Button>
           }
         </div>
 
-        Applications:
-
-        My Properties:
-        {propertyList.map(data => <Property key={data._id} data={data} />)}
+        <div style={{marginTop: '1%', marginLeft: '1%', fontFamily: 'AppleGothic'}}>
+          Applications: <br></br>
+        </div>
+        
+        <div style={{marginTop: '1%', marginLeft: '1%', fontFamily: 'AppleGothic'}}>
+          My Properties:
+          {propertyList.map(data => <Property key={data._id} data={data} />)}
+        </div>
       </div>
     )
   }

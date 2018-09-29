@@ -1,0 +1,15 @@
+.input-number {
+  opacity: 0.88;
+  mix-blend-mode: normal;
+  border: 0.5px solid gray;
+  border-radius: 5px;
+  font-family: AppleGothic;
+}
+
+.input-text {
+  opacity: 0.88;
+  mix-blend-mode: normal;
+  border: 0.5px solid gray;
+  border-radius: 5px;
+  font-family: AppleGothic;
+}
