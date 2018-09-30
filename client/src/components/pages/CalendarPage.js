@@ -52,8 +52,7 @@ export default class CalendarPage extends Component {
       credentials: 'include'
     }).then(res => res.json()).then(resJson => {
       let events = resJson.map(request => {
-        let property = request.property[0];
-        let { formattedAddress, openHouse } = property;
+        let { formattedAddress, openHouse } = request.property;
         let shortAddr = formattedAddress.split(',')[0];
         let event = {
           start: new Date(openHouse.start),
@@ -100,13 +99,13 @@ export default class CalendarPage extends Component {
     });
   }
 
-  listUpcomingEvents() { // TODO list the right amount
+  listUpcomingEvents() { // TODO list the right amount, right now it just grabs 200 events and displays on a calendar
     window.gapi.client.calendar.events.list({
       'calendarId': 'primary',
       'timeMin': (new Date()).toISOString(),
       'showDeleted': false,
       'singleEvents': true,
-      'maxResults': 10,
+      'maxResults': 200,
       'orderBy': 'startTime'
     }).then(response => {
       let getLocalDate = dateStr => {

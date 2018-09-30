@@ -261,8 +261,7 @@ class FindAgentPopOver extends Component {
       { value: 'video', label: 'Video' },
     ];
 
-    let popoverProps = Object.assign({}, this.props);
-    delete popoverProps.requestProperty;
+    let {requestProperty, ...popoverProps} = this.props;
     return (
       <Popover id="agent-popover" placement="left" title="Find an agent to visit for me!" {...popoverProps}>
         One of our agents will visit the apartment during open house hours, and take videos and photos for you. You can either video chat with the agent while they are at the open house, or schedule a 20 min call with the agent at any other time!
