@@ -143,3 +143,10 @@ span.slide-arrow:hover {
   display: block;
   margin: 0px auto;
 }
+
+.link-request-carousel-text {
+  font-size: 1.3vw;
+  margin: 0px;
+  text-align: center;
+  overflow-wrap: break-word;
+}

@@ -10,16 +10,19 @@ export default class StatusPage extends Component {
     super(props);
     this.state = {
       requestList: [],
-      applicationList: []
+      applicationList: [],
+      linkRequestList: []
     };
     this.fetchRequestList = this.fetchRequestList.bind(this);
     this.fetchApplicationList = this.fetchApplicationList.bind(this);
+    this.fetchLinkRequestList = this.fetchLinkRequestList.bind(this);
     this.goToProperty = this.goToProperty.bind(this);
   }
 
   componentDidMount() {
     this.fetchRequestList();
     this.fetchApplicationList();
+    this.fetchLinkRequestList();
   }
 
   fetchRequestList() {
@@ -40,12 +43,21 @@ export default class StatusPage extends Component {
     });
   }
 
+  fetchLinkRequestList() {
+    fetch('/renter/link_request_list', {
+      method: 'GET',
+      credentials: 'include'
+    }).then(res => res.json()).then(resJson => {
+      this.setState({ linkRequestList: resJson });
+    });
+  }
+
   goToProperty(propertyId) {
     this.props.history.push(`/renter/${propertyId}`);
   }
 
   render() {
-    let { requestList, applicationList } = this.state;
+    let { requestList, applicationList, linkRequestList } = this.state;
     return (
       <Context.Consumer>
         {({ setModalState }) =>
@@ -55,6 +67,9 @@ export default class StatusPage extends Component {
 
             <h3>Outstanding Applications</h3>
             <Carousel items={applicationList.map(data => <Application key={data._id} data={data} goToProperty={this.goToProperty} fetchApplicationList={this.fetchApplicationList} />)} />
+
+            <h3>Upcoming Agent Visits to Custom Requests</h3>
+            <Carousel items={linkRequestList.map(data => <LinkRequest key={data._id} data={data} fetchLinkRequestList={this.fetchLinkRequestList} />)} />
           </div>
         }
       </Context.Consumer>
@@ -152,6 +167,46 @@ class Application extends Component {
         </div>
         <div className="carousel-item-buttons">
           <button className="carousel-item-cancel-button" onClick={() => this.cancelApplication(data._id)}>Cancel</button>
+        </div>
+      </div>
+    );
+  }
+}
+
+class LinkRequest extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.cancelLinkRequest = this.cancelLinkRequest.bind(this);
+  }
+
+  cancelLinkRequest(_id) {
+    fetch('/renter/cancel_link_request', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ linkRequestId: _id })
+    }).then(res => res.json()).then(resJson => {
+      if (resJson.success) {
+        this.props.fetchLinkRequestList();
+      } else {
+        // TODO
+      }
+    });
+  }
+
+  render() {
+    let { data, setModalState } = this.props;
+    let { _id, url } = data;
+    let openContactModal = () => setModalState(ModalState.VIEW_AGENT, hardCodeAgent);
+    return (
+      <div className="carousel-item">
+        <a className="link-request-carousel-text" href={url}>{url.slice(0, 50)}...</a>
+        <img className="request-carousel-item-agent-profile-img" src={hardCodeAgent.img} onClick={openContactModal} />
+        <p className="link-request-carousel-text" onClick={openContactModal}>{hardCodeAgent.name}</p>
+        <div className="carousel-item-buttons">
+          <button className="carousel-item-contact-button" onClick={openContactModal}>Contact</button>
+          <button className="carousel-item-cancel-button" onClick={() => this.cancelLinkRequest(_id)}>Cancel</button>
         </div>
       </div>
     );

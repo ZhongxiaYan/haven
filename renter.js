@@ -146,4 +146,29 @@ routes.post('/new_link_request', (req, res) => {
   }
 });
 
+routes.get('/link_request_list', (req, res) => {
+  console.log('Queried link request list', req.user);
+  LinkRequest.find({ requester: req.user._id, status: RequestStatus.PENDING }).exec((err, linkRequests) => {
+    if (err) throw err;
+    res.json(linkRequests);
+  })
+});
+
+routes.post('/cancel_link_request', (req, res) => {
+  console.log('Cancel link request for', req.user);
+  LinkRequest.findOneAndUpdate(
+    { _id: req.body.linkRequestId, status: RequestStatus.PENDING },
+    { $set: { status: RequestStatus.CANCELLED } },
+    { new: true },
+    (err, doc) => {
+      if (err) throw err;
+      if (doc) {
+        res.json({ success: true });
+      } else {
+        res.json({ success: false, status: ErrorStatus.DOES_NOT_EXIST });
+      }
+    }
+  );
+});
+
 module.exports = { routes };
