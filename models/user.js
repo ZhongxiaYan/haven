@@ -22,7 +22,7 @@ const userSchema = mongoose.Schema({
   google: {
     id: String,
     token: String,
-    user: String
+    name: String
   }
 });
 

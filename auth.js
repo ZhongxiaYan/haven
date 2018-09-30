@@ -4,6 +4,7 @@ const uuid = require('uuid/v4');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const bcrypt = require('bcrypt');
 const routes = require('express').Router();
 
@@ -12,7 +13,7 @@ const User = require('./models/user');
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: process.env.FACEBOOK_CALLBACK_URL
+  callbackURL: process.env.FACEBOOK_LOGIN_CALLBACK_URL
 }, (accessToken, refreshToken, profile, done) => {
   let query = { 'facebook.id': profile.id };
   let newUser = {
@@ -38,6 +39,41 @@ passport.use(new FacebookStrategy({
         done(null, user);
       } else {
         console.error('Facebook login for', profile.displayName, 'failed');
+        done(null, false);
+      }
+    }
+  });
+}));
+
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+  callbackURL: process.env.GOOGLE_LOGIN_CALLBACK_URL
+}, (token, tokenSecret, profile, done) => {
+  let query = { 'google.id': profile.id };
+  let newUser = {
+    name: profile.displayName,
+    google: {
+      id: profile.id,
+      token: token,
+      name: profile.displayName,
+    }
+  };
+  let options = { new: true, upsert: true, rawResult: true };
+  User.findOneAndUpdate(query, { $setOnInsert: newUser }, options, (err, result) => {
+    if (err) {
+      throw err;
+    } else {
+      let user = result.value;
+      if (user) {
+        if (result.lastErrorObject.upserted) { // sign up
+          console.log('Signup', profile.displayName, 'success');
+        } else { // log in
+          console.log('Email', profile.displayName, 'already exists, logging in');
+        }
+        done(null, user);
+      } else {
+        console.error('Google login for', profile.displayName, 'failed');
         done(null, false);
       }
     }
@@ -107,8 +143,8 @@ routes.post('/update_basic_info', (req, res) => {
   if (!user) {
     return res.redirect('/');
   }
-  let {name, email, phoneNumber, dateOfBirth} = req.body;
-  Object.assign(user, {name, email, phoneNumber, dateOfBirth});
+  let { name, email, phoneNumber, dateOfBirth } = req.body;
+  Object.assign(user, { name, email, phoneNumber, dateOfBirth });
   user.save((err, updatedUser) => {
     if (err) {
       console.log('Fail');
@@ -143,13 +179,18 @@ routes.post('/sign_up', (req, res, next) => authenticateLocal(req, res, next, 'l
 
 routes.post('/login', (req, res, next) => authenticateLocal(req, res, next, 'local-login'));
 
-routes.get('/facebook', passport.authenticate('facebook'));
-
 const redirectTargets = {
   successRedirect: '/',
   failureRedirect: '/'
 };
+
+routes.get('/facebook', passport.authenticate('facebook'));
+
 routes.get('/facebook/callback', passport.authenticate('facebook', redirectTargets));
+
+routes.get('/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+
+routes.get('/google/callback', passport.authenticate('google', redirectTargets));
 
 routes.post('/logout', (req, res) => {
   req.logout();
@@ -160,7 +201,7 @@ function setup(app) {
   app.use(session({ // TODO set cookie secure to be true once we have prod env
     genid: req => uuid(),
     store: new FileStore(),
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.FILES_STORE_SESSION_SECRET,
     resave: false,
     saveUninitialized: false
   }))
