@@ -26,7 +26,7 @@ routes.post('/request_property', (req, res) => {
 
 routes.post('/apply_property', (req, res) => {
   console.log('Applying', req.body, 'for user', req.user.email);
-  let application = new Application(Object.assign({ applicant: req.user._id }, req.body));
+  let application = new Application(Object.assign({ applicant: req.user._id, status: 'pending' }, req.body)); // TODO move status into an enum
   application.save((err, updatedApplication) => {
     if (err) {
       console.log('Fail');

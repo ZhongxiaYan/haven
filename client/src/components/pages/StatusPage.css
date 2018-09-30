@@ -2,6 +2,7 @@
   padding: 30px 60px;
   height: calc(100% - 54px);
   width: 100%;
+  overflow: auto;
 }
 
 .carousel {
@@ -21,6 +22,10 @@
   width: 29%;
 }
 
+.carousel-item-mock {
+  height: 100%;
+}
+
 .carousel-item {
   height: 100%;
   padding: 5px 10px;
@@ -28,20 +33,17 @@
   border: 1px solid #BC83DE;
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
 }
 
-.carousel-item-mock {
-  height: 100%;
-}
-
-.carousel-item-info {
+.request-carousel-item-info {
   height: 80%;
   width: 100%;
   display: flex;
   justify-content: space-around;
 }
 
-.carousel-item-info-left {
+.request-carousel-item-info-left {
   display: flex;
   width: 55%;
   flex-direction: column;
@@ -49,16 +51,16 @@
   text-align: center;
 }
 
-.carousel-item-info-left > p {
+.request-carousel-item-info-left > p {
   font-size: 1.3vw;
   margin: 0px;
 }
 
-.carousel-item-info-left > p:hover {
+.request-carousel-item-info-left > p:hover {
   cursor: pointer;
 }
 
-.carousel-item-profile-img {
+.request-carousel-item-profile-img {
   width: 4.5vw;
   height: 4.5vw;
   border-radius: 2.25vw;
@@ -90,14 +92,14 @@
   background-color: white;
 }
 
-.carousel-item-image {
+.request-carousel-item-image {
   width: 45%;
   height: 100%;
   padding: 5px;
   border-radius: 10px;
 }
 
-.carousel-item-image > img {
+.request-carousel-item-image > img {
   width: 100%;
   height: 100%;
 }
@@ -113,4 +115,26 @@ span.slide-arrow {
 span.slide-arrow:hover {
   cursor: pointer;
   color: gray
+}
+
+.application-carousel-item-title {
+  font-size: 1.3vw;
+  margin: 0px;
+  text-align: center;
+}
+
+.application-carousel-item-title:hover {
+  cursor: pointer;
+}
+
+.application-carousel-item-image {
+  width: 100%;
+  height: 60%;
+}
+
+.application-carousel-item-image > img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  margin: 0px auto;
 }

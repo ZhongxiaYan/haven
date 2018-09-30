@@ -50,7 +50,7 @@ export default class StatusPage extends Component {
         <Carousel items={requestList.map(data => <Request key={data._id} data={data} goToProperty={this.goToProperty} />)} />
 
         <h3>Outstanding Applications</h3>
-        {/* {applicationList.map(data => <Application key={data._id} data={data} />)} */}
+        <Carousel items={applicationList.map(data => <Application key={data._id} data={data} goToProperty={this.goToProperty} />)} />
       </div>
     )
   }
@@ -71,14 +71,14 @@ class Request extends Component {
     let { _id, formattedAddress, photos } = data.property[0];
     return (
       <div className="carousel-item">
-        <div className="carousel-item-info">
-          <div className="carousel-item-info-left">
+        <div className="request-carousel-item-info">
+          <div className="request-carousel-item-info-left">
             <p onClick={() => goToProperty(_id)}>{formattedAddress.split(',')[0]}</p>
-            <img className="carousel-item-profile-img" src={hardCodeAgent.img} />
+            <img className="request-carousel-item-profile-img" src={hardCodeAgent.img} />
             <p>{hardCodeAgent.name}</p>
           </div>
-          <div className="carousel-item-image">
-            {photos.length > 0 ? <img src={`/file/${_id}/photos/${photos[0]}`} /> : null }
+          <div className="request-carousel-item-image">
+            {photos.length > 0 ? <img src={`/file/${_id}/photos/${photos[0]}`} /> : null}
           </div>
         </div>
         <div className="carousel-item-buttons">
@@ -92,10 +92,18 @@ class Request extends Component {
 
 class Application extends Component {
   render() {
-    let { _id, formattedAddress, video } = this.props.data.property[0];
+    let { data, goToProperty } = this.props;
+    let { status, property } = data;
+    let { _id, formattedAddress, photos } = property[0];
     return (
-      <div>
-        {formattedAddress}
+      <div className="carousel-item">
+        <p className="application-carousel-item-title" onClick={() => goToProperty(_id)}>{formattedAddress.split(',')[0]}</p>
+        <div className="application-carousel-item-image">
+          {photos.length > 0 ? <img src={`/file/${_id}/photos/${photos[0]}`} /> : null}
+        </div>
+        <div className="carousel-item-buttons">
+          <button className="carousel-item-cancel-button">Cancel</button>
+        </div>
       </div>
     );
   }
@@ -143,7 +151,7 @@ class Carousel extends Component {
       opacity: 0.2,
       cursor: 'not-allowed'
     };
-    let leftStyle = currIndex === 0 ? disabledStyle: {};
+    let leftStyle = currIndex === 0 ? disabledStyle : {};
     let rightStyle = (currIndex + this.numDisplay) >= this.props.items.length ? disabledStyle : {};
 
     return (
