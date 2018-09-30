@@ -1,11 +1,12 @@
 const routes = require('express').Router();
 
-const database = require('./database');
+const location = require('./location');
 const { ErrorStatus, RequestStatus, ApplicationStatus } = require('./enums');
 
 const Property = require('./models/property');
 const Request = require('./models/request');
 const Application = require('./models/application');
+const LinkRequest = require('./models/linkRequest');
 
 
 routes.get('/property/:propertyId', (req, res) => {
@@ -104,6 +105,45 @@ routes.post('/cancel_application', (req, res) => {
       }
     }
   );
+});
+
+routes.post('/new_link_request', (req, res) => {
+  console.log('Adding link request', req.body, 'for user', req.user.email);
+  let saveValues = (docValues) => {
+    let linkRequest = new LinkRequest(docValues);
+    linkRequest.save((err, updatedProperty) => {
+      if (err) {
+        console.error('Fail', err, docValues);
+        res.json({ success: false });
+      } else {
+        console.log('Success');
+        res.json({ success: true });
+      }
+    });
+  }
+  let formattedAddr = location.formatAddress(req.body.address);
+  if (formattedAddr === null) {
+    let docValues = Object.assign({
+      requester: req.user.id,
+      status: RequestStatus.PENDING
+    }, req.body);
+    saveValues(docValues);
+  } else {
+    location.lookUpAddress(formattedAddr).then(resJson => {
+      let { status, results } = resJson;
+      let googleAttributes = {};
+      if (status !== 'OK' || results.length !== 1) {
+        console.error(`Failed to look up address ${formattedAddr}`, status, results);
+      } else {
+        googleAttributes = location.parseAddressResult(results[0]);
+      }
+      let docValues = Object.assign({
+        requester: req.user.id,
+        status: RequestStatus.PENDING
+      }, req.body, googleAttributes);
+      saveValues(docValues);
+    });
+  }
 });
 
 module.exports = { routes };

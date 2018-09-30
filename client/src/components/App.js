@@ -9,6 +9,7 @@ import CalendarPage from './pages/CalendarPage';
 import LoginModal from './modals/LoginModal';
 import BasicInfoModal from './modals/BasicInfoModal';
 import ViewAgentModal from './modals/ViewAgentModal';
+import LinkRequestModal from './modals/LinkRequestModal';
 import NavBar from './NavBar';
 import Context from './Context';
 
@@ -76,7 +77,8 @@ export default class App extends Component {
       const modalStateMap = {
         [ModalState.LOGIN]: LoginModal,
         [ModalState.BASIC_INFO]: BasicInfoModal,
-        [ModalState.VIEW_AGENT]: ViewAgentModal
+        [ModalState.VIEW_AGENT]: ViewAgentModal,
+        [ModalState.LINK_REQUEST]: LinkRequestModal
       };
       let Modal = modalStateMap[modalState];
       return <Modal {...context} modalData={modalData} />;

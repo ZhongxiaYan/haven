@@ -6,7 +6,6 @@ import moment from 'moment';
 
 import BaseModal from './BaseModal';
 
-import 'bootstrap-social/bootstrap-social.css'
 import 'react-phone-number-input/style.css'
 
 export default class BasicInfoModal extends Component {

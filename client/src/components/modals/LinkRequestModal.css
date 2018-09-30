@@ -1,0 +1,7 @@
+#link-request .input-text {
+  opacity: 0.88;
+  mix-blend-mode: normal;
+  border: 0.5px solid gray;
+  border-radius: 5px;
+  padding: 0px 5px;
+}

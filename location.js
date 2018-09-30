@@ -1,8 +1,16 @@
 const util = require('./util');
 const fetch = require('node-fetch');
 
-function formatAddress(property) {
-  let {addressFirstLine, addressSecondLine, city, state, zipCode} = property;
+function formatAddress(address) {
+  if (!address) {
+    return null;
+  }
+  let {addressFirstLine, addressSecondLine, city, state, zipCode} = address;
+  if (!addressFirstLine || !city) {
+    return null;
+  }
+  state = state || '';
+  zipCode = zipCode || '';
   let streetAddress = addressSecondLine ? `${addressFirstLine} ${addressSecondLine}` : addressFirstLine
   return `${streetAddress}, ${city}, ${state} ${zipCode}`
 }

@@ -225,7 +225,9 @@ class SideBar extends Component {
 class FindAgentPopOver extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      requestInfo: []
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeRequestInfo = this.handleChangeRequestInfo.bind(this);
@@ -243,7 +245,7 @@ class FindAgentPopOver extends Component {
 
   handleSubmit(event) {
     let agentInfo = Object.assign({}, this.state);
-    agentInfo.requestInfo = (this.state.requestInfo || []).map(({ value }) => value);
+    agentInfo.requestInfo = this.state.requestInfo.map(({ value }) => value);
     this.props.requestProperty(true, agentInfo);
     event.preventDefault();
   }
@@ -275,7 +277,7 @@ class FindAgentPopOver extends Component {
           onChange={this.handleChangeRequestInfo}
           options={requestInfoOptions}
         />
-        <textarea id="renter-property-agent-description" rows="3" cols="50" name="requestDetails" value={requestDetails} placeholder=" Details..." onChange={this.handleChange} /> <br></br>
+        <textarea id="renter-property-agent-description" rows="3" cols="50" name="requestDetails" value={requestDetails} placeholder="Details..." onChange={this.handleChange} /> <br></br>
         <p align="right" className="renter-property-text-button" onClick={this.handleSubmit}>Confirm ($40)</p>
       </Popover>
     );

@@ -10,4 +10,5 @@ export const ModalState = {
   LOGIN: 'login',
   BASIC_INFO: 'basicInfo',
   VIEW_AGENT: 'viewAgent',
+  LINK_REQUEST: 'linkRequest'
 }
