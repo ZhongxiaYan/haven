@@ -8,21 +8,48 @@ export default class RenterPropertyPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      info: null
+      info: null,
+      reviews: []
     };
-    this.propertyId = this.props.match.params.propertyId;
+    this.propertyId = this.props.match.params.propertyId; // TODO this might be fragile
 
     this.getProperty = this.getProperty.bind(this);
     this.requestProperty = this.requestProperty.bind(this);
     this.applyProperty = this.applyProperty.bind(this);
     this.cancelRequest = this.cancelRequest.bind(this);
     this.cancelApplication = this.cancelApplication.bind(this);
+    this.fetchReviews = this.fetchReviews.bind(this);
+    this.handleChangeReview = this.handleChangeReview.bind(this);
+    this.handleSubmitReview = this.handleSubmitReview.bind(this);
+  }
+
+  // TODO remove these
+  handleChangeReview(event) {
+    let { name, value } = event.target;
+    this.setState({ [name]: value });
+  }
+
+  handleSubmitReview(event) {
+    let { review, title } = this.state;
+    fetch('/renter/review_property', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ property: this.propertyId, review, title })
+    }).then(res => res.json()).then(resJson => {
+      if (resJson.success) {
+        this.fetchReviews();
+      }
+    });
+    event.preventDefault();
   }
 
   componentDidMount() {
+    // TODO have a better database system
     this.getProperty();
     this.getRequest();
     this.getApplication();
+    this.fetchReviews();
   }
 
   getProperty() {
@@ -116,8 +143,18 @@ export default class RenterPropertyPage extends Component {
     });
   }
 
+  fetchReviews() {
+    fetch('/renter/review_list?' + new URLSearchParams([['property', this.propertyId]]), {
+      method: 'GET',
+      credentials: 'include'
+    }).then(res => res.json()).then(reviews => {
+      console.log(reviews);
+      this.setState({ reviews });
+    });
+  }
+
   render() {
-    let { info, request, application } = this.state;
+    let { info, request, application, reviews } = this.state;
     if (!info) {
       return null;
     }
@@ -155,7 +192,15 @@ export default class RenterPropertyPage extends Component {
             </div>
             <div id="renter-property-body-reviews">
               <h3 style={{ fontFamily: 'AppleGothic' }}>Peer Reviews</h3>
+              {reviews.length === 0 ? <p>No reviews yet!</p> :
+                reviews.map(r => <Review key={r._id} data={r} />)
+              }
             </div>
+            <form onSubmit={this.handleSubmitReview} style={{ display: 'none' }}>
+              <input type="text" name="title" value={this.state.title} onChange={this.handleChangeReview} required /><br></br>
+              <textarea rows="3" cols="50" name="review" value={this.state.review} onChange={this.handleChangeReview} /><br></br>
+              <button type="submit">Submit</button>
+            </form>
           </div>
         </div>
         <SideBar openHouse={openHouse} formattedAddress={formattedAddress} request={request} application={application} requestProperty={this.requestProperty} applyProperty={this.applyProperty} cancelRequest={this.cancelRequest} cancelApplication={this.cancelApplication} />
@@ -261,7 +306,7 @@ class FindAgentPopOver extends Component {
       { value: 'video', label: 'Video' },
     ];
 
-    let {requestProperty, ...popoverProps} = this.props;
+    let { requestProperty, ...popoverProps } = this.props;
     return (
       <Popover id="agent-popover" placement="left" title="Find an agent to visit for me!" {...popoverProps}>
         One of our agents will visit the apartment during open house hours, and take videos and photos for you. You can either video chat with the agent while they are at the open house, or schedule a 20 min call with the agent at any other time!
@@ -279,6 +324,19 @@ class FindAgentPopOver extends Component {
         <textarea id="renter-property-agent-description" rows="3" cols="50" name="requestDetails" value={requestDetails} placeholder="Details..." onChange={this.handleChange} /> <br></br>
         <p align="right" className="renter-property-text-button" onClick={this.handleSubmit}>Confirm ($40)</p>
       </Popover>
+    );
+  }
+}
+
+class Review extends Component {
+  render() {
+    let { data } = this.props;
+    let { title, review } = data;
+    return (
+      <div>
+        <h4>{title}</h4>
+        <p className="renter-property-review-body">{review}</p>
+      </div>
     );
   }
 }

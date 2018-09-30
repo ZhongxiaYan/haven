@@ -121,3 +121,7 @@ h3.popover-title > p {
 .renter-property-cancel:hover {
   cursor: pointer;
 }
+
+.renter-property-review-body {
+  overflow-wrap: break-word;
+}

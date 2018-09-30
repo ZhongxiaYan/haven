@@ -7,6 +7,7 @@ const Property = require('./models/property');
 const Request = require('./models/request');
 const Application = require('./models/application');
 const LinkRequest = require('./models/linkRequest');
+const Review = require('./models/review');
 
 
 routes.get('/property/:propertyId', (req, res) => {
@@ -169,6 +170,35 @@ routes.post('/cancel_link_request', (req, res) => {
       }
     }
   );
+});
+
+routes.get('/review_list', (req, res) => {
+  console.log('Queried review list', req.user, req.query);
+  Review.find(req.query).exec((err, reviews) => {
+    if (err) throw err;
+    res.json(reviews);
+  });
+});
+
+routes.post('/review_property', (req, res) => {
+  console.log('Adding reviewer', req.body, 'for user', req.user.email);
+  Review.find({ reviewer: req.user._id, property: req.body.property }, (err, doc) => {
+    if (err) throw err;
+    if (doc.length > 0) {
+      res.json({ success: false, status: ErrorStatus.ALREADY_EXISTS });
+    } else {
+      let review = new Review(Object.assign({ requester: req.user.id }, req.body));
+      review.save((err, updatedReview) => {
+        if (err) {
+          console.log('Fail');
+          res.json({ success: false, status: ErrorStatus.SAVE_FAILED });
+        } else {
+          console.log('Success');
+          res.json({ success: true });
+        }
+      });
+    }
+  });
 });
 
 module.exports = { routes };
