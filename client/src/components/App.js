@@ -8,6 +8,7 @@ import OwnerPage from './OwnerPage';
 import CalendarPage from './pages/CalendarPage';
 import LoginModal from './modals/LoginModal';
 import BasicInfoModal from './modals/BasicInfoModal';
+import ViewAgentModal from './modals/ViewAgentModal';
 import NavBar from './NavBar';
 import Context from './Context';
 
@@ -60,24 +61,25 @@ export default class App extends Component {
     });
   }
 
-  setModalState(modalState) {
+  setModalState(modalState, modalData) {
     if (this.state.authState == AuthenticationState.NEED_INFO) {
       modalState = ModalState.BASIC_INFO;
     }
-    this.setState({ modalState });
+    this.setState({ modalState, modalData });
   }
 
   getModal(context) {
-    let { modalState } = this.state;
+    let { modalState, modalData } = this.state;
     if (modalState === ModalState.NONE) {
       return null;
     } else {
       const modalStateMap = {
         [ModalState.LOGIN]: LoginModal,
-        [ModalState.BASIC_INFO]: BasicInfoModal
+        [ModalState.BASIC_INFO]: BasicInfoModal,
+        [ModalState.VIEW_AGENT]: ViewAgentModal
       };
       let Modal = modalStateMap[modalState];
-      return <Modal {...context} />;
+      return <Modal {...context} modalData={modalData} />;
     }
   }
 
@@ -98,7 +100,7 @@ export default class App extends Component {
               <Route exact path="/" render={() => <Redirect to='/home' />} />
               <Route exact path="/home" component={HomePage} />
               {this.state.authState === AuthenticationState.NOT_LOGGED_IN ? <Route render={() => <Redirect to='/' />} /> : null}
-              
+
               <Route path="/renter/:propertyId" component={RenterPropertyPage} />
               <Route exact path="/owner" component={OwnerPage} />
               <Route exact path="/status" component={StatusPage} />

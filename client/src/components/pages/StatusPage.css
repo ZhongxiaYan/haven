@@ -60,12 +60,16 @@
   cursor: pointer;
 }
 
-.request-carousel-item-profile-img {
+.request-carousel-item-agent-profile-img {
   width: 4.5vw;
   height: 4.5vw;
   border-radius: 2.25vw;
   display: block;
   margin: 0px auto;
+}
+
+.request-carousel-item-agent-profile-img:hover {
+  cursor: pointer;
 }
 
 .carousel-item-buttons {

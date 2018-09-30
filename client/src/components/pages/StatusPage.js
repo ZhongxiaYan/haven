@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import Context from '../Context';
+import { ModalState } from '../../enums';
+
 import './StatusPage.css';
 
 export default class StatusPage extends Component {
@@ -43,15 +46,18 @@ export default class StatusPage extends Component {
 
   render() {
     let { requestList, applicationList } = this.state;
-    console.log(requestList)
     return (
-      <div id="status-page" className="color-background">
-        <h3>Upcoming Agent Visits</h3>
-        <Carousel items={requestList.map(data => <Request key={data._id} data={data} goToProperty={this.goToProperty} />)} />
+      <Context.Consumer>
+        {({ setModalState }) =>
+          <div id="status-page" className="color-background">
+            <h3>Upcoming Agent Visits</h3>
+            <Carousel items={requestList.map(data => <Request key={data._id} data={data} goToProperty={this.goToProperty} setModalState={setModalState} />)} />
 
-        <h3>Outstanding Applications</h3>
-        <Carousel items={applicationList.map(data => <Application key={data._id} data={data} goToProperty={this.goToProperty} />)} />
-      </div>
+            <h3>Outstanding Applications</h3>
+            <Carousel items={applicationList.map(data => <Application key={data._id} data={data} goToProperty={this.goToProperty} />)} />
+          </div>
+        }
+      </Context.Consumer>
     )
   }
 }
@@ -60,29 +66,30 @@ import catImg from '../../images/cat.jpg';
 const hardCodeAgent = {
   name: 'Cat',
   phone: '510-532-1683',
-  description: 'Cat has been working with us for three years. Previously she had thirty years of experience as an agent.',
+  description: 'Cat has been working at Haven for three years. Previously she had thirty years of experience as an agent.',
   profile: 'https://www.linkedin.com/in/catherine-wu-703ba399/',
   img: catImg
 }
 
 class Request extends Component {
   render() {
-    let { data, goToProperty } = this.props;
+    let { data, goToProperty, setModalState } = this.props;
     let { _id, formattedAddress, photos } = data.property[0];
+    let openContactModal = () => setModalState(ModalState.VIEW_AGENT, hardCodeAgent);
     return (
       <div className="carousel-item">
         <div className="request-carousel-item-info">
           <div className="request-carousel-item-info-left">
             <p onClick={() => goToProperty(_id)}>{formattedAddress.split(',')[0]}</p>
-            <img className="request-carousel-item-profile-img" src={hardCodeAgent.img} />
-            <p>{hardCodeAgent.name}</p>
+            <img className="request-carousel-item-agent-profile-img" src={hardCodeAgent.img} onClick={openContactModal} />
+            <p onClick={openContactModal}>{hardCodeAgent.name}</p>
           </div>
           <div className="request-carousel-item-image">
             {photos.length > 0 ? <img src={`/file/${_id}/photos/${photos[0]}`} /> : null}
           </div>
         </div>
         <div className="carousel-item-buttons">
-          <button className="carousel-item-contact-button">Contact</button>
+          <button className="carousel-item-contact-button" onClick={openContactModal}>Contact</button>
           <button className="carousel-item-cancel-button">Cancel</button>
         </div>
       </div>
@@ -126,7 +133,6 @@ class Carousel extends Component {
   previousSlide() {
     const { currIndex } = this.state;
     let newIndex = currIndex > 0 ? currIndex - 1 : currIndex;
-    console.log(currIndex, newIndex)
     this.setState({
       currIndex: newIndex
     });
@@ -135,7 +141,6 @@ class Carousel extends Component {
   nextSlide() {
     const { currIndex } = this.state;
     let newIndex = (currIndex + this.numDisplay) < this.props.items.length ? currIndex + 1 : currIndex;
-    console.log(currIndex, newIndex)
     this.setState({
       currIndex: newIndex
     });

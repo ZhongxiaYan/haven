@@ -9,5 +9,5 @@ export const ModalState = {
   NONE: 'none',
   LOGIN: 'login',
   BASIC_INFO: 'basicInfo',
-  AGENT_REQUEST: 'agentRequest'
+  VIEW_AGENT: 'viewAgent',
 }

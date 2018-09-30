@@ -1,0 +1,11 @@
+#view-agent-modal {
+  display: flex;
+  flex-direction: column;
+} 
+
+#view-agent-modal > img {
+  width: 200px;
+  height: 200px;
+  display: block;
+  margin: 0px auto;
+}
