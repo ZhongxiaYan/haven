@@ -116,16 +116,16 @@ class PropertyCard extends Component {
     let { data, handlePropertyClick, setHoveredProperty } = this.props;
     let { _id, numBedrooms, numBathrooms, area, formattedAddress, openHouse, rent, video, photos } = data;
     return (
-      <div className="home-card" onClick={handlePropertyClick} onMouseEnter={() => setHoveredProperty(true, _id)} onMouseLeave={() => setHoveredProperty(false, _id)}>
+      <div className="home-card" onMouseEnter={() => setHoveredProperty(true, _id)} onMouseLeave={() => setHoveredProperty(false, _id)}>
         {video === null ? <div className="home-card-video"></div> :
           <video className="home-card-video" controls preload="none">
             <source src={`/file/${_id}/video/${video}`} />}
           </video>
         }
-        <div className="home-card-container-image">
+        <div className="home-card-container-image" onClick={handlePropertyClick}>
           {photos.slice(0, 2).map(photo => <img key={photo} src={`/file/${_id}/photos/${photo}`} />)}
         </div>
-        <Panel className="home-card-panel">
+        <Panel className="home-card-panel" onClick={handlePropertyClick}>
           <Panel.Body>
             <p>{formattedAddress}</p>
             <p>{numBedrooms} Br / {numBathrooms} Ba, {area} Sq Ft</p>
