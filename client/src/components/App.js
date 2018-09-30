@@ -24,12 +24,14 @@ export default class App extends Component {
     this.state = {
       user: null,
       authState: AuthenticationState.INDETERMINED,
-      modalState: ModalState.NONE
+      modalState: ModalState.NONE,
+      logoutActions: {}
     };
 
     this.fetchUser = this.fetchUser.bind(this);
     this.getAuthenticationState = this.getAuthenticationState.bind(this);
     this.setModalState = this.setModalState.bind(this);
+    this.setLogoutAction = this.setLogoutAction.bind(this);
   }
 
   componentDidMount() {
@@ -81,17 +83,27 @@ export default class App extends Component {
         [ModalState.LINK_REQUEST]: LinkRequestModal
       };
       let Modal = modalStateMap[modalState];
-      return <Modal {...context} modalData={modalData} />;
+      return <Modal modalData={modalData} {...context} />;
     }
   }
 
+  setLogoutAction(key, action) {
+    let logoutActions = Object.assign({}, this.state.logoutActions);
+    if (action) {
+      logoutActions[key] = action;
+    } else {
+      delete logoutActions[key];  
+    }
+    this.setState({ logoutActions });
+  }
+
   render() {
-    let { user, authState, modalState } = this.state;
+    let { user, authState, modalState, logoutActions } = this.state;
     if (authState === AuthenticationState.INDETERMINED) {
       return null;
     }
-    let { fetchUser, setModalState } = this;
-    let context = { user, authState, modalState, fetchUser, setModalState };
+    let { fetchUser, setModalState, setLogoutAction } = this;
+    let context = { user, authState, modalState, logoutActions, setLogoutAction, fetchUser, setModalState };
     return (
       <Context.Provider value={context}>
         <Router>
@@ -101,7 +113,7 @@ export default class App extends Component {
             <Switch>
               <Route exact path="/" render={() => <Redirect to='/home' />} />
               <Route exact path="/home" component={HomePage} />
-              {this.state.authState === AuthenticationState.NOT_LOGGED_IN ? <Route render={() => <Redirect to='/' />} /> : null}
+              {authState === AuthenticationState.NOT_LOGGED_IN ? <Route render={() => <Redirect to='/' />} /> : null}
 
               <Route path="/renter/:propertyId" component={RenterPropertyPage} />
               <Route exact path="/owner" component={OwnerPage} />

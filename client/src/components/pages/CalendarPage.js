@@ -28,7 +28,7 @@ export default class CalendarPage extends Component {
 
   componentDidMount() {
     if (window.gapi.auth2) {
-      this.signInOrSetStatus(window.gapi.auth2);
+      this.signInOrSetStatus();
     } else {
       // initialize then sign in
       window.gapi.load('client:auth2', () => {
@@ -39,7 +39,7 @@ export default class CalendarPage extends Component {
           scope: SCOPES
         }).then(() => {
           window.gapi.auth2.getAuthInstance().isSignedIn.listen(this.onSignInStatusUpdate);
-          this.signInOrSetStatus(window.gapi.auth2);
+          this.signInOrSetStatus();
         });
       });
     }
@@ -73,7 +73,8 @@ export default class CalendarPage extends Component {
     });
   }
 
-  signInOrSetStatus(auth2) {
+  signInOrSetStatus() {
+    let auth2 = window.gapi.auth2;
     if (auth2.getAuthInstance().isSignedIn.get()) {
       // signed in already, don't need to do anything
       this.onSignInStatusUpdate(true);
@@ -85,10 +86,18 @@ export default class CalendarPage extends Component {
 
   onSignInStatusUpdate(isSignedIn) {
     if (isSignedIn) {
+      this.props.setLogoutAction(calendar, this.signOut);
       this.listUpcomingEvents();
     } else {
+      this.props.setLogoutAction(calendar, null);      
       this.setState({ googleEvents: [] });
     }
+  }
+
+  signOut() {
+    window.gapi.auth2.getAuthInstance().signOut().then(() => {
+      console.log('Signed out of Google Calendar');
+    });
   }
 
   listUpcomingEvents() { // TODO list the right amount

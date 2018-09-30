@@ -19,6 +19,7 @@ export default class NavBar extends Component {
       method: 'POST',
       credentials: 'include'
     }).then(res => {
+      Object.values(this.props.logoutActions).forEach(logoutAction => logoutAction());
       window.location.replace('/');
     });
   }
