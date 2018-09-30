@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "bash scripts/run_dev.sh",
-    "dev-server": "bash scripts/run_dev_server.sh"
+    "dev-server": "bash scripts/run_dev_server.sh",
+    "prod": "cd client && npm run build && cd .. && node server.js"
   },
   "author": "",
   "license": "ISC",
