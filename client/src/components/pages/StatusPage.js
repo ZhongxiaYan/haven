@@ -12,17 +12,17 @@ export default class StatusPage extends Component {
       requestList: [],
       applicationList: []
     };
-    this.getRequestList = this.getRequestList.bind(this);
-    this.getApplicationList = this.getApplicationList.bind(this);
+    this.fetchRequestList = this.fetchRequestList.bind(this);
+    this.fetchApplicationList = this.fetchApplicationList.bind(this);
     this.goToProperty = this.goToProperty.bind(this);
   }
 
   componentDidMount() {
-    this.getRequestList();
-    this.getApplicationList();
+    this.fetchRequestList();
+    this.fetchApplicationList();
   }
 
-  getRequestList() {
+  fetchRequestList() {
     fetch('/renter/request_list', {
       method: 'GET',
       credentials: 'include'
@@ -31,7 +31,7 @@ export default class StatusPage extends Component {
     });
   }
 
-  getApplicationList() {
+  fetchApplicationList() {
     fetch('/renter/application_list', {
       method: 'GET',
       credentials: 'include'
@@ -51,10 +51,10 @@ export default class StatusPage extends Component {
         {({ setModalState }) =>
           <div id="status-page" className="color-background">
             <h3>Upcoming Agent Visits</h3>
-            <Carousel items={requestList.map(data => <Request key={data._id} data={data} goToProperty={this.goToProperty} setModalState={setModalState} />)} />
+            <Carousel items={requestList.map(data => <Request key={data._id} data={data} goToProperty={this.goToProperty} setModalState={setModalState} fetchRequestList={this.fetchRequestList}/>)} />
 
             <h3>Outstanding Applications</h3>
-            <Carousel items={applicationList.map(data => <Application key={data._id} data={data} goToProperty={this.goToProperty} />)} />
+            <Carousel items={applicationList.map(data => <Application key={data._id} data={data} goToProperty={this.goToProperty} fetchApplicationList={this.fetchApplicationList} />)} />
           </div>
         }
       </Context.Consumer>
@@ -72,6 +72,27 @@ const hardCodeAgent = {
 }
 
 class Request extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.cancelRequest = this.cancelRequest.bind(this);
+  }
+
+  cancelRequest(_id) {
+    fetch('/renter/cancel_request', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ requestId: _id })
+    }).then(res => res.json()).then(resJson => {
+      if (resJson.success) {
+        this.props.fetchRequestList();
+      } else {
+        // TODO
+      }
+    });
+  }
+
   render() {
     let { data, goToProperty, setModalState } = this.props;
     let { _id, formattedAddress, photos } = data.property[0];
@@ -90,7 +111,7 @@ class Request extends Component {
         </div>
         <div className="carousel-item-buttons">
           <button className="carousel-item-contact-button" onClick={openContactModal}>Contact</button>
-          <button className="carousel-item-cancel-button">Cancel</button>
+          <button className="carousel-item-cancel-button" onClick={() => this.cancelRequest(data._id)}>Cancel</button>
         </div>
       </div>
     );
@@ -98,6 +119,27 @@ class Request extends Component {
 }
 
 class Application extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.cancelApplication = this.cancelApplication.bind(this);
+  }
+
+  cancelApplication(_id) {
+    fetch('/renter/cancel_application', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ applicationId: _id })
+    }).then(res => res.json()).then(resJson => {
+      if (resJson.success) {
+        this.props.fetchApplicationList();
+      } else {
+        // TODO
+      }
+    });
+  }
+
   render() {
     let { data, goToProperty } = this.props;
     let { status, property } = data;
@@ -109,7 +151,7 @@ class Application extends Component {
           {photos.length > 0 ? <img src={`/file/${_id}/photos/${photos[0]}`} /> : null}
         </div>
         <div className="carousel-item-buttons">
-          <button className="carousel-item-cancel-button">Cancel</button>
+          <button className="carousel-item-cancel-button" onClick={() => this.cancelApplication(data._id)}>Cancel</button>
         </div>
       </div>
     );

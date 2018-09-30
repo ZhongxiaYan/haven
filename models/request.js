@@ -6,6 +6,7 @@ const requestSchema = mongoose.Schema({
     requestInfo: [String],
     requestDetails: String
   },
+  status: String,
   property: { type: mongoose.Schema.Types.ObjectId, ref: 'Property' },
   requester: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });

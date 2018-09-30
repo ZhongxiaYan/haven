@@ -31,24 +31,29 @@ export default class RenterPropertyPage extends Component {
   }
 
   requestProperty(agent, agentInfo) {
-    fetch('/renter/request_property', {
+    console.log('requestProperty')
+    return fetch('/renter/request_property', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ property: this.propertyId, agent, agentInfo })
     }).then(res => res.json()).then(resJson => {
-      // TODO
+      console.log(resJson)
+      return resJson.success;
     });
   }
 
   applyProperty() {
-    fetch('/renter/apply_property', {
+    console.log('applyProperty')
+
+    return fetch('/renter/apply_property', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ property: this.propertyId })
     }).then(res => res.json()).then(resJson => {
-      // TODO
+      console.log(resJson)
+      return resJson.success;
     });
   }
 

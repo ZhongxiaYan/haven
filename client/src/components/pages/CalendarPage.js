@@ -91,7 +91,7 @@ export default class CalendarPage extends Component {
     }
   }
 
-  listUpcomingEvents() {
+  listUpcomingEvents() { // TODO list the right amount
     window.gapi.client.calendar.events.list({
       'calendarId': 'primary',
       'timeMin': (new Date()).toISOString(),
@@ -149,7 +149,6 @@ export default class CalendarPage extends Component {
 
   render() {
     let { events, googleEvents } = this.state;
-    console.log(events);
     return (
       <div id="calendar-main" className="color-background">
         <div id="calendar-agenda">
