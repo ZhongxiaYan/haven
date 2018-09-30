@@ -86,10 +86,10 @@ export default class CalendarPage extends Component {
 
   onSignInStatusUpdate(isSignedIn) {
     if (isSignedIn) {
-      this.props.setLogoutAction(calendar, this.signOut);
+      this.props.setLogoutAction('calendar', this.signOut);
       this.listUpcomingEvents();
     } else {
-      this.props.setLogoutAction(calendar, null);      
+      this.props.setLogoutAction('calendar', null);      
       this.setState({ googleEvents: [] });
     }
   }

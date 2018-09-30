@@ -92,7 +92,7 @@ export default class App extends Component {
     if (action) {
       logoutActions[key] = action;
     } else {
-      delete logoutActions[key];  
+      delete logoutActions[key];
     }
     this.setState({ logoutActions });
   }
@@ -111,6 +111,7 @@ export default class App extends Component {
             <NavBar {...context} />
             {this.getModal(context)}
             <Switch>
+              {/* TODO pass in context directly into pages for all pages */}
               <Route exact path="/" render={() => <Redirect to='/home' />} />
               <Route exact path="/home" component={HomePage} />
               {authState === AuthenticationState.NOT_LOGGED_IN ? <Route render={() => <Redirect to='/' />} /> : null}
@@ -118,7 +119,7 @@ export default class App extends Component {
               <Route path="/renter/:propertyId" component={RenterPropertyPage} />
               <Route exact path="/owner" component={OwnerPage} />
               <Route exact path="/status" component={StatusPage} />
-              <Route exact path="/calendar" component={CalendarPage} />
+              <Route exact path="/calendar" render={() => <CalendarPage {...context} />} />
               <Route component={NoMatch} />
             </Switch>
           </Fragment>
