@@ -27,7 +27,7 @@ export default class StatusPage extends Component {
       method: 'GET',
       credentials: 'include'
     }).then(res => res.json()).then(resJson => {
-      this.setState({ requestList: resJson });
+      this.setState({ requestList: resJson.filter(request => request.agent) });
     });
   }
 
@@ -95,7 +95,7 @@ class Request extends Component {
 
   render() {
     let { data, goToProperty, setModalState } = this.props;
-    let { _id, formattedAddress, photos } = data.property[0];
+    let { _id, formattedAddress, photos } = data.property;
     let openContactModal = () => setModalState(ModalState.VIEW_AGENT, hardCodeAgent);
     return (
       <div className="carousel-item">
@@ -143,7 +143,7 @@ class Application extends Component {
   render() {
     let { data, goToProperty } = this.props;
     let { status, property } = data;
-    let { _id, formattedAddress, photos } = property[0];
+    let { _id, formattedAddress, photos } = property;
     return (
       <div className="carousel-item">
         <p className="application-carousel-item-title" onClick={() => goToProperty(_id)}>{formattedAddress.split(',')[0]}</p>

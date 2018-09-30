@@ -15,10 +15,14 @@ export default class RenterPropertyPage extends Component {
     this.getProperty = this.getProperty.bind(this);
     this.requestProperty = this.requestProperty.bind(this);
     this.applyProperty = this.applyProperty.bind(this);
+    this.cancelRequest = this.cancelRequest.bind(this);
+    this.cancelApplication = this.cancelApplication.bind(this);
   }
 
   componentDidMount() {
     this.getProperty();
+    this.getRequest();
+    this.getApplication();
   }
 
   getProperty() {
@@ -30,35 +34,90 @@ export default class RenterPropertyPage extends Component {
     });
   }
 
+  getRequest() {
+    fetch('/renter/request_list?' + new URLSearchParams([['property', this.propertyId]]), {
+      method: 'GET',
+      credentials: 'include'
+    }).then(res => res.json()).then(resJson => {
+      if (resJson.length === 0) {
+        this.setState({ request: false });
+      } else {
+        this.setState({ request: resJson[0] })
+      }
+    });
+  }
+
+  getApplication() {
+    fetch('/renter/application_list?' + new URLSearchParams([['property', this.propertyId]]), {
+      method: 'GET',
+      credentials: 'include'
+    }).then(res => res.json()).then(resJson => {
+      if (resJson.length === 0) {
+        this.setState({ application: false });
+      } else {
+        this.setState({ application: resJson[0] })
+      }
+    });
+  }
+
   requestProperty(agent, agentInfo) {
-    console.log('requestProperty')
-    return fetch('/renter/request_property', {
+    fetch('/renter/request_property', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ property: this.propertyId, agent, agentInfo })
     }).then(res => res.json()).then(resJson => {
-      console.log(resJson)
-      return resJson.success;
+      if (resJson.success) {
+        this.getRequest();
+      }
     });
   }
 
   applyProperty() {
-    console.log('applyProperty')
-
-    return fetch('/renter/apply_property', {
+    fetch('/renter/apply_property', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ property: this.propertyId })
     }).then(res => res.json()).then(resJson => {
-      console.log(resJson)
-      return resJson.success;
+      if (resJson.success) {
+        this.getApplication();
+      }
+    });
+  }
+
+  cancelRequest(_id) {
+    fetch('/renter/cancel_request', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ requestId: _id })
+    }).then(res => res.json()).then(resJson => {
+      if (resJson.success) {
+        this.getRequest();
+      } else {
+        // TODO
+      }
+    });
+  }
+
+  cancelApplication(_id) {
+    fetch('/renter/cancel_application', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ applicationId: _id })
+    }).then(res => res.json()).then(resJson => {
+      if (resJson.success) {
+        this.getApplication();
+      } else {
+        // TODO
+      }
     });
   }
 
   render() {
-    let { info } = this.state;
+    let { info, request, application } = this.state;
     if (!info) {
       return null;
     }
@@ -66,8 +125,8 @@ export default class RenterPropertyPage extends Component {
     return (
       <div id="renter-property-page">
         <div id="renter-property-body">
-          <h1 style={{fontFamily: 'AppleGothic'}}>{title}</h1>
-          <h3 style={{fontFamily: 'AppleGothic'}}>{formattedAddress}</h3>
+          <h1 style={{ fontFamily: 'AppleGothic' }}>{title}</h1>
+          <h3 style={{ fontFamily: 'AppleGothic' }}>{formattedAddress}</h3>
           <div id="renter-property-body-main">
             <div id="renter-property-body-graphics">
               {video === null ? <div id="renter-property-body-video"></div> :
@@ -95,11 +154,11 @@ export default class RenterPropertyPage extends Component {
               </div>
             </div>
             <div id="renter-property-body-reviews">
-              <h3 style={{fontFamily: 'AppleGothic'}}>Peer Reviews</h3>
+              <h3 style={{ fontFamily: 'AppleGothic' }}>Peer Reviews</h3>
             </div>
           </div>
         </div>
-        <SideBar openHouse={openHouse} formattedAddress={formattedAddress} requestProperty={this.requestProperty} applyProperty={this.applyProperty} />
+        <SideBar openHouse={openHouse} formattedAddress={formattedAddress} request={request} application={application} requestProperty={this.requestProperty} applyProperty={this.applyProperty} cancelRequest={this.cancelRequest} cancelApplication={this.cancelApplication} />
       </div>
     );
   }
@@ -107,42 +166,56 @@ export default class RenterPropertyPage extends Component {
 
 class SideBar extends Component {
   render() {
-    let { openHouse, formattedAddress, requestProperty, applyProperty } = this.props;
+    let { openHouse, formattedAddress, request, application, requestProperty, applyProperty, cancelRequest, cancelApplication } = this.props;
     let { start, end } = openHouse;
     let openHouseDate = new Date(start).toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     let openHouseStartTime = new Date(start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     let openHouseEndTime = new Date(end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    let cancelRequestText = <a className="renter-property-cancel" onClick={() => cancelRequest(request._id)}>Cancel</a>;
+    let cancelApplicationText = <a className="renter-property-cancel" onClick={() => cancelApplication(application._id)}>Cancel</a>;
     return (
       <div id="renter-property-side" className="color-background">
         <div>
-          <h3 style={{fontFamily: 'AppleGothic'}}>Open House</h3>
-          <h4 style={{fontFamily: 'AppleGothic'}}>{openHouseDate}</h4>
-          <h4 style={{fontFamily: 'AppleGothic'}}>{openHouseStartTime} - {openHouseEndTime}</h4>
-          <OverlayTrigger trigger="click" placement="left" rootClose overlay={
-            <Popover id="rsvp-popover" placement="left" title="RSVP Confirmation">
-              We look forward to seeing you at {formattedAddress} on {openHouseDate} from {openHouseStartTime} to {openHouseEndTime}.
-              <p align="right" className="renter-property-text-button" onClick={() => requestProperty(false)}>Submit</p>
-            </Popover>
-          }>
-            <button className="renter-property-button">RSVP to Open House</button>
-          </OverlayTrigger>
+          <h3 style={{ fontFamily: 'AppleGothic' }}>Open House</h3>
+          <h4 style={{ fontFamily: 'AppleGothic' }}>{openHouseDate}</h4>
+          <h4 style={{ fontFamily: 'AppleGothic' }}>{openHouseStartTime} - {openHouseEndTime}</h4>
+          {request === undefined ? <div className="renter-property-button"></div> :
+            request === false ?
+              <OverlayTrigger trigger="click" placement="left" rootClose overlay={
+                <Popover id="rsvp-popover" placement="left" title="RSVP Confirmation">
+                  We look forward to seeing you at {formattedAddress} on {openHouseDate} from {openHouseStartTime} to {openHouseEndTime}.
+                  <p align="right" className="renter-property-text-button" onClick={() => requestProperty(false)}>Submit</p>
+                </Popover>
+              }>
+                <button className="renter-property-button">RSVP to Open House</button>
+              </OverlayTrigger> :
+              request.agent === false ? <p className="renter-property-confirmation-message">You've already RSVP'd! {cancelRequestText}</p> : <p className="renter-property-confirmation-message">You've already requested an agent! {cancelRequestText}</p>
+          }
         </div>
         <div>
-          <h3 style={{fontFamily: 'AppleGothic'}}>Too busy? We'll find you a doppleganger ;) </h3>
-          <OverlayTrigger trigger="click" placement="left" rootClose overlay={<FindAgentPopOver requestProperty={requestProperty} />}>
-            <button className="renter-property-button">Find agent for $40</button>
-          </OverlayTrigger>
+          <h3 style={{ fontFamily: 'AppleGothic' }}>Too busy? We'll find you a doppleganger ;) </h3>
+          {request === undefined ? <div className="renter-property-button"></div> :
+            request === false ?
+              <OverlayTrigger trigger="click" placement="left" rootClose overlay={<FindAgentPopOver requestProperty={requestProperty} />}>
+                <button className="renter-property-button">Find agent for $40</button>
+              </OverlayTrigger> :
+              request.agent === false ? <p className="renter-property-confirmation-message">You've already RSVP'd! {cancelRequestText}</p> : <p className="renter-property-confirmation-message">You've already requested an agent! {cancelRequestText}</p>
+          }
         </div>
         <div>
-          <h3 style={{fontFamily: 'AppleGothic'}}>Sold? One-click apply</h3>
-          <OverlayTrigger trigger="click" placement="left" rootClose overlay={
-            <Popover id="apply-popover" placement="left" title="Congrats :D">
-              We're so happy that you found your dream apartment! Applying is easy and only $30 per applicant.
-              <p align="right" className="renter-property-text-button" onClick={applyProperty}>Confirm ($30)</p>
-            </Popover>
-          }>
-            <button className="renter-property-button">Apply</button>
-          </OverlayTrigger>
+          <h3 style={{ fontFamily: 'AppleGothic' }}>Sold? One-click apply</h3>
+          {application === undefined ? <div className="renter-property-button"></div> :
+            application === false ?
+              <OverlayTrigger trigger="click" placement="left" rootClose overlay={
+                <Popover id="apply-popover" placement="left" title="Congrats :D">
+                  We're so happy that you found your dream apartment! Applying is easy and only $30 per applicant.
+                  <p align="right" className="renter-property-text-button" onClick={applyProperty}>Confirm ($30)</p>
+                </Popover>
+              }>
+                <button className="renter-property-button">Apply</button>
+              </OverlayTrigger> :
+              <p className="renter-property-confirmation-message">You've already applied! {cancelApplicationText}</p>
+          }
         </div>
       </div>
     );
@@ -170,7 +243,7 @@ class FindAgentPopOver extends Component {
 
   handleSubmit(event) {
     let agentInfo = Object.assign({}, this.state);
-    agentInfo.requestInfo = this.state.requestInfo.map(({ value }) => value);
+    agentInfo.requestInfo = (this.state.requestInfo || []).map(({ value }) => value);
     this.props.requestProperty(true, agentInfo);
     event.preventDefault();
   }

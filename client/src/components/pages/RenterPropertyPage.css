@@ -107,3 +107,17 @@ h3.popover-title > p {
   border: 1px solid #8C8C8C;
   overflow: auto;
 }
+
+.renter-property-confirmation-message {
+  color: #44BE8D;
+  font-style: bold;
+}
+
+.renter-property-cancel {
+  color: #BE4475;
+  font-style: bold;
+}
+
+.renter-property-cancel:hover {
+  cursor: pointer;
+}

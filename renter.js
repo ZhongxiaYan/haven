@@ -1,10 +1,12 @@
 const routes = require('express').Router();
 
+const database = require('./database');
+const { ErrorStatus, RequestStatus, ApplicationStatus } = require('./enums');
+
 const Property = require('./models/property');
 const Request = require('./models/request');
 const Application = require('./models/application');
 
-const { ErrorStatus, RequestStatus, ApplicationStatus } = require('./enums');
 
 routes.get('/property/:propertyId', (req, res) => {
   Property.findById(req.params.propertyId).exec().then(property => {
@@ -14,7 +16,7 @@ routes.get('/property/:propertyId', (req, res) => {
 
 routes.post('/request_property', (req, res) => {
   console.log('Adding request', req.body, 'for user', req.user.email);
-  Request.find({ requester: req.user.id, property: req.body.property }, (err, doc) => {
+  Request.find({ requester: req.user.id, property: req.body.property, status: RequestStatus.PENDING }, (err, doc) => {
     if (err) throw err;
     if (doc.length > 0) {
       res.json({ success: false, status: ErrorStatus.ALREADY_EXISTS });
@@ -35,7 +37,7 @@ routes.post('/request_property', (req, res) => {
 
 routes.post('/apply_property', (req, res) => {
   console.log('Applying', req.body, 'for user', req.user.email);
-  Application.find({ applicant: req.user.id, property: req.body.property }, (err, doc) => {
+  Application.find({ applicant: req.user.id, property: req.body.property, status: ApplicationStatus.PENDING }, (err, doc) => {
     if (err) throw err;
     if (doc.length > 0) {
       res.json({ success: false, status: ErrorStatus.ALREADY_EXISTS });
@@ -55,37 +57,19 @@ routes.post('/apply_property', (req, res) => {
 });
 
 routes.get('/request_list', (req, res) => {
-  console.log('Queried request list', req.user);
-  Request.aggregate([
-    { $match: { requester: req.user._id } },
-    {
-      $lookup: {
-        from: 'properties',
-        localField: 'property',
-        foreignField: '_id',
-        as: 'property'
-      } // TODO project the fields into something smaller
-    }
-  ]).exec().then(requests => {
+  console.log('Queried request list', req.user, req.query);
+  Request.find(Object.assign({ requester: req.user._id, status: RequestStatus.PENDING }, req.query)).populate('property').exec((err, requests) => {
+    if (err) throw err;
     res.json(requests);
   });
 });
 
 routes.get('/application_list', (req, res) => {
-  console.log('Queried application list', req.user);
-  Application.aggregate([
-    { $match: { applicant: req.user._id } },
-    {
-      $lookup: {
-        from: 'properties',
-        localField: 'property',
-        foreignField: '_id',
-        as: 'property'
-      } // TODO project the fields into something smaller
-    }
-  ]).exec().then(applications => {
+  console.log('Queried application list', req.user, req.query);
+  Application.find(Object.assign({ applicant: req.user._id, status: ApplicationStatus.PENDING }, req.query)).populate('property').exec((err, applications) => {
+    if (err) throw err;
     res.json(applications);
-  });
+  })
 });
 
 routes.post('/cancel_request', (req, res) => {
