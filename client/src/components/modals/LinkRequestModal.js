@@ -70,6 +70,7 @@ export default class LinkRequestModal extends Component {
 
     return (
       <form id="link-request" style={{ display: 'flex', flexDirection: 'column' }} onSubmit={this.handleSubmit}>
+        <p>This form lets you request an agent to view an apartment listing from somewhere else. All you need to do is provide us the URL link and the address (if you know it)!</p>
         <label>URL <br></br>
           <input className='input-text' style={{ width: '100%' }} type="text" name="url" value={url} placeholder={'Craigslist, Apartments.com'} onChange={this.handleChange} /> <br></br>
         </label>
