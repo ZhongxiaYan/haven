@@ -10,7 +10,7 @@ export default class ViewAgentModal extends Component {
     return (
       <div id="view-agent-modal">
         <img src={img}></img>
-        <p>{description} You may refer to her <a href={profile}>profile</a> for additional information.</p>
+        <p>{description} You may refer to her <a href={profile} target="_blank">profile</a> for additional information.</p>
         <p>Feel free to contact Agent {name} at {phone}!</p>
       </div>
     );
