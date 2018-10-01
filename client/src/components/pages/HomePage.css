@@ -52,10 +52,14 @@ div.jumbotron {
 }
 
 .home-card {
-  height: 200px;
+  height: 300px;
   padding: 10px 5px;
+  margin: 30px 0px;
   display: flex;
   justify-content: space-around;
+  border: 0.5px solid #C6C6C6;
+  border-radius: 10px;
+  /* border-bottom: 0.5px solid #C6C6C6; */
 }
 
 .home-card:hover {
@@ -69,7 +73,15 @@ div.jumbotron {
 }
 
 .home-card-video {
-  /* width: 20%; @zhichun - comment out for now */
+  width: 35%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.home-card-video > video {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .home-card-container-image {
@@ -88,7 +100,7 @@ div.jumbotron {
 }
 
 .home-card-panel {
-  width: 30%;
+  width: 35%;
   height: 100%;
 }
 

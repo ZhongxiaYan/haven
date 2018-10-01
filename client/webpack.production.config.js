@@ -1,4 +1,5 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 var path = require('path');
@@ -50,7 +51,8 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin([
       { from: 'public' }
-    ])  
+    ]),
+    // new BundleAnalyzerPlugin() // for analyzing package sizes
   ],
   stats: {
     colors: true
