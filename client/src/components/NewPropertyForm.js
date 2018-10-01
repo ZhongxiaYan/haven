@@ -75,7 +75,7 @@ export default class NewProperty extends Component {
           </label>
         </FormGroup>
         <FormGroup style={{ marginLeft: '1%', marginTop: '1%' }}>
-          <label style={{fontFamily: 'AppleGothic', borderRadius: '5px'}}>Street Address <br></br>
+          <label style={{ borderRadius: '5px'}}>Street Address <br></br>
             <input className='input-text' style={{marginBottom: '1%'}}type="text" name="addressFirstLine" value={addressFirstLine} placeholder=" Street and number" onChange={this.handleChangeAddress} required /> <br></br>
             <input className='input-text' type="text" name="addressSecondLine" value={addressSecondLine} placeholder=" Apartment, suite, unit, etc." onChange={this.handleChangeAddress} /> <br></br>
           </label>
@@ -131,7 +131,7 @@ export default class NewProperty extends Component {
             multiple
             onChange={this.handleChangeFile}
           />
-          <label style={{fontFamily: 'AppleGothic', marginTop: '1%'}}>Upload Video</label>
+          <label style={{ marginTop: '1%'}}>Upload Video</label>
           <FormControl
             name="video"
             type="file"

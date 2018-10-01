@@ -30,7 +30,7 @@ export default class NavBar extends Component {
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/" style={{ fontFamily: 'AppleGothic' }}>Haven</Link>
+            <Link to="/">Haven</Link>
           </Navbar.Brand>
         </Navbar.Header>
         <Nav bsStyle="tabs" pullRight>

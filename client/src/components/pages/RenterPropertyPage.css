@@ -59,14 +59,12 @@
   padding: 2px 5px;
   overflow: auto;
   color: #8C8C8C;
-  font-family: AvenirNext;
   mix-blend-mode: luminosity;
 }
 
 #renter-property-body-summary {
   width: 38%;
   height: 100%;
-  font-family: AppleGothic;
   mix-blend-mode: normal;
 }
 

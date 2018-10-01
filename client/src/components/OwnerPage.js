@@ -45,11 +45,11 @@ export default class OwnerPage extends Component {
           }
         </div>
 
-        <div style={{marginTop: '1%', marginLeft: '1%', fontFamily: 'AppleGothic'}}>
+        <div style={{marginTop: '1%', marginLeft: '1%'}}>
           Applications: <br></br>
         </div>
         
-        <div style={{marginTop: '1%', marginLeft: '1%', fontFamily: 'AppleGothic'}}>
+        <div style={{marginTop: '1%', marginLeft: '1%'}}>
           My Properties:
           {propertyList.map(data => <Property key={data._id} data={data} />)}
         </div>

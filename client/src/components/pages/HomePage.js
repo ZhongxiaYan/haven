@@ -41,8 +41,8 @@ export default class HomePage extends Component {
             <Fragment>
               {isLoggedIn ? null : (
                 <Jumbotron>
-                  <h1 style={{fontFamily: 'AppleGothic'}}>Haven</h1>
-                  <p style={{fontFamily: 'Avenir Next', color: '#8C8C8C'}}>This site helps you find your dream apartment in minimal time. Browse our listings, schedule back to back home visits, and request a sub-in if you're too busy. When you find the place you love, sign up to one-click apply! </p>
+                  <h1>Haven</h1>
+                  <p style={{ color: '#8C8C8C' }}>This site helps you find your dream apartment in minimal time. Browse our listings, schedule back to back home visits, and request a sub-in if you're too busy. When you find the place you love, sign up to one-click apply! </p>
                 </Jumbotron>
               )}
               <div id="home-main" className="color-background">

@@ -162,8 +162,8 @@ export default class RenterPropertyPage extends Component {
     return (
       <div id="renter-property-page">
         <div id="renter-property-body">
-          <h1 style={{ fontFamily: 'AppleGothic' }}>{title}</h1>
-          <h3 style={{ fontFamily: 'AppleGothic' }}>{formattedAddress}</h3>
+          <h1>{title}</h1>
+          <h3>{formattedAddress}</h3>
           <div id="renter-property-body-main">
             <div id="renter-property-body-graphics">
               {video === null ? <div id="renter-property-body-video"></div> :
@@ -191,7 +191,7 @@ export default class RenterPropertyPage extends Component {
               </div>
             </div>
             <div id="renter-property-body-reviews">
-              <h3 style={{ fontFamily: 'AppleGothic' }}>Peer Reviews</h3>
+              <h3>Peer Reviews</h3>
               {reviews.length === 0 ? <p>No reviews yet!</p> :
                 reviews.map(r => <Review key={r._id} data={r} />)
               }
@@ -221,9 +221,9 @@ class SideBar extends Component {
     return (
       <div id="renter-property-side" className="color-background">
         <div>
-          <h3 style={{ fontFamily: 'AppleGothic' }}>Open House</h3>
-          <h4 style={{ fontFamily: 'AppleGothic' }}>{openHouseDate}</h4>
-          <h4 style={{ fontFamily: 'AppleGothic' }}>{openHouseStartTime} - {openHouseEndTime}</h4>
+          <h3>Open House</h3>
+          <h4>{openHouseDate}</h4>
+          <h4>{openHouseStartTime} - {openHouseEndTime}</h4>
           {request === undefined ? <div className="renter-property-button"></div> :
             request === false ?
               <OverlayTrigger trigger="click" placement="left" rootClose overlay={
@@ -238,7 +238,7 @@ class SideBar extends Component {
           }
         </div>
         <div>
-          <h3 style={{ fontFamily: 'AppleGothic' }}>Too busy? We'll find you a doppleganger ;) </h3>
+          <h3>Too busy? We'll find you a doppleganger ;) </h3>
           {request === undefined ? <div className="renter-property-button"></div> :
             request === false ?
               <OverlayTrigger trigger="click" placement="left" rootClose overlay={<FindAgentPopOver requestProperty={requestProperty} />}>
@@ -248,7 +248,7 @@ class SideBar extends Component {
           }
         </div>
         <div>
-          <h3 style={{ fontFamily: 'AppleGothic' }}>Sold? One-click apply</h3>
+          <h3>Sold? One-click apply</h3>
           {application === undefined ? <div className="renter-property-button"></div> :
             application === false ?
               <OverlayTrigger trigger="click" placement="left" rootClose overlay={

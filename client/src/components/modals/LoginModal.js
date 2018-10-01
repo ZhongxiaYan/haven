@@ -48,17 +48,17 @@ export default class LoginModal extends Component {
           </a>
         </FormGroup>
         <FormGroup>
-          <ControlLabel style={{fontFamily: 'AppleGothic', marginLeft: '47%', marginRight: '45%'}}>Or</ControlLabel>
+          <ControlLabel style={{ marginLeft: '47%', marginRight: '45%'}}>Or</ControlLabel>
           <FormControl type="text" name="email" value={email} placeholder="Email" onChange={this.handleChange} required /> <br />
           <FormControl type="password" name="password" value={password} placeholder="Password" onChange={this.handleChange} required /> <br />
-          <Button style={{fontFamily: 'Avenir Next', marginLeft: '30%'}} type="submit" bsStyle="primary" value={'login'}>Login</Button>{' '}
-          <Button style={{fontFamily: 'Avenir Next'}} type="submit" bsStyle="success" value={'sign_up'}>Sign Up</Button>
+          <Button style={{marginLeft: '30%'}} type="submit" bsStyle="primary" value={'login'}>Login</Button>{' '}
+          <Button type="submit" bsStyle="success" value={'sign_up'}>Sign Up</Button>
         </FormGroup>
       </Form>
     );
   }
 
   render() {
-    return <BaseModal style={{fontFamily: 'Avenir Next'}} title={'Log In'} body={this.renderBody()} {...this.props} />;
+    return <BaseModal title={'Log In'} body={this.renderBody()} {...this.props} />;
   }
 }
