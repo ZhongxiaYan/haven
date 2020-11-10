@@ -1,5 +1,4 @@
-# Haven
-### Find your next room, without leaving your room.
+# Haven: find your next room without leaving your room
 
 ## Development Setup
 1. Download Node and NPM from https://www.npmjs.com/get-npm. Run `sudo npm install nodemon -g` to install nodemon globally for development.
@@ -23,10 +22,21 @@ security:
 ```
 7. Run `npm run dev` or `npm run prod` as desired
 
+## Login
+Getting the login to work with Google or Facebook requires the keys to be set up. Otherwise you can still sign up with the manual interface.
+![Login](/resources/screenshots/login.png)
+
 ## Owners
-Go to `<domain>/owner` to see the owner page.
+Go to the url `<domain>/owner` to see the owner page. You may create a listing by filling out the form. `resources/example_house` has some example images and videos that you can upload.
+![Owner](/resources/screenshots/owner.png)
 
 ## Renters
+After loading a property, you can see the listed properties at the home page.
+![Home](/resources/screenshots/home.png)
 ### Property Page
+If you click a property, you'll be brought to a page to check out more details and scheduling a visit to an open house.
+![Renter](/resources/screenshots/renter.png)
 
 ### Calendar
+After clicking to schedule an open house, you'll see it in your calendar.
+![Calendar](/resources/screenshots/calendar.png)
