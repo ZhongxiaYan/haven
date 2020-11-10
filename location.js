@@ -22,6 +22,7 @@ function lookUpAddress(address) {
     key: process.env.GOOGLE_SERVER_API_KEY
   };
   let query = `${googleGeocodeApiBase}?${Object.entries(params).map(([key, value]) => `${key}=${value}`).join('&')}`;
+  console.log(`Looking up ${query}`)
   return fetch(query).then(res => res.json());
 }
 

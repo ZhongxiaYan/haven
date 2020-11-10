@@ -159,7 +159,7 @@ class GoogleMapComponent extends Component {
         bounds={mapBounds}
         hoveredProperty={hoveredProperty}
         properties={properties}
-        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL07U2mv0m4DMiESjIvmEZEn-jXbhgHak&v=3.exp&libraries=geometry,drawing,places"
+        googleMapURL='https://maps.googleapis.com/maps/api/js?key=<client_key>&v=3.exp&libraries=geometry,drawing,places' // Have to hardcode the key since this is executed on the client...
         containerElement={<div id="home-maps-container-element" />}
         loadingElement={<div id="home-maps-loading-element" />}
         mapElement={<div id="home-maps-map-element" />}

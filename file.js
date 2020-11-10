@@ -53,12 +53,8 @@ function addMimeTypeToFilename(fileAttrs) {
 }
 
 function saveFilesForProperty(propertyId, fileAttrs, type) {
-  let propertyDir = path.join(propertyRoot, propertyId);
-  if (!fs.existsSync(propertyDir)) {
-    fs.mkdirSync(propertyDir);
-  }
-  let fileDir = path.join(propertyDir, type);
-  fs.mkdirSync(fileDir);
+  let fileDir = path.join(propertyRoot, propertyId, type);
+  fs.mkdirSync(fileDir, { recursive: true });
   fileAttrs.forEach((fileAttr) => {
     let newPath = path.join(fileDir, fileAttr.filename);
     fs.rename(fileAttr.path, newPath, err => {

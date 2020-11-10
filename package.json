@@ -5,13 +5,12 @@
   "main": "server.js",
   "scripts": {
     "dev": "bash scripts/run_dev.sh",
-    "dev-server": "bash scripts/run_dev_server.sh",
     "prod": "cd client && npm run build && cd .. && node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^3.0.0",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "dotenv": "^6.0.0",

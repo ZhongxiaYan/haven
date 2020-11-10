@@ -10,75 +10,79 @@ const routes = require('express').Router();
 
 const User = require('./models/user');
 
-passport.use(new FacebookStrategy({
-  clientID: process.env.FACEBOOK_APP_ID,
-  clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: process.env.FACEBOOK_LOGIN_CALLBACK_URL
-}, (accessToken, refreshToken, profile, done) => {
-  let query = { 'facebook.id': profile.id };
-  let newUser = {
-    name: profile.displayName,
-    facebook: {
-      id: profile.id,
-      token: accessToken,
-      name: profile.displayName
-    }
-  };
-  let options = { new: true, upsert: true, rawResult: true };
-  User.findOneAndUpdate(query, { $setOnInsert: newUser }, options, (err, result) => {
-    if (err) {
-      throw err;
-    } else {
-      let user = result.value;
-      if (user) {
-        if (result.lastErrorObject.upserted) { // sign up
-          console.log('Signup', profile.displayName, 'success');
-        } else { // log in
-          console.log('Email', profile.displayName, 'already exists, logging in');
-        }
-        done(null, user);
-      } else {
-        console.error('Facebook login for', profile.displayName, 'failed');
-        done(null, false);
-      }
-    }
-  });
-}));
-
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_LOGIN_CALLBACK_URL
-}, (token, tokenSecret, profile, done) => {
-  let query = { 'google.id': profile.id };
-  let newUser = {
-    name: profile.displayName,
-    google: {
-      id: profile.id,
-      token: token,
+if (process.env.FACEBOOK_APP_ID) {
+  passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: process.env.FACEBOOK_LOGIN_CALLBACK_URL
+  }, (accessToken, refreshToken, profile, done) => {
+    let query = { 'facebook.id': profile.id };
+    let newUser = {
       name: profile.displayName,
-    }
-  };
-  let options = { new: true, upsert: true, rawResult: true };
-  User.findOneAndUpdate(query, { $setOnInsert: newUser }, options, (err, result) => {
-    if (err) {
-      throw err;
-    } else {
-      let user = result.value;
-      if (user) {
-        if (result.lastErrorObject.upserted) { // sign up
-          console.log('Signup', profile.displayName, 'success');
-        } else { // log in
-          console.log('Email', profile.displayName, 'already exists, logging in');
-        }
-        done(null, user);
-      } else {
-        console.error('Google login for', profile.displayName, 'failed');
-        done(null, false);
+      facebook: {
+        id: profile.id,
+        token: accessToken,
+        name: profile.displayName
       }
-    }
-  });
-}));
+    };
+    let options = { new: true, upsert: true, rawResult: true };
+    User.findOneAndUpdate(query, { $setOnInsert: newUser }, options, (err, result) => {
+      if (err) {
+        throw err;
+      } else {
+        let user = result.value;
+        if (user) {
+          if (result.lastErrorObject.upserted) { // sign up
+            console.log('Signup', profile.displayName, 'success');
+          } else { // log in
+            console.log('Email', profile.displayName, 'already exists, logging in');
+          }
+          done(null, user);
+        } else {
+          console.error('Facebook login for', profile.displayName, 'failed');
+          done(null, false);
+        }
+      }
+    });
+  }));
+}
+
+if (process.env.GOOGLE_OAUTH_CLIENT_ID) {
+  passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_LOGIN_CALLBACK_URL
+  }, (token, tokenSecret, profile, done) => {
+    let query = { 'google.id': profile.id };
+    let newUser = {
+      name: profile.displayName,
+      google: {
+        id: profile.id,
+        token: token,
+        name: profile.displayName,
+      }
+    };
+    let options = { new: true, upsert: true, rawResult: true };
+    User.findOneAndUpdate(query, { $setOnInsert: newUser }, options, (err, result) => {
+      if (err) {
+        throw err;
+      } else {
+        let user = result.value;
+        if (user) {
+          if (result.lastErrorObject.upserted) { // sign up
+            console.log('Signup', profile.displayName, 'success');
+          } else { // log in
+            console.log('Email', profile.displayName, 'already exists, logging in');
+          }
+          done(null, user);
+        } else {
+          console.error('Google login for', profile.displayName, 'failed');
+          done(null, false);
+        }
+      }
+    });
+  }));
+}
 
 const localConfig = {
   usernameField: 'email',
